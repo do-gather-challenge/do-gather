@@ -29,7 +29,27 @@ const PostPage = () => {
     }
   };
 
-  const handleCreateChallenge = async () => {};
+  const handleCreateChallenge = async () => {
+    const challengeData = {
+      title,
+      description,
+      start_date: startDate,
+      finish_date: finishDate,
+      selectedCategory,
+      executeDays,
+      challenge_image: imageFile ? URL.createObjectURL(imageFile) : null, // 임시로 만든 것으로 추후 바꿀 예정
+      creator_id: '일단 임시입니다', // 나중에 Supabase에서 가져올 예정
+      created_at: new Date().toISOString()
+    };
+
+    try {
+      console.log('챌린지 생성 데이터:', challengeData);
+      alert('챌린지가 성공적으로 생성되었습니다!');
+    } catch (error) {
+      console.error('챌린지 생성 중 오류 발생:', error);
+      alert('챌린지 생성에 실패했습니다.');
+    }
+  };
 
   return (
     <div className="mx-auto mt-[100px] mb-6 max-w-[320px] bg-white p-6 md:max-w-[640px]">
