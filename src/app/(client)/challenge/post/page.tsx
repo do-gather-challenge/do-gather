@@ -6,49 +6,66 @@ import dynamic from 'next/dynamic';
 const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
 const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
 
+//다은님꺼 머지되면 임포트할 예정
+export type Challenge = {
+  id: number;
+  createdAt: string;
+  startDate: string;
+  finishDate: string;
+  title: string;
+  description: string;
+  category: string;
+  challengeImage: string;
+  creatorId: string;
+  executeDays: string[];
+  participantCount: number;
+};
+
 const PostPage = () => {
-  const [executeDays, setExecuteDays] = useState<string[]>([]);
-  const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
-  const [title, setTitle] = useState<string>('');
-  const [description, setDescription] = useState<string>('');
-  const [startDate, setStartDate] = useState<string>('');
-  const [finishDate, setFinishDate] = useState<string>('');
-  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [challenge, setChallenge] = useState<Challenge>({
+    id: 0, // 임시 ID
+    createdAt: new Date().toISOString(),
+    startDate: '',
+    finishDate: '',
+    title: '',
+    description: '',
+    category: '',
+    challengeImage: '',
+    creatorId: '임시 챌린지 생성 ID', // 추후 Supabase에서 가져올 예정
+    executeDays: [],
+    participantCount: 0
+  });
 
-  const handleDayClick = (day: string) => {
-    setExecuteDays((prev) => (prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]));
+  const handleDaySelection = (day: string) => {
+    setChallenge((prev) => ({
+      ...prev,
+      executeDays: prev.executeDays.includes(day)
+        ? prev.executeDays.filter((d) => d !== day)
+        : [...prev.executeDays, day]
+    }));
   };
 
-  const handleCategoryClick = (selectedCategory: string) => {
-    setSelectedCategory((prev) => (prev === selectedCategory ? null : selectedCategory));
+  const handleCategorySelection = (selectedCategory: string) => {
+    setChallenge((prev) => ({
+      ...prev,
+      category: prev.category === selectedCategory ? '' : selectedCategory
+    }));
   };
 
-  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setImageFile(e.target.files[0]);
-    }
+  const handleImageChange = (file: File) => {
+    const imageUrl = URL.createObjectURL(file);
+    setChallenge((prev) => ({ ...prev, challengeImage: imageUrl }));
   };
 
   const handleCreateChallenge = async () => {
-    if (!title || !description || !startDate || !finishDate || !selectedCategory || executeDays.length === 0) {
+    const { title, description, startDate, finishDate, category, executeDays } = challenge;
+    if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
       alert('모든 필수 정보를 입력해 주세요.');
       return;
     }
 
-    const challengeData = {
-      title,
-      description,
-      start_date: startDate,
-      finish_date: finishDate,
-      selectedCategory,
-      executeDays,
-      challenge_image: imageFile ? URL.createObjectURL(imageFile) : null, // 임시로 만든 것으로 추후 바꿀 예정
-      creator_id: '일단 임시입니다', // 나중에 Supabase에서 가져올 예정
-      created_at: new Date().toISOString()
-    };
-
     try {
-      console.log('챌린지 생성 데이터:', challengeData);
+      console.log('챌린지 생성 데이터:', challenge);
       alert('챌린지가 성공적으로 생성되었습니다!');
     } catch (error) {
       console.error('챌린지 생성 중 오류 발생:', error);
@@ -67,8 +84,8 @@ const PostPage = () => {
           type="text"
           placeholder="챌린지 제목을 입력해 주세요(30자 이내)"
           className="w-[260px] text-[14px] md:w-[580px]"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
+          value={challenge.title}
+          onChange={(e) => setChallenge((prev) => ({ ...prev, title: e.target.value }))}
         />
       </section>
 
@@ -79,8 +96,8 @@ const PostPage = () => {
           placeholder="챌린지에 대한 소개를 구체적으로 적어주세요(500자 이내)"
           className="w-[260px] text-[14px] md:w-[580px]"
           rows={4}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={challenge.description}
+          onChange={(e) => setChallenge((prev) => ({ ...prev, description: e.target.value }))}
         />
       </section>
 
@@ -103,11 +120,11 @@ const PostPage = () => {
                   key={day}
                   type="button"
                   className={`h-[32px] w-[32px] rounded-full border ${
-                    executeDays.includes(day)
+                    challenge.executeDays.includes(day)
                       ? 'bg-primary border-red-700'
                       : 'border-border hover:bg-primary hover:border-red-700'
                   }`}
-                  onClick={() => handleDayClick(day)}
+                  onClick={() => handleDaySelection(day)}
                 >
                   {day}
                 </button>
@@ -124,11 +141,11 @@ const PostPage = () => {
                   key={category}
                   type="button"
                   className={`h-[28px] w-[56px] rounded-full ${
-                    selectedCategory === category
+                    challenge.category === category
                       ? 'border border-red-700'
                       : 'bg-muted hover:border hover:border-red-700'
                   }`}
-                  onClick={() => handleCategoryClick(category)}
+                  onClick={() => handleCategorySelection(category)}
                 >
                   {category}
                 </button>
@@ -143,15 +160,15 @@ const PostPage = () => {
               <input
                 type="date"
                 className="border-border h-[24px] w-[124px] rounded-md border"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
+                value={challenge.startDate}
+                onChange={(e) => setChallenge((prev) => ({ ...prev, startDate: e.target.value }))}
               />
               <span>~</span>
               <input
                 type="date"
                 className="border-border h-[24px] w-[124px] rounded-md border"
-                value={finishDate}
-                onChange={(e) => setFinishDate(e.target.value)}
+                value={challenge.finishDate}
+                onChange={(e) => setChallenge((prev) => ({ ...prev, finishDate: e.target.value }))}
               />
             </div>
           </section>
@@ -161,7 +178,13 @@ const PostPage = () => {
         <section>
           <h2 className="mb-2 text-lg font-semibold">챌린지 이미지</h2>
           <div className="border-border flex items-center justify-center rounded-lg border-1 border-dashed p-1">
-            <input type="file" accept="image/*" className="hidden" id="image-upload" onChange={handleImageChange} />
+            <input
+              type="file"
+              accept="image/*"
+              className="hidden"
+              id="image-upload"
+              onChange={(e) => e.target.files && handleImageChange(e.target.files[0])}
+            />
             <label htmlFor="image-upload" className="cursor-pointer text-center">
               <div className="bg-muted flex h-[140px] w-[240px] items-center justify-center">
                 <p className="text-muted-foreground">이미지를 업로드하세요</p>
