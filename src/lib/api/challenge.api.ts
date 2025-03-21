@@ -70,11 +70,11 @@ export const fetchGetChallengesByPage = async (
 
 /**
  * 특정 ID의 챌린지 상세 정보를 조회하는 함수
- * @param {string|number} challengeId - 조회할 챌린지 ID
- * @returns {Promise<Challenge|null>} 챌린지 상세 정보 또는 찾지 못한 경우 null
+ * @param {number} challengeId - 조회할 챌린지 ID
+ * @returns {Promise<Challenge>} 챌린지 상세 정보
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
-export const fetchGetChallengeById = async (challengeId: string | number): Promise<Challenge | null> => {
+export const fetchGetChallengeById = async (challengeId: number): Promise<Challenge> => {
   const supabase = await createClient();
 
   const { data, error } = await supabase.from('challenges').select('*').eq('id', challengeId).single();
@@ -87,23 +87,17 @@ export const fetchGetChallengeById = async (challengeId: string | number): Promi
     throw error;
   }
 
-  if (!data) {
-    return null;
-  }
-
   const transformedData = transformChallengeData(data);
   return transformedData;
 };
 
 /**
  * 특정 ID의 챌린지를 조회하고 현재 로그인한 사용자의 참여 여부도 함께 반환하는 함수
- * @param {string|number} challengeId - 조회할 챌린지 ID
+ * @param {number} challengeId - 조회할 챌린지 ID
  * @returns {Promise<ChallengeWithParticipation>} 챌린지 정보와 참여 여부
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
-export const fetchGetChallengeWithParticipation = async (
-  challengeId: string | number
-): Promise<ChallengeWithParticipation | null> => {
+export const fetchGetChallengeWithParticipation = async (challengeId: number): Promise<ChallengeWithParticipation> => {
   const supabase = await createClient();
   const challenge = await fetchGetChallengeById(challengeId);
 
@@ -111,9 +105,7 @@ export const fetchGetChallengeWithParticipation = async (
     data: { user }
   } = await supabase.auth.getUser();
 
-  if (!user || !challenge) {
-    return challenge ? { ...challenge, isParticipating: false } : null;
-  }
+  if (!user) return { ...challenge, isParticipating: false };
 
   const { data, error } = await supabase
     .from('participants')
