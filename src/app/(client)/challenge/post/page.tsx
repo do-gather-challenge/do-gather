@@ -30,6 +30,11 @@ const PostPage = () => {
   };
 
   const handleCreateChallenge = async () => {
+    if (!title || !description || !startDate || !finishDate || !selectedCategory || executeDays.length === 0) {
+      alert('모든 필수 정보를 입력해 주세요.');
+      return;
+    }
+
     const challengeData = {
       title,
       description,
