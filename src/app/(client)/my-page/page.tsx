@@ -5,8 +5,8 @@ import MyChallenge from './components/MyChallenge';
 
 const MyPage = () => {
   return (
-    <div className="flex h-screen items-center justify-center">
-      <Tabs defaultValue="profile" className="mt-10 flex w-full flex-col items-center">
+    <div className="flex items-center justify-center">
+      <Tabs defaultValue="profile" className="mt-30 flex w-full flex-col items-center">
         <TabsList className="mx-auto">
           <TabsTrigger value="profile">마이페이지</TabsTrigger>
           <TabsTrigger value="challenge">마이챌린지</TabsTrigger>
