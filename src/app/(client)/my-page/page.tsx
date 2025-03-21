@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import EditProfile from './components/EditProfile';
-import MyChallenge from './components/MyChallenge';
+import EditProfile from '../../../components/my-page/my-page-edit-profile';
+import MyChallenge from '../../../components/my-page/my-page-my-challenge';
 
 const MyPage = () => {
   return (
