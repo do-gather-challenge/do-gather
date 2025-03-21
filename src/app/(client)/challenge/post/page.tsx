@@ -7,16 +7,25 @@ const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.In
 const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
 
 const PostPage = () => {
-  const [selectedDays, setSelectedDays] = useState<string[]>([]);
+  const [executeDays, setExecuteDays] = useState<string[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [title, setTitle] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
+  const [startDate, setStartDate] = useState<string>('');
+  const [finishDate, setFinishDate] = useState<string>('');
+  const [imageFile, setImageFile] = useState<File | null>(null);
 
   const handleDayClick = (day: string) => {
-    setSelectedDays((prev) => (prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]));
+    setExecuteDays((prev) => (prev.includes(day) ? prev.filter((d) => d !== day) : [...prev, day]));
   };
 
-  const handleCategoryClick = (category: string) => {
-    setSelectedCategory((prev) => (prev === category ? null : category));
+  const handleCategoryClick = (selectedCategory: string) => {
+    setSelectedCategory((prev) => (prev === selectedCategory ? null : selectedCategory));
   };
+
+  const handleImageChange = () => {};
+
+  const handleCreateChallenge = async () => {};
 
   return (
     <div className="mx-auto mt-[100px] mb-6 max-w-[320px] bg-white p-6 md:max-w-[640px]">
@@ -29,6 +38,8 @@ const PostPage = () => {
           type="text"
           placeholder="챌린지 제목을 입력해 주세요(30자 이내)"
           className="w-[260px] text-[14px] md:w-[580px]"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </section>
 
@@ -39,6 +50,8 @@ const PostPage = () => {
           placeholder="챌린지에 대한 소개를 구체적으로 적어주세요(500자 이내)"
           className="w-[260px] text-[14px] md:w-[580px]"
           rows={4}
+          value={description}
+          onChange={(e) => setDescription(e.target.value)}
         />
       </section>
 
@@ -61,9 +74,9 @@ const PostPage = () => {
                   key={day}
                   type="button"
                   className={`h-[32px] w-[32px] rounded-full border ${
-                    selectedDays.includes(day)
-                      ? 'bg-primary border-red-700' // 선택된 상태
-                      : 'border-border hover:bg-primary hover:border-red-700' // 기본 상태 + 호버 효과
+                    executeDays.includes(day)
+                      ? 'bg-primary border-red-700'
+                      : 'border-border hover:bg-primary hover:border-red-700'
                   }`}
                   onClick={() => handleDayClick(day)}
                 >
@@ -83,8 +96,8 @@ const PostPage = () => {
                   type="button"
                   className={`h-[28px] w-[56px] rounded-full ${
                     selectedCategory === category
-                      ? 'border border-red-700' // 선택된 상태
-                      : 'bg-muted hover:border hover:border-red-700' // 기본 상태 + 호버 효과
+                      ? 'border border-red-700'
+                      : 'bg-muted hover:border hover:border-red-700'
                   }`}
                   onClick={() => handleCategoryClick(category)}
                 >
@@ -98,9 +111,19 @@ const PostPage = () => {
           <section className="mb-6">
             <h2 className="mb-2 text-lg font-semibold">시작/종료 날짜</h2>
             <div className="flex gap-1">
-              <input type="date" className="border-border h-[24px] w-[124px] rounded-md border" />
+              <input
+                type="date"
+                className="border-border h-[24px] w-[124px] rounded-md border"
+                value={startDate}
+                onChange={(e) => setStartDate(e.target.value)}
+              />
               <span>~</span>
-              <input type="date" className="border-border h-[24px] w-[124px] rounded-md border" />
+              <input
+                type="date"
+                className="border-border h-[24px] w-[124px] rounded-md border"
+                value={finishDate}
+                onChange={(e) => setFinishDate(e.target.value)}
+              />
             </div>
           </section>
         </div>
@@ -109,7 +132,7 @@ const PostPage = () => {
         <section>
           <h2 className="mb-2 text-lg font-semibold">챌린지 이미지</h2>
           <div className="border-border flex items-center justify-center rounded-lg border-1 border-dashed p-1">
-            <input type="file" accept="image/*" className="hidden" id="image-upload" />
+            <input type="file" accept="image/*" className="hidden" id="image-upload" onChange={handleImageChange} />
             <label htmlFor="image-upload" className="cursor-pointer text-center">
               <div className="bg-muted flex h-[140px] w-[240px] items-center justify-center">
                 <p className="text-muted-foreground">이미지를 업로드하세요</p>
@@ -124,12 +147,14 @@ const PostPage = () => {
         <button
           type="button"
           className="bg-secondary hover:bg-secondary-foreground h-[40px] w-[84px] rounded-md px-4 py-2 text-[12px] text-white"
+          onClick={() => alert('뒤로가기')}
         >
           뒤로가기
         </button>
         <button
           type="button"
           className="bg-secondary hover:bg-secondary-foreground h-[40px] w-[84px] rounded-md px-4 py-2 text-[12px] text-white"
+          onClick={handleCreateChallenge}
         >
           챌린지생성
         </button>
