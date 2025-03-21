@@ -1,8 +1,10 @@
 'use client';
 
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { useState } from 'react';
+import dynamic from 'next/dynamic';
+
+const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
+const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
 
 const PostPage = () => {
   const [selectedDays, setSelectedDays] = useState<string[]>([]);
@@ -15,7 +17,7 @@ const PostPage = () => {
   const handleCategoryClick = (category: string) => {
     setSelectedCategory((prev) => (prev === category ? null : category));
   };
-  
+
   return (
     <div className="mx-auto mt-[100px] mb-6 max-w-[320px] bg-white p-6 md:max-w-[640px]">
       <h1 className="mb-6 text-2xl font-bold">챌린지 생성</h1>
