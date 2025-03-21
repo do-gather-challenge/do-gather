@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import dynamic from 'next/dynamic';
+import { CATEGORIES, DAYS } from '@/constants/challenge.constants';
 
 const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
 const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
@@ -115,7 +116,7 @@ const PostPage = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              {['월', '화', '수', '목', '금', '토', '일'].map((day) => (
+              {DAYS.map((day) => (
                 <button
                   key={day}
                   type="button"
@@ -136,7 +137,7 @@ const PostPage = () => {
           <section className="mb-6">
             <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
             <div className="grid grid-cols-3 gap-2">
-              {['운동', '학습', '예술', '소비', '기타'].map((category) => (
+              {CATEGORIES.map((category) => (
                 <button
                   key={category}
                   type="button"
