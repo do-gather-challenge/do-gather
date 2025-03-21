@@ -23,7 +23,11 @@ const PostPage = () => {
     setSelectedCategory((prev) => (prev === selectedCategory ? null : selectedCategory));
   };
 
-  const handleImageChange = () => {};
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setImageFile(e.target.files[0]);
+    }
+  };
 
   const handleCreateChallenge = async () => {};
 
