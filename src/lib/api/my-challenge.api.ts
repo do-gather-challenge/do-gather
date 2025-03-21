@@ -2,13 +2,14 @@
 
 import { createClient } from '@/lib/supabase/server';
 import { transformChallengeDataArray } from '@/lib/utils/transform.util';
+import { ErrorMessage } from '@/constants/error-message.constant';
 import { Challenge } from '@/types/challenge.type';
 import { Pagination } from '@/types/common.type';
 
 /**
  * 로그인한 사용자의 챌린지 ID 목록을 가져오는 유틸리티 함수
  * @returns {Promise<number[]>} 사용자가 참여한 챌린지 ID 목록
- * @throws {Error} 사용자가 로그인하지 않은 경우 "로그인이 필요합니다" 에러 발생
+ * @throws {Error} 사용자가 로그인하지 않은 경우 ErrorMessage.NOT_AUTHENTICATED 에러 발생
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
 export const fetchGetAllMyChallengeIds = async (): Promise<string[]> => {
@@ -19,7 +20,7 @@ export const fetchGetAllMyChallengeIds = async (): Promise<string[]> => {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    throw new Error('로그인이 필요합니다');
+    throw new Error(ErrorMessage.NOT_AUTHENTICATED);
   }
 
   const { data: participantData, error: participantError } = await supabase
