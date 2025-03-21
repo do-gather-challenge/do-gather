@@ -20,27 +20,18 @@ const RootPage = () => {
         <Button variant="black">더 많은 챌린지 보기 ➡</Button>
       </Link>
 
-      <div className="mt-5 grid sm:grid-cols-1 sm:gap-3 md:grid-cols-2 md:gap-5 lg:grid-cols-3 lg:gap-20">
-        <figure className="relative mb-10 h-52 w-52 overflow-hidden rounded-full">
-          <Image src={default1} alt="디폴트1" width={100} height={100} className="h-full w-full object-cover" />
-          <figcaption className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-bold text-white">
-            STUDY
-          </figcaption>
-        </figure>
-
-        <figure className="relative mb-10 h-52 w-52 overflow-hidden rounded-full">
-          <Image src={default2} alt="디폴트2" width={100} height={100} className="h-full w-full object-cover" />
-          <figcaption className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-bold text-white">
-            HEALTH
-          </figcaption>
-        </figure>
-
-        <figure className="relative mb-10 h-52 w-52 overflow-hidden rounded-full">
-          <Image src={default3} alt="디폴트3" width={100} height={100} className="h-full w-full object-cover" />
-          <figcaption className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-bold text-white">
-            ETC
-          </figcaption>
-        </figure>
+      {/* 소개이미지 3장 */}
+      <div className="mt-5 grid items-center justify-center px-20 transition-all duration-700 ease-in-out sm:grid-cols-1 sm:gap-5 md:grid-cols-3 md:gap-20">
+        {instructions.map((item) => {
+          return (
+            <figure key={item.title} className="relative mb-10 h-52 w-52 overflow-hidden rounded-full">
+              <Image src={item.image} alt="디폴트1" width={100} height={100} className="h-full w-full object-cover" />
+              <figcaption className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-bold text-white">
+                {item.title}
+              </figcaption>
+            </figure>
+          );
+        })}
       </div>
 
       <footer className="flex w-full flex-col items-center justify-center bg-gray-100">
@@ -52,6 +43,21 @@ const RootPage = () => {
 };
 
 export default RootPage;
+
+const instructions = [
+  {
+    image: default1,
+    title: 'STUDY'
+  },
+  {
+    image: default2,
+    title: 'HEALTH'
+  },
+  {
+    image: default3,
+    title: 'ETC'
+  }
+];
 
 const FOOTER_TITLE = 'DO GATHER 소개';
 const FOOTER_CONTENT = `Do-Gather는 혼자서는 어려운 도전들을 함께하고, 
