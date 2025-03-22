@@ -3,15 +3,6 @@ import { Challenge } from '@/types/challenge.type';
 
 type ButtonGroupProps = {
   challenge: Challenge;
-  setters: {
-    setTitle: (value: string) => void;
-    setDescription: (value: string) => void;
-    setStartDate: (date: string) => void;
-    setFinishDate: (date: string) => void;
-    setCategory: (category: string) => void;
-    setExecuteDays: (executeDays: string[]) => void;
-    setChallengeImage: (file: File) => void;
-  };
   onBackClick: () => void;
 };
 
