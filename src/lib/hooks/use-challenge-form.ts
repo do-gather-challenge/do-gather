@@ -1,3 +1,5 @@
+// 'use client';
+
 import { Challenge } from '@/types/challenge.type';
 import { useEffect, useState } from 'react';
 
