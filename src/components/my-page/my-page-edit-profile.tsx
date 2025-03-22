@@ -17,7 +17,7 @@ const MyPageEditProfile = () => {
           className="mt-3 rounded-full sm:mt-5"
           priority
         />
-        <div className="mt-3 flex w-60 flex-col gap-1 sm:mt-5 sm:w-[140%]">
+        <div className="mt-3 flex w-60 flex-col gap-1 sm:mt-5 sm:w-80">
           <Label>Nickname</Label>
           <Input placeholder={`현재 닉네임: ${DEFAULT_NICKNAME}`} />
         </div>
