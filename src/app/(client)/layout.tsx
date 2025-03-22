@@ -8,7 +8,7 @@ const Layout = ({
   return (
     <>
       <Header />
-      {children}
+      <main className="mt-15 min-h-screen w-full md:mt-20">{children}</main>
     </>
   );
 };
