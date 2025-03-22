@@ -2,16 +2,16 @@ import React from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './avatar';
 
 type RoundedImageProps = {
-  classname: string,
+  className: string,
   src: string,
   alt?: string,
   fallback?: string,
 }
-const RoundedImage = ( {classname, src, alt='default', fallback='No Image'}: RoundedImageProps) => {
+const RoundedImage = ( {className, src, alt='default', fallback='No Image'}: RoundedImageProps) => {
   return (
-    <Avatar className={classname}>
+    <Avatar className={className}>
       <AvatarImage src={src} alt={alt} className="object-cover" />
-      <AvatarFallback className={classname}>{fallback}</AvatarFallback>
+      <AvatarFallback className={className}>{fallback}</AvatarFallback>
     </Avatar>
   );
 };
