@@ -3,31 +3,24 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const formSchema = z.object({
-  email: z.string(),
-  password: z.string()
-});
+import { useSignInForm } from '@/lib/hooks/use-sign-in-form';
+import browserClient from '@/lib/supabase/client';
 
 const SignInForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      password: ''
-    }
-  });
+  const { form, onSubmit } = useSignInForm();
 
-  const onSubmit = () => {};
-
-  const signInWithGithub = () => {};
+  const signInWithGithub = async () => {
+    await browserClient.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: window.origin + '/auth/callback'
+      }
+    });
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         <FormField
           control={form.control}
           name="email"
@@ -61,10 +54,10 @@ const SignInForm = () => {
         </Button>
         <div className="flex items-center justify-between gap-4">
           <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
-            <img src="/images/google_icon.png" alt="google logo" width={24} height={24} className="rounded" />
+            <img src="/images/github_icon.png" alt="google logo" width={24} height={24} className="rounded" />
           </Button>
           <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
-            <img src="/images/github_icon.png" alt="google logo" width={24} height={24} className="rounded" />
+            <img src="/images/google_icon.png" alt="google logo" width={24} height={24} className="rounded" />
           </Button>
         </div>
       </form>
