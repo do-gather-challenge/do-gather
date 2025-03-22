@@ -7,7 +7,7 @@ import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import ChallengePostButtonGroup from '@/components/features/challenges/post/challenge-post-button-group';
 
 const ChallengePostPage: React.FC = () => {
-  const { challenge, setters } = useChallengeForm();
+  const { challenge, setters, handleChange } = useChallengeForm();
 
   const handleDaySelection = (day: string) => {
     const newExecuteDays = challenge.executeDays.includes(day)
@@ -29,12 +29,7 @@ const ChallengePostPage: React.FC = () => {
       <h1 className="mb-6 text-2xl font-bold">챌린지 생성</h1>
 
       {/* 타이틀 및 소개 입력 */}
-      <ChallengePostInput
-        title={challenge.title}
-        description={challenge.description}
-        onTitleChange={setters.setTitle}
-        onDescriptionChange={setters.setDescription}
-      />
+      <ChallengePostInput title={challenge.title} description={challenge.description} handleChange={handleChange} />
 
       <section className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
         {/* 반복 일정, 유형, 날짜 선택, */}
@@ -45,8 +40,7 @@ const ChallengePostPage: React.FC = () => {
           finishDate={challenge.finishDate}
           onSelectDay={handleDaySelection}
           onSelectCategory={handleCategorySelection}
-          onChangeStartDate={setters.setStartDate}
-          onChangeFinishDate={setters.setFinishDate}
+          handleChange={handleChange}
         />
 
         {/* 이미지 업로드 */}

@@ -8,8 +8,8 @@ type ChallengePostSelectProps = {
   finishDate: string;
   onSelectDay: (day: string) => void;
   onSelectCategory: (category: string) => void;
-  onChangeStartDate: (date: string) => void;
-  onChangeFinishDate: (date: string) => void;
+
+  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 };
 
 const ChallengePostSelector = ({
@@ -19,8 +19,8 @@ const ChallengePostSelector = ({
   finishDate,
   onSelectDay,
   onSelectCategory,
-  onChangeStartDate,
-  onChangeFinishDate
+
+  handleChange
 }: ChallengePostSelectProps) => {
   return (
     <div>
@@ -29,7 +29,12 @@ const ChallengePostSelector = ({
         <div className="mb-2 flex items-center justify-between">
           <h2 className="mb-2 text-lg font-semibold">반복 일정</h2>
           <div>
-            <input type="checkbox" id="every-day" className="mr-2" />
+            <input
+              type="checkbox"
+              id="every-day"
+              className="mr-2"
+              onChange={handleChange} 
+            />
             <label htmlFor="every-day" className="mr-6">
               매일
             </label>
@@ -72,16 +77,18 @@ const ChallengePostSelector = ({
         <div className="flex gap-1">
           <input
             type="date"
+            id="startDate" 
             className="border-border h-[24px] w-[124px] rounded-md border"
             value={startDate}
-            onChange={(e) => onChangeStartDate(e.target.value)}
+            onChange={handleChange} 
           />
           <span>~</span>
           <input
             type="date"
+            id="finishDate" 
             className="border-border h-[24px] w-[124px] rounded-md border"
             value={finishDate}
-            onChange={(e) => onChangeFinishDate(e.target.value)}
+            onChange={handleChange} 
           />
         </div>
       </section>

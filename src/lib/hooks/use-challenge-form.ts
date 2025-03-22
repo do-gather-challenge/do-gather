@@ -1,12 +1,14 @@
-// 'use client';
+'use client';
 
 import { Challenge } from '@/types/challenge.type';
 import { useEffect, useState } from 'react';
 
+// 일단 여기에 두었는데 나중에 types에 따로 빼두겠습니다.
+export type ChallengePost = Omit<Challenge, 'id' | 'creatorId' | 'participantCount'>;
+
 // 챌린지 폼 상태 관리 훅
 export const useChallengeForm = () => {
-  const [challenge, setChallenge] = useState<Challenge>({
-    id: 0,
+  const [challenge, setChallenge] = useState<ChallengePost>({
     createdAt: '',
     startDate: '',
     finishDate: '',
@@ -14,9 +16,7 @@ export const useChallengeForm = () => {
     description: '',
     category: '',
     challengeImage: '',
-    creatorId: '임시 챌린지 생성 ID',
-    executeDays: [],
-    participantCount: 0
+    executeDays: []
   });
 
   //hydration 경고를 방지하기 위해, startDate와 finishDate가 없을 경우 오늘 날짜로 초기화
@@ -27,6 +27,23 @@ export const useChallengeForm = () => {
       finishDate: prev.finishDate || new Date().toISOString().split('T')[0]
     }));
   }, []);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const target = e.target;
+    const id = target.id as keyof ChallengePost;
+
+    // 타입 안전성 검증
+    if (!(id in challenge)) {
+      console.error(`Invalid id: ${id}`);
+      return;
+    }
+
+    if (target instanceof HTMLInputElement && (target.type === 'checkbox' || target.type === 'radio')) {
+      setChallenge((prev) => ({ ...prev, [id]: target.checked }));
+    } else {
+      setChallenge((prev) => ({ ...prev, [id]: target.value }));
+    }
+  };
 
   const setTitle = (value: string) => setChallenge((prev) => ({ ...prev, title: value }));
   const setDescription = (value: string) => setChallenge((prev) => ({ ...prev, description: value }));
@@ -49,6 +66,7 @@ export const useChallengeForm = () => {
       setCategory,
       setExecuteDays,
       setChallengeImage
-    }
+    },
+    handleChange
   };
 };
