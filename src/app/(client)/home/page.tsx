@@ -1,5 +1,10 @@
 import Link from 'next/link';
 
+
+/**
+ * 로그인 test를 하기 위해 임시로 Link를 생성하였습니다.
+ * 
+ */
 const HomePage = () => {
   return (
     <div className='mt-24'>
