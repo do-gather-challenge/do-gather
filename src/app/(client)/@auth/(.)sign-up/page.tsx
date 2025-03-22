@@ -16,7 +16,7 @@ const SignUpPageModal = () => {
       <div className="relative mx-10 mt-30 flex min-h-[380px] w-full min-w-[260px] flex-col items-center justify-evenly rounded-lg border-2 bg-white p-4 shadow-lg md:h-[575px] md:w-[335px]">
         <Button
           type="button"
-          className="absolute top-5 right-5 shadow-none bg-transparent hover:none text-black"
+          className="hover:none absolute top-5 right-5 bg-transparent text-black shadow-none"
           onClick={handleCloseModal}
         >
           X
