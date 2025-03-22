@@ -3,6 +3,11 @@ import SignInForm from '@/components/features/auth/auth-sign-in-form';
 import { Button } from '@/components/ui/button';
 import { useRouter } from 'next/navigation';
 
+/**
+ * @function handleCloseModal : 이전에 있던 화면으로 돌아가는 라우팅 함수
+ * @returns void
+ */
+
 const SignInPageModal = () => {
   const router = useRouter();
 
