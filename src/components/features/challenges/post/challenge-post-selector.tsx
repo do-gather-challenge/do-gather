@@ -1,6 +1,6 @@
 import Tag from '@/components/ui/tag';
 import { DAYS } from '@/constants/challenge.constants';
-import { getDayCheckboxClass } from '@/lib/utils/post.util';
+import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
 import { ChallengeCategory, ChallengeCategoryType } from '@/types/challenge-category.type';
 
 type ChallengePostSelectProps = {
@@ -59,10 +59,7 @@ const ChallengePostSelector = ({
         <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
         <div className="flex gap-2">
           {Object.keys(ChallengeCategory).map((category) => (
-            <label
-              key={category}
-              className={`cursor-pointer ${selectedCategory === category ? 'opacity-100' : 'opacity-50'}`}
-            >
+            <label key={category} className={getCategoryRadioClass(category, selectedCategory)}>
               <input
                 type="radio"
                 name="category"
