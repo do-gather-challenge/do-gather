@@ -6,7 +6,7 @@ import ChallengePostInput from '@/components/features/post/challenge-post-input'
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import ChallengePostButtonGroup from '@/components/features/post/challenge-post-button-group';
 
-const PostPage = () => {
+const ChallengePostPage = () => {
   const { challenge, setters } = useChallengeForm();
 
   const handleDaySelection = (day: string) => {
@@ -61,4 +61,4 @@ const PostPage = () => {
   );
 };
 
-export default PostPage;
+export default ChallengePostPage;
