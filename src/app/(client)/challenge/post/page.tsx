@@ -3,24 +3,10 @@
 import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { CATEGORIES, DAYS } from '@/constants/challenge.constants';
+import { Challenge } from '@/types/challenge.type';
 
 const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
 const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
-
-//다은님꺼 머지되면 임포트할 예정
-export type Challenge = {
-  id?: number;
-  createdAt?: string;
-  startDate: string;
-  finishDate: string;
-  title: string;
-  description: string;
-  category: string;
-  challengeImage: string;
-  creatorId: string;
-  executeDays: string[];
-  participantCount?: number;
-};
 
 const PostPage = () => {
   const [challenge, setChallenge] = useState<Challenge>({
