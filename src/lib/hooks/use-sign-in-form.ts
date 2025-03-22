@@ -1,0 +1,37 @@
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{6,16}$/;
+export const useSignInForm = () => {
+  const signFormSchema = z.object({
+    email: z.string().email({
+      message: '유효한 이메일 형식이 아닙니다.'
+    }),
+    password: z
+      .string()
+      .min(6, {
+        message: '비밀번호는 6자리 이상 입력해주세요.'
+      })
+      .max(16, {
+        message: '비밀번호는 16자리 이하 입력해주세요.'
+      })
+      .regex(passwordRegex, {
+        message: '영문, 숫자, 특수문자를 최소 1개이상 포함하여주세요.'
+      })
+  });
+
+  const form = useForm({
+    mode: 'onBlur',
+    resolver: zodResolver(signFormSchema),
+    defaultValues: {
+      email: '',
+      password: ''
+    }
+  });
+
+  const onSubmit = (values: z.infer<typeof signFormSchema>) => {
+    console.log('Form submitted => ', values);
+  };
+
+  return { form, onSubmit };
+};
