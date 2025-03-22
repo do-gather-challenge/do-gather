@@ -25,7 +25,13 @@ const RootPage = () => {
         {instructions.map((item) => {
           return (
             <figure key={item.title} className="relative mb-10 h-52 w-52 overflow-hidden rounded-full">
-              <Image src={item.image} alt="디폴트1" width={100} height={100} className="h-full w-full object-cover" />
+              <Image
+                src={item.image}
+                alt={item.title}
+                width={100}
+                height={100}
+                className="h-full w-full object-cover"
+              />
               <figcaption className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 transform text-2xl font-bold text-white">
                 {item.title}
               </figcaption>
