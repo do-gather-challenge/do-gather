@@ -17,6 +17,7 @@ export const useChallengeForm = () => {
     participantCount: 0
   });
 
+  //hydration 경고를 방지하기 위해, startDate와 finishDate가 없을 경우 오늘 날짜로 초기화
   useEffect(() => {
     setChallenge((prev) => ({
       ...prev,

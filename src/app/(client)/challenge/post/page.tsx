@@ -3,8 +3,8 @@
 import ChallengePostSelector from '@/components/features/post/challenge-post-selector';
 import ChallengePostImageUploader from '@/components/features/post/challenge-post-image-uploader';
 import ChallengePostInput from '@/components/features/post/challenge-post-input';
-import { Button } from '@/components/ui/button';
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
+import ChallengePostButtonGroup from '@/components/features/post/challenge-post-button-group';
 
 const PostPage = () => {
   const { challenge, setters } = useChallengeForm();
@@ -71,20 +71,7 @@ const PostPage = () => {
 
       {/* 버튼 */}
       <div className="flex justify-center gap-6">
-        <Button
-          type="button"
-          className="bg-secondary hover:bg-secondary-foreground h-[40px] w-[84px] rounded-md px-4 py-2 text-[12px] text-white"
-          onClick={() => alert('뒤로가기')}
-        >
-          뒤로가기
-        </Button>
-        <Button
-          type="button"
-          className="bg-secondary hover:bg-secondary-foreground h-[40px] w-[84px] rounded-md px-4 py-2 text-[12px] text-white"
-          onClick={handleSubmitChallenge}
-        >
-          챌린지생성
-        </Button>
+        <ChallengePostButtonGroup challenge={challenge} setters={setters} onBackClick={() => alert('뒤로가기')} />
       </div>
     </div>
   );
