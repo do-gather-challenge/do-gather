@@ -1,13 +1,11 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import dynamic from 'next/dynamic';
-import { CATEGORIES, DAYS } from '@/constants/challenge.constants';
 import { Challenge } from '@/types/challenge.type';
-import { getCategoryButtonClass, getDayButtonClass } from '@/lib/utils/post.util';
-
-const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
-const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
+import ChallengePostSelector from '@/components/features/post/challenge-post-selector';
+import ChallengePostImageUploader from '@/components/features/post/challenge-post-image-uploader';
+import ChallengePostInput from '@/components/features/post/challenge-post-input';
+import { Button } from '@/components/ui/button';
 
 const PostPage = () => {
   const [challenge, setChallenge] = useState<Challenge>({
@@ -48,12 +46,12 @@ const PostPage = () => {
     }));
   };
 
-  const handleImageChange = (file: File) => {
+  const handleUploadImage = (file: File) => {
     const imageUrl = URL.createObjectURL(file);
     setChallenge((prev) => ({ ...prev, challengeImage: imageUrl }));
   };
 
-  const handleCreateChallenge = async () => {
+  const handleSubmitChallenge = async () => {
     const { title, description, startDate, finishDate, category, executeDays } = challenge;
     if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
       alert('모든 필수 정보를 입력해 주세요.');
@@ -73,131 +71,47 @@ const PostPage = () => {
     <div className="mx-auto mt-[100px] mb-6 max-w-[320px] bg-white p-6 md:max-w-[640px]">
       <h1 className="mb-6 text-2xl font-bold">챌린지 생성</h1>
 
-      {/* 제목 */}
-      <section className="mb-6">
-        <h2 className="mb-2 text-lg font-semibold">챌린지 제목</h2>
-        <Input
-          type="text"
-          placeholder="챌린지 제목을 입력해 주세요(30자 이내)"
-          className="w-[260px] text-[14px] md:w-[580px]"
-          value={challenge.title}
-          onChange={(e) => setChallenge((prev) => ({ ...prev, title: e.target.value }))}
-        />
-      </section>
-
-      {/* 소개 */}
-      <section className="mb-6">
-        <h2 className="mb-2 text-lg font-semibold">챌린지 소개</h2>
-        <Textarea
-          placeholder="챌린지에 대한 소개를 구체적으로 적어주세요(500자 이내)"
-          className="w-[260px] text-[14px] md:w-[580px]"
-          rows={4}
-          value={challenge.description}
-          onChange={(e) => setChallenge((prev) => ({ ...prev, description: e.target.value }))}
-        />
-      </section>
+      {/* 타이틀 및 소개 입력 */}
+      <ChallengePostInput
+        title={challenge.title}
+        description={challenge.description}
+        onTitleChange={(value) => setChallenge((prev) => ({ ...prev, title: value }))}
+        onDescriptionChange={(value) => setChallenge((prev) => ({ ...prev, description: value }))}
+      />
 
       <section className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-        <div>
-          {/* 반복 일정 */}
-          <section className="mb-6">
-            <div className="mb-2 flex items-center justify-between">
-              <h2 className="mb-2 text-lg font-semibold">반복 일정</h2>
-              <div>
-                <input type="checkbox" id="every-day" className="mr-2" />
-                <label htmlFor="every-day" className="mr-6">
-                  매일
-                </label>
-              </div>
-            </div>
-            <div className="flex gap-2">
-              {DAYS.map((day) => (
-                <button
-                  key={day}
-                  type="button"
-                  className={getDayButtonClass(day, challenge.executeDays)}
-                  onClick={() => handleDaySelection(day)}
-                >
-                  {day}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* 유형 */}
-          <section className="mb-6">
-            <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
-            <div className="grid grid-cols-3 gap-2">
-              {CATEGORIES.map((category) => (
-                <button
-                  key={category}
-                  type="button"
-                  className={getCategoryButtonClass(category, challenge.category)}
-                  onClick={() => handleCategorySelection(category)}
-                >
-                  {category}
-                </button>
-              ))}
-            </div>
-          </section>
-
-          {/* 시작/종료 날짜 */}
-          <section className="mb-6">
-            <h2 className="mb-2 text-lg font-semibold">시작/종료 날짜</h2>
-            <div className="flex gap-1">
-              <input
-                type="date"
-                className="border-border h-[24px] w-[124px] rounded-md border"
-                value={challenge.startDate}
-                onChange={(e) => setChallenge((prev) => ({ ...prev, startDate: e.target.value }))}
-              />
-              <span>~</span>
-              <input
-                type="date"
-                className="border-border h-[24px] w-[124px] rounded-md border"
-                value={challenge.finishDate}
-                onChange={(e) => setChallenge((prev) => ({ ...prev, finishDate: e.target.value }))}
-              />
-            </div>
-          </section>
-        </div>
+        {/* 반복 일정, 유형, 날짜 선택 */}
+        <ChallengePostSelector
+          selectedDays={challenge.executeDays}
+          selectedCategory={challenge.category}
+          startDate={challenge.startDate}
+          finishDate={challenge.finishDate}
+          onSelectDay={handleDaySelection}
+          onSelectCategory={handleCategorySelection}
+          onChangeStartDate={(date) => setChallenge((prev) => ({ ...prev, startDate: date }))}
+          onChangeFinishDate={(date) => setChallenge((prev) => ({ ...prev, finishDate: date }))}
+        />
 
         {/* 이미지 업로드 */}
-        <section>
-          <h2 className="mb-2 text-lg font-semibold">챌린지 이미지</h2>
-          <div className="border-border flex items-center justify-center rounded-lg border-1 border-dashed p-1">
-            <input
-              type="file"
-              accept="image/*"
-              className="hidden"
-              id="image-upload"
-              onChange={(e) => e.target.files && handleImageChange(e.target.files[0])}
-            />
-            <label htmlFor="image-upload" className="cursor-pointer text-center">
-              <div className="bg-muted flex h-[140px] w-[240px] items-center justify-center">
-                <p className="text-muted-foreground">이미지를 업로드하세요</p>
-              </div>
-            </label>
-          </div>
-        </section>
+        <ChallengePostImageUploader onUploadImage={handleUploadImage} />
       </section>
 
       {/* 버튼 */}
       <div className="flex justify-center gap-6">
-        <button
+        <Button
           type="button"
           className="bg-secondary hover:bg-secondary-foreground h-[40px] w-[84px] rounded-md px-4 py-2 text-[12px] text-white"
           onClick={() => alert('뒤로가기')}
         >
           뒤로가기
-        </button>
-        <button
+        </Button>
+        <Button
           type="button"
           className="bg-secondary hover:bg-secondary-foreground h-[40px] w-[84px] rounded-md px-4 py-2 text-[12px] text-white"
-          onClick={handleCreateChallenge}
+          onClick={handleSubmitChallenge}
         >
           챌린지생성
-        </button>
+        </Button>
       </div>
     </div>
   );
