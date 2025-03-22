@@ -1,5 +1,7 @@
-import { DAYS, CATEGORIES } from '@/constants/challenge.constants';
-import { getDayButtonClass, getCategoryButtonClass } from '@/lib/utils/post.util';
+import Tag from '@/components/ui/tag';
+import { DAYS } from '@/constants/challenge.constants';
+import { getDayCheckboxClass } from '@/lib/utils/post.util';
+import { ChallengeCategory, ChallengeCategoryType } from '@/types/challenge-category.type';
 
 type ChallengePostSelectProps = {
   selectedDays: string[];
@@ -27,14 +29,9 @@ const ChallengePostSelector = ({
       {/* 반복 일정 */}
       <section className="mb-6">
         <div className="mb-2 flex items-center justify-between">
-          <h2 className="mb-2 text-lg font-semibold">반복 일정</h2>
+          <label className="mb-2 text-lg font-semibold">반복 일정</label>
           <div>
-            <input
-              type="checkbox"
-              id="every-day"
-              className="mr-2"
-              onChange={handleChange} 
-            />
+            <input type="checkbox" id="every-day" className="mr-2" onChange={handleChange} />
             <label htmlFor="every-day" className="mr-6">
               매일
             </label>
@@ -42,14 +39,17 @@ const ChallengePostSelector = ({
         </div>
         <div className="flex gap-2">
           {DAYS.map((day) => (
-            <button
-              key={day}
-              type="button"
-              className={getDayButtonClass(day, selectedDays)}
-              onClick={() => onSelectDay(day)}
-            >
+            <label key={day} className={`${getDayCheckboxClass(day, selectedDays)} flex items-center justify-center`}>
+              <input
+                type="checkbox"
+                name="executeDays"
+                value={day}
+                checked={selectedDays.includes(day)}
+                onChange={() => onSelectDay(day)}
+                className="hidden"
+              />
               {day}
-            </button>
+            </label>
           ))}
         </div>
       </section>
@@ -57,16 +57,22 @@ const ChallengePostSelector = ({
       {/* 유형 */}
       <section className="mb-6">
         <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
-        <div className="grid grid-cols-3 gap-2">
-          {CATEGORIES.map((category) => (
-            <button
+        <div className="flex gap-2">
+          {Object.keys(ChallengeCategory).map((category) => (
+            <label
               key={category}
-              type="button"
-              className={getCategoryButtonClass(category, selectedCategory)}
-              onClick={() => onSelectCategory(category)}
+              className={`cursor-pointer ${selectedCategory === category ? 'opacity-100' : 'opacity-50'}`}
             >
-              {category}
-            </button>
+              <input
+                type="radio"
+                name="category"
+                value={category}
+                checked={selectedCategory === category}
+                onChange={() => onSelectCategory(category)}
+                className="hidden"
+              />
+              <Tag category={category as ChallengeCategoryType} />
+            </label>
           ))}
         </div>
       </section>
@@ -77,18 +83,18 @@ const ChallengePostSelector = ({
         <div className="flex gap-1">
           <input
             type="date"
-            id="startDate" 
+            id="startDate"
             className="border-border h-[24px] w-[124px] rounded-md border"
             value={startDate}
-            onChange={handleChange} 
+            onChange={handleChange}
           />
           <span>~</span>
           <input
             type="date"
-            id="finishDate" 
+            id="finishDate"
             className="border-border h-[24px] w-[124px] rounded-md border"
             value={finishDate}
-            onChange={handleChange} 
+            onChange={handleChange}
           />
         </div>
       </section>
