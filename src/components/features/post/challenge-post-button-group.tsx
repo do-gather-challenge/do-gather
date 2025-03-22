@@ -15,7 +15,7 @@ type ButtonGroupProps = {
   onBackClick: () => void;
 };
 
-const ChallengePostButtonGroup = ({ challenge, setters, onBackClick }: ButtonGroupProps) => {
+const ChallengePostButtonGroup = ({ challenge, onBackClick }: ButtonGroupProps) => {
   const handleSubmitChallenge = async () => {
     const { title, description, startDate, finishDate, category, executeDays } = challenge;
     if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
