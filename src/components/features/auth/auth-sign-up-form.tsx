@@ -14,7 +14,7 @@ const formSchema = z.object({
   confirmPassword: z.string()
 });
 
-const SignUpForm = () => {
+const AuthSignUpForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -92,4 +92,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default AuthSignUpForm;

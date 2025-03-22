@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{6,16}$/;
 
-const SignInForm = () => {
+const AuthSignInForm = () => {
   const signFormSchema = z.object({
     email: z.string().email({
       message: '유효한 이메일 형식이 아닙니다.'
@@ -97,4 +97,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default AuthSignInForm;
