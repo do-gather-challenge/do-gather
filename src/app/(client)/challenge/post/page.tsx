@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { CATEGORIES, DAYS } from '@/constants/challenge.constants';
 import { Challenge } from '@/types/challenge.type';
+import { getCategoryButtonClass, getDayButtonClass } from '@/lib/utils/post.util';
 
 const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
 const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
@@ -110,20 +111,16 @@ const PostPage = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              {/* {DAYS.map((day) => (
+              {DAYS.map((day) => (
                 <button
                   key={day}
                   type="button"
-                  className={`h-[32px] w-[32px] rounded-full border ${
-                    challenge.executeDays.includes(day)
-                      ? 'bg-primary border-red-700'
-                      : 'border-border hover:bg-primary hover:border-red-700'
-                  }`}
+                  className={getDayButtonClass(day, challenge.executeDays)}
                   onClick={() => handleDaySelection(day)}
                 >
                   {day}
                 </button>
-              ))} */}
+              ))}
             </div>
           </section>
 
@@ -131,20 +128,16 @@ const PostPage = () => {
           <section className="mb-6">
             <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
             <div className="grid grid-cols-3 gap-2">
-              {/* {CATEGORIES.map((category) => (
+              {CATEGORIES.map((category) => (
                 <button
                   key={category}
                   type="button"
-                  className={`h-[28px] w-[56px] rounded-full ${
-                    challenge.category === category
-                      ? 'border border-red-700'
-                      : 'bg-muted hover:border hover:border-red-700'
-                  }`}
+                  className={getCategoryButtonClass(category, challenge.category)}
                   onClick={() => handleCategorySelection(category)}
                 >
                   {category}
                 </button>
-              ))} */}
+              ))}
             </div>
           </section>
 
