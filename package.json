@@ -9,6 +9,7 @@
     "lint": "eslint ./src"
   },
   "dependencies": {
+    "@hookform/resolvers": "^4.1.3",
     "@radix-ui/react-avatar": "^1.1.3",
     "@radix-ui/react-label": "^2.1.2",
     "@radix-ui/react-slot": "^1.1.2",
