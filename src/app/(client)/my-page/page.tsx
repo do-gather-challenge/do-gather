@@ -5,7 +5,7 @@ import MyPageMyChallenge from '../../../components/my-page/my-page-my-challenge'
 
 const MyPage = () => {
   return (
-    <main className="flex items-center justify-center">
+    <section className="flex items-center justify-center">
       <Tabs defaultValue="profile" className="mt-30 flex w-full flex-col items-center">
         <TabsList className="mx-auto">
           <TabsTrigger value="profile">마이페이지</TabsTrigger>
@@ -18,7 +18,7 @@ const MyPage = () => {
           <MyPageMyChallenge />
         </TabsContent>
       </Tabs>
-    </main>
+    </section>
   );
 };
 
