@@ -86,10 +86,10 @@ const AuthSignInForm = () => {
         </Button>
         <div className="flex items-center justify-between gap-4">
           <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
-            <Image src="/images/google_icon.png" alt="google logo" width={24} height={24} className="rounded" />
+            <Image src="/images/ICON_GOOGLE.png" alt="google logo" width={24} height={24} className="rounded" />
           </Button>
           <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
-            <Image src="/images/github_icon.png" alt="google logo" width={24} height={24} className="rounded" />
+            <Image src="/images/ICON_GITHUB.png" alt="google logo" width={24} height={24} className="rounded" />
           </Button>
         </div>
       </form>
