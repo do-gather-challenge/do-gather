@@ -6,7 +6,7 @@ import ChallengePostInput from '@/components/features/challenges/post/challenge-
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import ChallengePostButtonGroup from '@/components/features/challenges/post/challenge-post-button-group';
 
-const ChallengePostPage = () => {
+const ChallengePostPage: React.FC = () => {
   const { challenge, setters } = useChallengeForm();
 
   const handleDaySelection = (day: string) => {
@@ -25,7 +25,7 @@ const ChallengePostPage = () => {
   };
 
   return (
-    <div className="mx-auto mb-6 mt-[100px] max-w-[320px] bg-white p-6 md:max-w-[640px]">
+    <section className="mx-auto mt-[100px] mb-6 max-w-[320px] p-6 md:max-w-[640px]">
       <h1 className="mb-6 text-2xl font-bold">챌린지 생성</h1>
 
       {/* 타이틀 및 소개 입력 */}
@@ -57,7 +57,7 @@ const ChallengePostPage = () => {
       <div className="flex justify-center gap-6">
         <ChallengePostButtonGroup challenge={challenge} onBackClick={() => alert('뒤로가기')} />
       </div>
-    </div>
+    </section>
   );
 };
 

@@ -10,8 +10,7 @@ const ChallengePostButtonGroup = ({ challenge, onBackClick }: ButtonGroupProps) 
   const handleSubmitChallenge = async () => {
     const { title, description, startDate, finishDate, category, executeDays } = challenge;
     if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
-      alert('모든 필수 정보를 입력해 주세요.');
-      return;
+      return alert('모든 필수 정보를 입력해 주세요.');
     }
 
     try {

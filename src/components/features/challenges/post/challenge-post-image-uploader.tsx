@@ -11,7 +11,9 @@ const ChallengePostImageUploader = ({ onUploadImage }: ImageUploaderProps) => {
 
   return (
     <section>
-      <h2 className="mb-2 text-lg font-semibold">챌린지 이미지</h2>
+      <label className="mb-2 text-lg font-semibold" htmlFor="image-upload">
+        챌린지 이미지
+      </label>
       <div className="border-border flex items-center justify-center rounded-lg border-1 border-dashed p-1">
         <input type="file" accept="image/*" className="hidden" id="image-upload" onChange={handleChange} />
         <label htmlFor="image-upload" className="cursor-pointer text-center">
