@@ -1,54 +1,27 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Challenge } from '@/types/challenge.type';
 import ChallengePostSelector from '@/components/features/post/challenge-post-selector';
 import ChallengePostImageUploader from '@/components/features/post/challenge-post-image-uploader';
 import ChallengePostInput from '@/components/features/post/challenge-post-input';
 import { Button } from '@/components/ui/button';
+import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 
 const PostPage = () => {
-  const [challenge, setChallenge] = useState<Challenge>({
-    id: 0,
-    createdAt: '',
-    startDate: '',
-    finishDate: '',
-    title: '',
-    description: '',
-    category: '',
-    challengeImage: '',
-    creatorId: '임시 챌린지 생성 ID',
-    executeDays: [],
-    participantCount: 0
-  });
-
-  useEffect(() => {
-    setChallenge((prev) => ({
-      ...prev,
-      startDate: prev.startDate || new Date().toISOString().split('T')[0],
-      finishDate: prev.finishDate || new Date().toISOString().split('T')[0]
-    }));
-  }, []);
+  const { challenge, setters } = useChallengeForm();
 
   const handleDaySelection = (day: string) => {
-    setChallenge((prev) => ({
-      ...prev,
-      executeDays: prev.executeDays.includes(day)
-        ? prev.executeDays.filter((d) => d !== day)
-        : [...prev.executeDays, day]
-    }));
+    const newExecuteDays = challenge.executeDays.includes(day)
+      ? challenge.executeDays.filter((d) => d !== day)
+      : [...challenge.executeDays, day];
+    setters.setExecuteDays(newExecuteDays);
   };
 
   const handleCategorySelection = (selectedCategory: string) => {
-    setChallenge((prev) => ({
-      ...prev,
-      category: prev.category === selectedCategory ? '' : selectedCategory
-    }));
+    setters.setCategory(selectedCategory);
   };
 
   const handleUploadImage = (file: File) => {
-    const imageUrl = URL.createObjectURL(file);
-    setChallenge((prev) => ({ ...prev, challengeImage: imageUrl }));
+    setters.setChallengeImage(file);
   };
 
   const handleSubmitChallenge = async () => {
@@ -75,8 +48,8 @@ const PostPage = () => {
       <ChallengePostInput
         title={challenge.title}
         description={challenge.description}
-        onTitleChange={(value) => setChallenge((prev) => ({ ...prev, title: value }))}
-        onDescriptionChange={(value) => setChallenge((prev) => ({ ...prev, description: value }))}
+        onTitleChange={setters.setTitle}
+        onDescriptionChange={setters.setDescription}
       />
 
       <section className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
@@ -88,8 +61,8 @@ const PostPage = () => {
           finishDate={challenge.finishDate}
           onSelectDay={handleDaySelection}
           onSelectCategory={handleCategorySelection}
-          onChangeStartDate={(date) => setChallenge((prev) => ({ ...prev, startDate: date }))}
-          onChangeFinishDate={(date) => setChallenge((prev) => ({ ...prev, finishDate: date }))}
+          onChangeStartDate={setters.setStartDate}
+          onChangeFinishDate={setters.setFinishDate}
         />
 
         {/* 이미지 업로드 */}
