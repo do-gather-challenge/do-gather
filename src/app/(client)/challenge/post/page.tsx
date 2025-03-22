@@ -37,7 +37,7 @@ const ChallengePostPage = () => {
       />
 
       <section className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-        {/* 반복 일정, 유형, 날짜 선택 */}
+        {/* 반복 일정, 유형, 날짜 선택, */}
         <ChallengePostSelector
           selectedDays={challenge.executeDays}
           selectedCategory={challenge.category}
