@@ -24,22 +24,6 @@ const PostPage = () => {
     setters.setChallengeImage(file);
   };
 
-  const handleSubmitChallenge = async () => {
-    const { title, description, startDate, finishDate, category, executeDays } = challenge;
-    if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
-      alert('모든 필수 정보를 입력해 주세요.');
-      return;
-    }
-
-    try {
-      console.log('챌린지 생성 데이터:', challenge);
-      alert('챌린지가 성공적으로 생성되었습니다!');
-    } catch (error) {
-      console.error('챌린지 생성 중 오류 발생:', error);
-      alert('챌린지 생성에 실패했습니다.');
-    }
-  };
-
   return (
     <div className="mx-auto mt-[100px] mb-6 max-w-[320px] bg-white p-6 md:max-w-[640px]">
       <h1 className="mb-6 text-2xl font-bold">챌린지 생성</h1>
