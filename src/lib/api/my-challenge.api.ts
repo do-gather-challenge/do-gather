@@ -71,7 +71,7 @@ const fetchGetMyChallengesByPage = async (
     };
   }
 
-  let baseQuery = supabase.from('challenges').select('*', { count: 'exact' }).in('id', challengeIds);
+  const baseQuery = supabase.from('challenges').select('*', { count: 'exact' }).in('id', challengeIds);
   const filteredQuery = filterFn(baseQuery);
   const paginatedQuery = filteredQuery.range(from, to);
 
