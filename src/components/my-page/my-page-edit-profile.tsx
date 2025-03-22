@@ -5,10 +5,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
 
-const EditProfile = () => {
+const MyPageEditProfile = () => {
   return (
-    <div className="mt-5 flex w-full flex-col items-center sm:gap-10">
-      <div className="flex flex-col items-center gap-3 sm:gap-5">
+    <section className="mt-5 flex w-full flex-col items-center sm:gap-10">
+      <form className="flex flex-col items-center gap-3 sm:gap-5">
         <Image
           src={DEFAULT_IMAGE}
           alt="profile"
@@ -24,7 +24,7 @@ const EditProfile = () => {
         <Button variant="green" className="w-60">
           프로필 수정하기
         </Button>
-      </div>
+      </form>
       <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:gap-15">
         <Button variant="primary" className="flex w-60 justify-between p-5 sm:h-12">
           <p>오늘의 챌린지</p>
@@ -39,11 +39,11 @@ const EditProfile = () => {
           <p className="font-bold">{COUNT_TODAYS_CHALLENGE}</p>
         </Button>
       </div>
-    </div>
+    </section>
   );
 };
 
-export default EditProfile;
+export default MyPageEditProfile;
 
 const DEFAULT_NICKNAME = '초기값';
 const COUNT_TODAYS_CHALLENGE = 0;

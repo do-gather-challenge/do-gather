@@ -3,7 +3,7 @@ import React from 'react';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Button } from '@/components/ui/button';
 
-const MyChallenge = () => {
+const MyPageMyChallenge = () => {
   return (
     <div className="mt-5 flex w-full flex-col items-center gap-3 sm:flex-row">
       <div className="flex w-full flex-col items-center sm:w-[30%]">
@@ -38,4 +38,4 @@ const MyChallenge = () => {
   );
 };
 
-export default MyChallenge;
+export default MyPageMyChallenge;
