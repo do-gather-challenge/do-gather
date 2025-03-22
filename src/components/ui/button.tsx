@@ -9,17 +9,16 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-primary text-primary-foreground shadow-xs hover:bg-primary/90',
         destructive:
           'bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
         outline:
           'border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
-        secondary: 'bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80',
         ghost: 'hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50',
         link: 'text-primary underline-offset-4 hover:underline',
         //추가한 variant
-        green: 'bg-secondary text-white shadow-xs hover:bg-secondary-foreground',
-        primary: 'bg-primary text-black shadow-xs hover:bg-primary-foreground hover:text-black/50'
+        secondary: 'bg-secondary text-white shadow-xs hover:bg-secondary-foreground',
+        primary: 'bg-primary text-black shadow-xs hover:bg-primary-foreground hover:text-black/50',
+        black: 'bg-black text-white shadow-xs hover:bg-black/80'
       },
       size: {
         default: 'h-9 px-4 py-2 has-[>svg]:px-3',
@@ -29,7 +28,7 @@ const buttonVariants = cva(
       }
     },
     defaultVariants: {
-      variant: 'default',
+      variant: 'primary',
       size: 'default'
     }
   }
