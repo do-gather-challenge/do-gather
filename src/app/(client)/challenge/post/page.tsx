@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 import { CATEGORIES, DAYS } from '@/constants/challenge.constants';
 
@@ -9,8 +9,8 @@ const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => 
 
 //다은님꺼 머지되면 임포트할 예정
 export type Challenge = {
-  id: number;
-  createdAt: string;
+  id?: number;
+  createdAt?: string;
   startDate: string;
   finishDate: string;
   title: string;
@@ -19,23 +19,31 @@ export type Challenge = {
   challengeImage: string;
   creatorId: string;
   executeDays: string[];
-  participantCount: number;
+  participantCount?: number;
 };
 
 const PostPage = () => {
   const [challenge, setChallenge] = useState<Challenge>({
-    id: 0, // 임시 ID
-    createdAt: new Date().toISOString(),
+    id: 0,
+    createdAt: '',
     startDate: '',
     finishDate: '',
     title: '',
     description: '',
     category: '',
     challengeImage: '',
-    creatorId: '임시 챌린지 생성 ID', // 추후 Supabase에서 가져올 예정
+    creatorId: '임시 챌린지 생성 ID',
     executeDays: [],
     participantCount: 0
   });
+
+  useEffect(() => {
+    setChallenge((prev) => ({
+      ...prev,
+      startDate: prev.startDate || new Date().toISOString().split('T')[0],
+      finishDate: prev.finishDate || new Date().toISOString().split('T')[0]
+    }));
+  }, []);
 
   const handleDaySelection = (day: string) => {
     setChallenge((prev) => ({
@@ -116,7 +124,7 @@ const PostPage = () => {
               </div>
             </div>
             <div className="flex gap-2">
-              {DAYS.map((day) => (
+              {/* {DAYS.map((day) => (
                 <button
                   key={day}
                   type="button"
@@ -129,7 +137,7 @@ const PostPage = () => {
                 >
                   {day}
                 </button>
-              ))}
+              ))} */}
             </div>
           </section>
 
@@ -137,7 +145,7 @@ const PostPage = () => {
           <section className="mb-6">
             <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
             <div className="grid grid-cols-3 gap-2">
-              {CATEGORIES.map((category) => (
+              {/* {CATEGORIES.map((category) => (
                 <button
                   key={category}
                   type="button"
@@ -150,7 +158,7 @@ const PostPage = () => {
                 >
                   {category}
                 </button>
-              ))}
+              ))} */}
             </div>
           </section>
 
