@@ -1,10 +1,10 @@
 'use client';
 
-import ChallengePostSelector from '@/components/features/post/challenge-post-selector';
-import ChallengePostImageUploader from '@/components/features/post/challenge-post-image-uploader';
-import ChallengePostInput from '@/components/features/post/challenge-post-input';
+import ChallengePostSelector from '@/components/features/challenges/post/challenge-post-selector';
+import ChallengePostImageUploader from '@/components/features/challenges/post/challenge-post-image-uploader';
+import ChallengePostInput from '@/components/features/challenges/post/challenge-post-input';
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
-import ChallengePostButtonGroup from '@/components/features/post/challenge-post-button-group';
+import ChallengePostButtonGroup from '@/components/features/challenges/post/challenge-post-button-group';
 
 const ChallengePostPage = () => {
   const { challenge, setters } = useChallengeForm();
