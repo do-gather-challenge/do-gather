@@ -1,12 +1,10 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { ChallengePost } from '@/lib/hooks/use-challenge-form';
+import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 
-type ButtonGroupProps = {
-  challenge: ChallengePost;
-  onBackClick: () => void;
-};
-
-const ChallengePostButtonGroup = ({ challenge, onBackClick }: ButtonGroupProps) => {
+const ChallengePostButtonGroup = () => {
+  const { challenge } = useChallengeForm();
   const handleSubmitChallenge = async () => {
     const { title, description, startDate, finishDate, category, executeDays } = challenge;
     if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
@@ -24,7 +22,7 @@ const ChallengePostButtonGroup = ({ challenge, onBackClick }: ButtonGroupProps) 
 
   return (
     <div className="flex justify-center gap-6">
-      <Button variant="secondary" onClick={onBackClick}>
+      <Button variant="secondary" onClick={() => alert('뒤로가기')}>
         뒤로가기
       </Button>
       <Button variant="secondary" onClick={handleSubmitChallenge}>

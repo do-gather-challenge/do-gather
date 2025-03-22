@@ -1,21 +1,18 @@
+'use client';
+
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import { useRef, useState } from 'react';
 
-type ImageUploaderProps = {
-  onUploadImage: (file: File) => void;
-};
-
-const ChallengePostImageUploader = ({ onUploadImage }: ImageUploaderProps) => {
+const ChallengePostImageUploader = () => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const { handleChange } = useChallengeForm();
+  const { setters } = useChallengeForm();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-      onUploadImage(file);
+      setters.setChallengeImage(file);
       setPreviewImage(URL.createObjectURL(file));
-      handleChange(e);
     }
   };
 
@@ -24,7 +21,6 @@ const ChallengePostImageUploader = ({ onUploadImage }: ImageUploaderProps) => {
       inputRef.current.click();
     }
   };
-
   return (
     <section className="flex flex-col items-center justify-center gap-2">
       <label className="text-lg font-semibold" htmlFor="image-upload">

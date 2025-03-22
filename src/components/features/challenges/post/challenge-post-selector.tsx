@@ -1,29 +1,41 @@
+'use client';
+
 import Tag from '@/components/ui/tag';
 import { DAYS } from '@/constants/challenge.constants';
+import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
 import { ChallengeCategory, ChallengeCategoryType } from '@/types/challenge-category.type';
+import { useState } from 'react';
 
-type ChallengePostSelectProps = {
-  selectedDays: string[];
-  selectedCategory: string;
-  startDate: string;
-  finishDate: string;
-  onSelectDay: (day: string) => void;
-  onSelectCategory: (category: string) => void;
+const ChallengePostSelector = () => {
+  const { challenge, setters, handleChange } = useChallengeForm();
+  const [isEveryDayChecked, setIsEveryDayChecked] = useState(false);
 
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-};
+  // 요일 선택 핸들러
+  const handleDaySelection = (day: string) => {
+    const newExecuteDays = challenge.executeDays.includes(day)
+      ? challenge.executeDays.filter((d) => d !== day)
+      : [...challenge.executeDays, day];
+    setters.setExecuteDays(newExecuteDays);
+  };
 
-const ChallengePostSelector = ({
-  selectedDays,
-  selectedCategory,
-  startDate,
-  finishDate,
-  onSelectDay,
-  onSelectCategory,
+  // 반복일정 체크박스 변경 핸들러
+  const handleEveryDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const isChecked = e.target.checked;
+    setIsEveryDayChecked(isChecked);
 
-  handleChange
-}: ChallengePostSelectProps) => {
+    if (isChecked) {
+      setters.setExecuteDays(DAYS);
+    } else {
+      setters.setExecuteDays([]);
+    }
+  };
+
+  // 챌린지 선택 핸들러
+  const handleCategorySelection = (category: string) => {
+    setters.setCategory(category);
+  };
+
   return (
     <div>
       {/* 반복 일정 */}
@@ -31,7 +43,13 @@ const ChallengePostSelector = ({
         <div className="mb-2 flex items-center justify-between">
           <label className="mb-2 text-lg font-semibold">반복 일정</label>
           <div>
-            <input type="checkbox" id="every-day" className="mr-2" onChange={handleChange} />
+            <input
+              type="checkbox"
+              id="every-day"
+              className="mr-2"
+              checked={isEveryDayChecked}
+              onChange={handleEveryDayChange}
+            />
             <label htmlFor="every-day" className="mr-6">
               매일
             </label>
@@ -39,13 +57,16 @@ const ChallengePostSelector = ({
         </div>
         <div className="flex gap-2">
           {DAYS.map((day) => (
-            <label key={day} className={`${getDayCheckboxClass(day, selectedDays)} flex items-center justify-center`}>
+            <label
+              key={day}
+              className={`${getDayCheckboxClass(day, challenge.executeDays)} flex items-center justify-center`}
+            >
               <input
                 type="checkbox"
                 name="executeDays"
                 value={day}
-                checked={selectedDays.includes(day)}
-                onChange={() => onSelectDay(day)}
+                checked={challenge.executeDays.includes(day)}
+                onChange={() => handleDaySelection(day)}
                 className="hidden"
               />
               {day}
@@ -54,18 +75,18 @@ const ChallengePostSelector = ({
         </div>
       </section>
 
-      {/* 유형 */}
+      {/* 챌린지 유형 */}
       <section className="mb-6">
         <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
         <div className="flex gap-2">
           {Object.keys(ChallengeCategory).map((category) => (
-            <label key={category} className={getCategoryRadioClass(category, selectedCategory)}>
+            <label key={category} className={getCategoryRadioClass(category, challenge.category)}>
               <input
                 type="radio"
                 name="category"
                 value={category}
-                checked={selectedCategory === category}
-                onChange={() => onSelectCategory(category)}
+                checked={challenge.category === category}
+                onChange={() => handleCategorySelection(category)}
                 className="hidden"
               />
               <Tag category={category as ChallengeCategoryType} />
@@ -75,14 +96,14 @@ const ChallengePostSelector = ({
       </section>
 
       {/* 시작/종료 날짜 */}
-      <section className="mb-6">
+      <section>
         <h2 className="mb-2 text-lg font-semibold">시작/종료 날짜</h2>
         <div className="flex gap-1">
           <input
             type="date"
             id="startDate"
             className="border-border h-[24px] w-[124px] rounded-md border"
-            value={startDate}
+            value={challenge.startDate}
             onChange={handleChange}
           />
           <span>~</span>
@@ -90,7 +111,7 @@ const ChallengePostSelector = ({
             type="date"
             id="finishDate"
             className="border-border h-[24px] w-[124px] rounded-md border"
-            value={finishDate}
+            value={challenge.finishDate}
             onChange={handleChange}
           />
         </div>

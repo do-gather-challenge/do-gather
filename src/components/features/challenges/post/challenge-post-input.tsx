@@ -1,15 +1,13 @@
+'use client';
+
+import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import dynamic from 'next/dynamic';
 
 const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
 const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
 
-type ChallengePostInputProps = {
-  title: string;
-  description: string;
-  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
-};
-
-const ChallengePostInput = ({ title, description, handleChange }: ChallengePostInputProps) => {
+const ChallengePostInput = () => {
+  const { challenge, handleChange } = useChallengeForm();
   return (
     <>
       {/* 제목 */}
@@ -21,7 +19,7 @@ const ChallengePostInput = ({ title, description, handleChange }: ChallengePostI
           id="title"
           type="text"
           placeholder="챌린지 제목을 입력해 주세요(30자 이내)"
-          value={title}
+          value={challenge.title}
           onChange={handleChange}
         />
       </section>
@@ -35,7 +33,7 @@ const ChallengePostInput = ({ title, description, handleChange }: ChallengePostI
           id="description"
           placeholder="챌린지에 대한 소개를 구체적으로 적어주세요(500자 이내)"
           rows={4}
-          value={description}
+          value={challenge.description}
           onChange={handleChange}
         />
       </section>
