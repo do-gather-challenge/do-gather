@@ -1,5 +1,7 @@
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
+import dynamic from 'next/dynamic';
+
+const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
+const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
 
 type ChallengePostInputProps = {
   title: string;
