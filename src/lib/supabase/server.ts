@@ -21,3 +21,11 @@ export async function createClient() {
     }
   });
 }
+
+export const getIsLogin = async () => {
+  const serverClient = await createClient();
+  const {
+    data: { session }
+  } = await serverClient.auth.getSession();
+  return !!session;
+};
