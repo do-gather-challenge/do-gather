@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 
 const MyPageMyChallenge = () => {
   return (
-    <div className="mt-5 flex w-full flex-col items-center gap-3 sm:flex-row">
+    <section className="mt-5 flex w-full flex-col items-center gap-3 sm:flex-row">
       <div className="flex w-full flex-col items-center sm:w-[30%]">
         <div className="hidden w-60 flex-col gap-5 rounded-2xl border-1 border-black p-10 text-center sm:block">
           <Image
@@ -34,7 +34,7 @@ const MyPageMyChallenge = () => {
         </div>
       </div>
       <div className="grid w-full grid-cols-1 p-5 sm:w-[70%] sm:grid-cols-3">페이지네이션 위치</div>
-    </div>
+    </section>
   );
 };
 

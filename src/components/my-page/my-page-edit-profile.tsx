@@ -21,7 +21,7 @@ const MyPageEditProfile = () => {
           <Label>Nickname</Label>
           <Input placeholder={`현재 닉네임: ${DEFAULT_NICKNAME}`} />
         </div>
-        <Button variant="green" className="w-60">
+        <Button variant="secondary" className="w-60">
           프로필 수정하기
         </Button>
       </form>
