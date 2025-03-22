@@ -1,11 +1,10 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
-import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Form, useForm } from 'react-hook-form';
-
-('use client');
-
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const formSchema = z.object({
@@ -28,7 +27,7 @@ const SignInForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 w-full">
         <FormField
           control={form.control}
           name="email"
@@ -36,7 +35,7 @@ const SignInForm = () => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input placeholder="email@example.com" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -50,17 +49,24 @@ const SignInForm = () => {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="비밀번호를 입력해주세요" {...field} />
+                <Input type="password" placeholder="password" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
 
-        <Button type="submit">Submit</Button>
-        <Button type="button" onClick={signInWithGithub}>
-          Sign in With GitHub
+        <Button type="submit" className="bg-secondary w-full text-white">
+          Login
         </Button>
+        <div className="flex items-center justify-between gap-4">
+          <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
+            <img src="/images/google_icon.png" alt="google logo" width={24} height={24} className="rounded" />
+          </Button>
+          <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
+            <img src="/images/github_icon.png" alt="google logo" width={24} height={24} className="rounded" />
+          </Button>
+        </div>
       </form>
     </Form>
   );
