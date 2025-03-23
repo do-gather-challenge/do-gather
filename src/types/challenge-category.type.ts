@@ -7,3 +7,5 @@ export const ChallengeCategory = {
 };
 
 export type ChallengeCategoryType = keyof typeof ChallengeCategory;
+
+export const categories = Object.keys(ChallengeCategory) as ChallengeCategoryType[];
