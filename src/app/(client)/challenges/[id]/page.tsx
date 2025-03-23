@@ -9,6 +9,7 @@ import ChallengeDetailCompleteButton from '@/components/features/challenges/deta
 import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import { isValidNumber } from '@/lib/utils/validate.util';
 import { fetchGetChallengeWithParticipation } from '@/lib/api/challenge.api';
+import ImageVideoSize from '@/constants/image.constant';
 
 type ChallengeDetailPageProps = {
   params: { id: string };
@@ -34,7 +35,8 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
                 src={challenge.challengeImage || DEFAULT_CHALLENGE_IMAGE}
                 alt="thumbnail"
                 className="h-full w-full rounded-t-md object-cover object-center"
-                sizes="100vw"
+                width={ImageVideoSize.WIDTH}
+                height={ImageVideoSize.HEIGHT}
                 priority
               />
             </figure>
