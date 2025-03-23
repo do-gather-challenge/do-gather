@@ -39,14 +39,13 @@ export const getCategoryRadioClass = (category: string, selectedCategory: string
 /**
  * 파일 이름을 생성하는 유틸리티 함수
  * @param {File} file - 업로드할 파일
- * @returns {string} - 생성된 파일 이름 (예: "1234567890-fileName.jpg")
+ * @returns {string} - 생성된 파일 이름
  */
 export const generateFileName = (file: File): string => {
   const timestamp = Date.now();
   const fileName = file.name.replace(/[^a-zA-Z0-9-_\.]/g, ''); // 특수 문자 및 한글 제거
   return `${timestamp}-${fileName}`;
 };
-
 
 // 일단 post 관련 함수는 여기에 모아 두고 나중에 다른 곳에 합치겠습니다.
 

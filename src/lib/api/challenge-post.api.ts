@@ -1,7 +1,14 @@
 import { createClient } from '@/lib/supabase/client';
 import { ChallengePost } from '@/types/challenge.type';
-import { validateChallengePost } from '../utils/post.util';
+import { generateFileName, validateChallengePost } from '../utils/post.util';
 import { ERROR_MESSAGES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
+
+/**
+ * 챌린지 게시물을 생성하는 API 함수
+ * @param {ChallengePost} challenge - 생성할 챌린지 데이터
+ * @param {File | null} challengeImageFile - 챌린지 이미지 파일
+ * @returns {Promise<{ success: boolean; message: string }>} - 성공 여부와 메시지
+ */
 
 export const fetchCreatePost = async (
   challenge: ChallengePost,
@@ -20,7 +27,7 @@ export const fetchCreatePost = async (
 
     // 이미지 업로드 로직
     if (challengeImageFile) {
-      const fileName = `${Date.now()}-${challengeImageFile.name.replace(/[^a-zA-Z0-9-_\.]/g, '')}`; // 파일 이름 생성
+      const fileName = generateFileName(challengeImageFile);
       const { error: uploadError } = await browserClient.storage
         .from(SUPABASE_STORAGE_BUCKET)
         .upload(fileName, challengeImageFile);
