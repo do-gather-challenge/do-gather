@@ -1,5 +1,3 @@
-'use client';
-
 import { ChallengePost } from '@/types/challenge.type';
 import dynamic from 'next/dynamic';
 

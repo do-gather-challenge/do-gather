@@ -1,5 +1,3 @@
-'use client';
-
 import { ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
@@ -42,19 +40,20 @@ const ChallengePostImageUploader = ({ setters }: ChallengePostImageUploaderProps
           onChange={handleFileChange}
           ref={inputRef}
         />
-        {previewImage ? (
-          <Image
-            src={previewImage}
-            alt="미리보기 이미지"
-            width={240}
-            height={140}
-            className="rounded-lg object-cover"
-          />
-        ) : (
-          <div className="bg-muted flex h-[140px] w-[240px] items-center justify-center">
-            <p className="text-muted-foreground">이미지를 업로드하세요</p>
-          </div>
-        )}
+        <div className="bg-muted relative h-[140px] w-[240px] overflow-hidden rounded-lg">
+          {previewImage ? (
+            <Image
+              src={previewImage}
+              alt="미리보기 이미지"
+              fill
+              className="aspect-video w-full object-cover object-center"
+            />
+          ) : (
+            <div className="bg-muted flex h-[140px] w-[240px] items-center justify-center">
+              <p className="text-muted-foreground">이미지를 업로드하세요</p>
+            </div>
+          )}
+        </div>
       </div>
     </section>
   );

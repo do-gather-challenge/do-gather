@@ -1,5 +1,3 @@
-'use client';
-
 import Tag from '@/components/ui/tag';
 import { DAYS } from '@/constants/challenge.constants';
 import { ChallengePostSetters } from '@/lib/hooks/use-challenge-form';

@@ -1,5 +1,3 @@
-'use client';
-
 import { useState } from 'react';
 import { format } from 'date-fns';
 import ChallengePostDateModal from './challenge-post-date-modal';

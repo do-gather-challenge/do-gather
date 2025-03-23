@@ -1,13 +1,14 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
 import { ChallengePost } from '@/types/challenge.type';
+import { useRouter } from 'next/navigation';
 
 type ChallengePostButtonGroupProps = {
   challenge: ChallengePost;
 };
 
 const ChallengePostButtonGroup = ({ challenge }: ChallengePostButtonGroupProps) => {
+  const router = useRouter();
+
   const handleSubmitChallenge = async () => {
     const { title, description, startDate, finishDate, category, executeDays } = challenge;
     if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
@@ -25,7 +26,7 @@ const ChallengePostButtonGroup = ({ challenge }: ChallengePostButtonGroupProps) 
 
   return (
     <div className="flex justify-center gap-6">
-      <Button variant="secondary" onClick={() => alert('뒤로가기')}>
+      <Button variant="secondary" onClick={() => router.back()}>
         뒤로가기
       </Button>
       <Button variant="secondary" onClick={handleSubmitChallenge}>
