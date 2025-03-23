@@ -1,5 +1,5 @@
 import Tag from '@/components/ui/tag';
-import { DAYS } from '@/constants/challenge.constants';
+import { DAYS } from '@/constants/challenge-post.constants';
 import { ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
 import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
 import { categories, ChallengeCategoryType } from '@/types/challenge-category.type';

@@ -1,48 +1,38 @@
 import { createClient } from '@/lib/supabase/client';
 import { ChallengePost } from '@/types/challenge.type';
+import { validateChallengePost } from '../utils/post.util';
+import { ERROR_MESSAGES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
 
-/**
- * 챌린지 생성 API
- * @param {ChallengePost} challenge - 생성할 챌린지 데이터
- * @param {File | null} challengeImageFile - 챌린지 이미지 파일
- * @returns {Promise<{ success: boolean; message: string }>}
- */
 export const fetchCreatePost = async (
   challenge: ChallengePost,
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
   const browserClient = createClient();
-  const { title, description, startDate, finishDate, category, executeDays } = challenge;
 
-  if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
-    return { success: false, message: '모든 필수 정보를 입력해 주세요.' };
+  // 필수 입력값 검증
+  const validationError = validateChallengePost(challenge);
+  if (validationError) {
+    return { success: false, message: validationError };
   }
 
   try {
     let imageUrl = '';
 
-    // 파일 이름 생성 함수
-    const generateFileName = (file: File): string => {
-      const timestamp = Date.now();
-      const fileName = file.name.replace(/[^a-zA-Z0-9-_\.]/g, '');
-      return `${timestamp}-${fileName}`;
-    };
-
-    // 이미지 업로드
+    // 이미지 업로드 로직
     if (challengeImageFile) {
-      const fileName = generateFileName(challengeImageFile);
+      const fileName = `${Date.now()}-${challengeImageFile.name.replace(/[^a-zA-Z0-9-_\.]/g, '')}`; // 파일 이름 생성
       const { error: uploadError } = await browserClient.storage
-        .from('challenge-images')
+        .from(SUPABASE_STORAGE_BUCKET)
         .upload(fileName, challengeImageFile);
 
       if (uploadError) {
         console.error('이미지 업로드 오류:', uploadError);
-        return { success: false, message: '이미지 업로드에 실패했습니다.' };
+        return { success: false, message: ERROR_MESSAGES.IMAGE_UPLOAD_FAILED };
       }
 
       const {
         data: { publicUrl }
-      } = browserClient.storage.from('challenge-images').getPublicUrl(fileName);
+      } = browserClient.storage.from(SUPABASE_STORAGE_BUCKET).getPublicUrl(fileName);
       imageUrl = publicUrl;
     }
 
@@ -51,7 +41,7 @@ export const fetchCreatePost = async (
       data: { session }
     } = await browserClient.auth.getSession();
     if (!session) {
-      return { success: false, message: '로그인 후 사용 가능합니다.' };
+      return { success: false, message: ERROR_MESSAGES.LOGIN_REQUIRED };
     }
     const userId = session.user.id;
 
@@ -59,12 +49,12 @@ export const fetchCreatePost = async (
     const { data: challengeData, error: insertError } = await browserClient
       .from('challenges')
       .insert({
-        title,
-        description,
-        start_date: startDate,
-        finish_date: finishDate,
-        category,
-        execute_days: executeDays,
+        title: challenge.title,
+        description: challenge.description,
+        start_date: challenge.startDate,
+        finish_date: challenge.finishDate,
+        category: challenge.category,
+        execute_days: challenge.executeDays,
         challenge_image: imageUrl || null,
         created_at: new Date().toISOString(),
         creator_id: userId
@@ -76,9 +66,9 @@ export const fetchCreatePost = async (
       throw insertError;
     }
 
-    return { success: true, message: '챌린지가 성공적으로 생성되었습니다!' };
+    return { success: true, message: ERROR_MESSAGES.CHALLENGE_CREATION_SUCCESS };
   } catch (error) {
     console.error('챌린지 생성 중 오류 발생:', error);
-    return { success: false, message: '챌린지 생성에 실패했습니다.' };
+    return { success: false, message: ERROR_MESSAGES.CHALLENGE_CREATION_FAILED };
   }
 };
