@@ -23,20 +23,17 @@ const AuthSignInForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <AuthInputField
-          control={form.control}
-          label="이메일"
-          name="email"
-          type="email"
-          placeholder="email@example.com"
-        />
-        <AuthInputField
-          control={form.control}
-          label="비밀번호"
-          name="password"
-          type="password"
-          placeholder="password"
-        />
+        {SignInInputField.map((input) => {
+          return (
+            <AuthInputField
+              control={form.control}
+              label={input.label}
+              name={input.name}
+              type={input.type}
+              placeholder={input.placeholder}
+            />
+          );
+        })}
         <Button type="submit" className="bg-secondary w-full text-white">
           Login
         </Button>
@@ -54,10 +51,24 @@ const AuthSignInForm = () => {
             가입하기
           </Link>
         </div>
-        ㅋ
       </form>
     </Form>
   );
 };
 
 export default AuthSignInForm;
+
+const SignInInputField = [
+  {
+    name: 'email',
+    label: '이메일',
+    placeholder: 'mail@example.com',
+    type: 'email'
+  },
+  {
+    name: 'password',
+    label: '비밀번호',
+    placeholder: '비밀번호(6~12자)',
+    type: 'password'
+  }
+] as const;
