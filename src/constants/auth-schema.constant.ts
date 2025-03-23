@@ -9,27 +9,15 @@ const AuthSchema = {
   }),
   NICKNAME_SCHEMA: z
     .string()
-    .min(2, {
-      message: '2~12자 이하의 한글/영어/숫자만 가능합니다.'
-    })
-    .max(12, {
-      message: '2~12자 이하의 한글/영어/숫자만 가능합니다.'
-    })
-    .regex(nicknameRegex, {
-      message: '특수문자, 공백이 포함 될 수 없습니다.'
-    }),
+    .min(2, { message: '2~12자 이하의 한글/영어/숫자만 가능합니다.' })
+    .max(12, { message: '2~12자 이하의 한글/영어/숫자만 가능합니다.' })
+    .regex(nicknameRegex, { message: '특수문자, 공백이 포함 될 수 없습니다.' }),
   PASSWORD_SCHEMA: z
     .string()
-    .min(6, {
-      message: '비밀번호는 6자리 이상 입력해주세요.'
-    })
-    .max(16, {
-      message: '비밀번호는 16자리 이하 입력해주세요. '
-    })
-    .regex(passwordRegex, {
-      message: '영문, 숫자, 특수문자(!@$%^&*()를 최소 1개 이상 포함하여야 합니다. '
-    }),
-  CONFIRMPASSWORD_SCHEMA: z.string()
+    .min(6, { message: '비밀번호는 6자리 이상 입력해주세요.' })
+    .max(16, { message: '비밀번호는 16자리 이하 입력해주세요. ' })
+    .regex(passwordRegex, { message: '영문, 숫자, 특수문자(!@$%^&*()를 최소 1개 이상 포함하여야 합니다. ' }),
+  CONFIRM_PASSWORD_SCHEMA: z.string()
 };
 
 export default AuthSchema;

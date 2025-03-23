@@ -47,7 +47,7 @@ const signFormSchema = z
     email: AuthSchema.EMAIL_SCHEMA,
     nickname: AuthSchema.NICKNAME_SCHEMA,
     password: AuthSchema.PASSWORD_SCHEMA,
-    confirmPassword: AuthSchema.CONFIRMPASSWORD_SCHEMA
+    confirmPassword: AuthSchema.CONFIRM_PASSWORD_SCHEMA
   })
   .refine((data) => data.password === data.confirmPassword, {
     message: '비밀번호가 일치하지 않습니다.',
