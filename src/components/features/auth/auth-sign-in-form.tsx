@@ -6,6 +6,7 @@ import { useSignInForm } from '@/lib/hooks/use-sign-in-form';
 import browserClient from '@/lib/supabase/client';
 import Image from 'next/image';
 import AuthInputForm from './auth-input-form';
+import Link from 'next/link';
 
 const AuthSignInForm = () => {
   const { form, onSubmit } = useSignInForm();
@@ -41,6 +42,10 @@ const AuthSignInForm = () => {
           <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
             <Image src="/images/ICON_GITHUB.png" alt="google logo" width={24} height={24} className="rounded" />
           </Button>
+        </div>
+        <div className='flex justify-center gap-4 '>
+          <span>계정이 없으신가요?</span>
+          <Link href={'/sign-up'} className='font-bold hover:underline hover:scale-115'>가입 하기</Link>
         </div>
       </form>
     </Form>
