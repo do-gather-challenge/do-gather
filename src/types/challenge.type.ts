@@ -20,6 +20,10 @@ export type ChallengeWithParticipation = Challenge & {
   isParticipating: boolean;
 };
 
+export type ChallengePost = Omit<Challenge, 'id' | 'creatorId' | 'participantCount' | 'category'> & {
+  category: ChallengeCategoryType | '';
+};
+
 export type ChallengeFilterOptions = {
   category: ChallengeCategoryType;
   searchTerm: string;
