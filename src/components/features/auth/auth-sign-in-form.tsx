@@ -5,7 +5,7 @@ import { Form } from '@/components/ui/form';
 import { useSignInForm } from '@/lib/hooks/use-sign-in-form';
 import browserClient from '@/lib/supabase/client';
 import Image from 'next/image';
-import AuthInputForm from './auth-input-form';
+import AuthInputForm from './auth-input-field';
 import Link from 'next/link';
 
 const AuthSignInForm = () => {

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
-import AuthInputForm from './auth-input-form';
+import AuthInputForm from './auth-input-field';
 import { useSignUpForm } from '@/lib/hooks/use-sign-up-form';
 
 const AuthSignUpForm = () => {
@@ -11,20 +11,20 @@ const AuthSignUpForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <AuthInputForm name="email" label="이메일" placeholder="mail@example.com" contorl={form.control} type="email" />
-        <AuthInputForm name="nickname" label="닉네임" placeholder="닉네임(2~12자)" contorl={form.control} type="text" />
+        <AuthInputForm name="email" label="이메일" placeholder="mail@example.com" control={form.control} type="email" />
+        <AuthInputForm name="nickname" label="닉네임" placeholder="닉네임(2~12자)" control={form.control} type="text" />
         <AuthInputForm
           name="password"
           label="비밀번호"
           placeholder="비밀번호(6~12자)"
-          contorl={form.control}
+          control={form.control}
           type="password"
         />
         <AuthInputForm
           name="confirmPassword"
           label="비밀번호 확인"
           placeholder="입력하신 비밀번호(6~12자)"
-          contorl={form.control}
+          control={form.control}
           type="password"
         />
 
