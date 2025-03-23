@@ -9,7 +9,7 @@ export type Challenge = {
   finishDate: string;
   title: string;
   description: string;
-  category: string;
+  category: ChallengeCategoryType;
   challengeImage: string;
   creatorId: string;
   executeDays: string[];
