@@ -1,17 +1,15 @@
 'use client';
 
-import { Challenge } from '@/types/challenge.type';
+import { ChallengeCategoryType } from '@/types/challenge-category.type';
+import { ChallengePost } from '@/types/challenge.type';
 import { useEffect, useState } from 'react';
-
-// 일단 여기에 두었는데 나중에 types에 따로 빼두겠습니다.
-export type ChallengePost = Omit<Challenge, 'id' | 'creatorId' | 'participantCount'>;
 
 export type ChallengePostSetters = {
   setTitle: (value: string) => void;
   setDescription: (value: string) => void;
   setStartDate: (date: string) => void;
   setFinishDate: (date: string) => void;
-  setCategory: (category: string) => void;
+  setCategory: (category: ChallengeCategoryType) => void;
   setExecuteDays: (executeDays: string[]) => void;
   setChallengeImage: (file: File) => void;
 };
@@ -59,7 +57,7 @@ export const useChallengeForm = () => {
   const setDescription = (value: string) => setChallenge((prev) => ({ ...prev, description: value }));
   const setStartDate = (date: string) => setChallenge((prev) => ({ ...prev, startDate: date }));
   const setFinishDate = (date: string) => setChallenge((prev) => ({ ...prev, finishDate: date }));
-  const setCategory = (category: string) => setChallenge((prev) => ({ ...prev, category }));
+  const setCategory = (category: ChallengeCategoryType) => setChallenge((prev) => ({ ...prev, category }));
   const setExecuteDays = (executeDays: string[]) => setChallenge((prev) => ({ ...prev, executeDays }));
   const setChallengeImage = (file: File) => {
     const imageUrl = URL.createObjectURL(file);

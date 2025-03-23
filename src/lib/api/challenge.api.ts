@@ -6,7 +6,6 @@ import { ChallengeSort } from '@/types/challenge-sort.type';
 import { ChallengeStatus } from '@/types/challenge-status.type';
 import { Challenge, ChallengeFilterOptions, ChallengeWithParticipation } from '@/types/challenge.type';
 import { Pagination } from '@/types/common.type';
-import { notFound } from 'next/navigation';
 
 /**
  * 챌린지 목록을 페이지네이션, 필터링, 정렬 조건에 맞게 조회하는 함수
@@ -71,21 +70,15 @@ export const fetchGetChallengesByPage = async (
 /**
  * 특정 ID의 챌린지 상세 정보를 조회하는 함수
  * @param {number} challengeId - 조회할 챌린지 ID
- * @returns {Promise<Challenge>} 챌린지 상세 정보
+ * @returns {Promise<Challenge|null>} 챌린지 상세 정보
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
-export const fetchGetChallengeById = async (challengeId: number): Promise<Challenge> => {
-  const supabase = await createClient();
+export const fetchGetChallengeById = async (challengeId: number): Promise<Challenge | null> => {
+  const supabase = createClient();
 
   const { data, error } = await supabase.from('challenges').select('*').eq('id', challengeId).single();
 
-  if (error) {
-    if (error.code === 'PGRST116') {
-      notFound();
-    }
-    console.error('Error fetching challenge:', error);
-    throw error;
-  }
+  if (error) return null;
 
   const transformedData = transformChallengeData(data);
   return transformedData;
@@ -94,12 +87,15 @@ export const fetchGetChallengeById = async (challengeId: number): Promise<Challe
 /**
  * 특정 ID의 챌린지를 조회하고 현재 로그인한 사용자의 참여 여부도 함께 반환하는 함수
  * @param {number} challengeId - 조회할 챌린지 ID
- * @returns {Promise<ChallengeWithParticipation>} 챌린지 정보와 참여 여부
+ * @returns {Promise<ChallengeWithParticipation | null>} 챌린지 정보와 참여 여부
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
-export const fetchGetChallengeWithParticipation = async (challengeId: number): Promise<ChallengeWithParticipation> => {
-  const supabase = await createClient();
+export const fetchGetChallengeWithParticipation = async (
+  challengeId: number
+): Promise<ChallengeWithParticipation | null> => {
+  const supabase = createClient();
   const challenge = await fetchGetChallengeById(challengeId);
+  if (!challenge) return null;
 
   const {
     data: { user }
@@ -107,17 +103,12 @@ export const fetchGetChallengeWithParticipation = async (challengeId: number): P
 
   if (!user) return { ...challenge, isParticipating: false };
 
-  const { data, error } = await supabase
+  const { data } = await supabase
     .from('participants')
     .select('id')
     .eq('challenge_id', challengeId)
     .eq('user_id', user.id)
     .single();
-
-  if (error && error.code !== 'PGRST116') {
-    console.error('Error checking participation:', error);
-    throw error;
-  }
 
   return {
     ...challenge,

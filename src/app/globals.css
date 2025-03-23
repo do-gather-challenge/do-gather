@@ -44,6 +44,7 @@
   --color-tag-etc: var(--tag-etc);
   --color-black: var(--black);
   --color-white: var(--white);
+  --color-gray: var(--gray);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -91,6 +92,7 @@
   --delete: #dc2626;
   --black: #333333;
   --white: #fbfbfb;
+  --gray: #e2e8f0;
 }
 
 html {
