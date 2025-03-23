@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { ChallengePost } from '@/lib/hooks/use-challenge-form';
+import { ChallengePost } from '@/types/challenge.type';
 
 type ChallengePostButtonGroupProps = {
   challenge: ChallengePost;
