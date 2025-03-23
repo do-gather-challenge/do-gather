@@ -1,89 +1,33 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const formSchema = z.object({
-  email: z.string(),
-  nickname: z.string(),
-  password: z.string(),
-  confirmPassword: z.string()
-});
+import { Form } from '@/components/ui/form';
+import AuthInputForm from './auth-input-form';
+import { useSignUpForm } from '@/lib/hooks/use-sign-up-form';
 
 const AuthSignUpForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      nickname: '',
-      password: '',
-      confirmPassword: ''
-    }
-  });
-
-  const onSubmit = () => {};
+  const { form, onSubmit } = useSignUpForm();
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-bold">이메일</FormLabel>
-              <FormControl>
-                <Input placeholder="email@example.com" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="nickname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-bold">닉네임</FormLabel>
-              <FormControl>
-                <Input placeholder="닉네임(2~12자)" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
+        <AuthInputForm name="email" label="이메일" placeholder="mail@example.com" contorl={form.control} type="email" />
+        <AuthInputForm name="nickname" label="닉네임" placeholder="닉네임(2~12자)" contorl={form.control} type="text" />
+        <AuthInputForm
           name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-bold">비밀번호</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="비밀번호(6~16자)" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+          label="비밀번호"
+          placeholder="비밀번호(6~12자)"
+          contorl={form.control}
+          type="password"
+        />
+        <AuthInputForm
+          name="confirmPassword"
+          label="비밀번호 확인"
+          placeholder="입력하신 비밀번호(6~12자)"
+          contorl={form.control}
+          type="password"
         />
 
-        <FormField
-          control={form.control}
-          name="confirmPassword"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="font-bold">비밀번호 확인</FormLabel>
-              <FormControl>
-                <Input type="password" placeholder="비밀번호를 한번 더 입력해주세요." {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <Button type="submit" className="bg-secondary w-full text-white">
           회원가입 완료
         </Button>
