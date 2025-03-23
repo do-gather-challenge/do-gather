@@ -1,13 +1,16 @@
 'use client';
 
-import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
+import { ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
-const ChallengePostImageUploader = () => {
+type ChallengePostImageUploaderProps = {
+  setters: ChallengePostSetters;
+};
+
+const ChallengePostImageUploader = ({ setters }: ChallengePostImageUploaderProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
-  const { setters } = useChallengeForm();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

@@ -6,6 +6,16 @@ import { useEffect, useState } from 'react';
 // 일단 여기에 두었는데 나중에 types에 따로 빼두겠습니다.
 export type ChallengePost = Omit<Challenge, 'id' | 'creatorId' | 'participantCount'>;
 
+export type ChallengePostSetters = {
+  setTitle: (value: string) => void;
+  setDescription: (value: string) => void;
+  setStartDate: (date: string) => void;
+  setFinishDate: (date: string) => void;
+  setCategory: (category: string) => void;
+  setExecuteDays: (executeDays: string[]) => void;
+  setChallengeImage: (file: File) => void;
+};
+
 // 챌린지 폼 상태 관리 훅
 export const useChallengeForm = () => {
   const [challenge, setChallenge] = useState<ChallengePost>({

@@ -2,14 +2,18 @@
 
 import Tag from '@/components/ui/tag';
 import { DAYS } from '@/constants/challenge.constants';
-import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
+import { ChallengePost, ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
 import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
 import { ChallengeCategory, ChallengeCategoryType } from '@/types/challenge-category.type';
 import { useState } from 'react';
 import ChallengePostDatePicker from './challenge-post-date-picker';
 
-const ChallengePostSelector = () => {
-  const { challenge, setters } = useChallengeForm();
+type ChallengePostSelectorProps = {
+  challenge: ChallengePost;
+  setters: ChallengePostSetters;
+};
+
+const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProps) => {
   const [isEveryDayChecked, setIsEveryDayChecked] = useState(false);
 
   // 요일 선택 핸들러

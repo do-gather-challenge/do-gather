@@ -1,13 +1,17 @@
 'use client';
 
-import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
+import { ChallengePost } from '@/lib/hooks/use-challenge-form';
 import dynamic from 'next/dynamic';
 
 const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });
 const Textarea = dynamic(() => import('@/components/ui/textarea').then((mod) => mod.Textarea), { ssr: false });
 
-const ChallengePostInput = () => {
-  const { challenge, handleChange } = useChallengeForm();
+type ChallengePostInputProps = {
+  challenge: ChallengePost;
+  handleChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => void;
+};
+
+const ChallengePostInput = ({ challenge, handleChange }: ChallengePostInputProps) => {
   return (
     <>
       {/* 제목 */}

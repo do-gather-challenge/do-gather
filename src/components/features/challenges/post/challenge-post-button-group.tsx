@@ -1,10 +1,13 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
+import { ChallengePost } from '@/lib/hooks/use-challenge-form';
 
-const ChallengePostButtonGroup = () => {
-  const { challenge } = useChallengeForm();
+type ChallengePostButtonGroupProps = {
+  challenge: ChallengePost;
+};
+
+const ChallengePostButtonGroup = ({ challenge }: ChallengePostButtonGroupProps) => {
   const handleSubmitChallenge = async () => {
     const { title, description, startDate, finishDate, category, executeDays } = challenge;
     if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
@@ -12,7 +15,7 @@ const ChallengePostButtonGroup = () => {
     }
 
     try {
-      console.log('챌린지 생성 데이터:', challenge);
+      // console.log('챌린지 생성 데이터:', challenge);
       alert('챌린지가 성공적으로 생성되었습니다!');
     } catch (error) {
       console.error('챌린지 생성 중 오류 발생:', error);
