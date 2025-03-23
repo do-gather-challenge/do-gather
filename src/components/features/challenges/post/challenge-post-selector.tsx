@@ -6,9 +6,10 @@ import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
 import { ChallengeCategory, ChallengeCategoryType } from '@/types/challenge-category.type';
 import { useState } from 'react';
+import ChallengePostDatePicker from './challenge-post-date-picker';
 
 const ChallengePostSelector = () => {
-  const { challenge, setters, handleChange } = useChallengeForm();
+  const { challenge, setters } = useChallengeForm();
   const [isEveryDayChecked, setIsEveryDayChecked] = useState(false);
 
   // 요일 선택 핸들러
@@ -98,23 +99,13 @@ const ChallengePostSelector = () => {
       {/* 시작/종료 날짜 */}
       <section>
         <h2 className="mb-2 text-lg font-semibold">시작/종료 날짜</h2>
-        <div className="flex gap-1">
-          <input
-            type="date"
-            id="startDate"
-            className="border-border h-[24px] w-[124px] rounded-md border"
-            value={challenge.startDate}
-            onChange={handleChange}
-          />
-          <span>~</span>
-          <input
-            type="date"
-            id="finishDate"
-            className="border-border h-[24px] w-[124px] rounded-md border"
-            value={challenge.finishDate}
-            onChange={handleChange}
-          />
-        </div>
+
+        <ChallengePostDatePicker
+          startDate={challenge.startDate ? new Date(challenge.startDate) : undefined}
+          endDate={challenge.finishDate ? new Date(challenge.finishDate) : undefined}
+          onStartDateChange={(date) => setters.setStartDate(date?.toISOString() || '')}
+          onEndDateChange={(date) => setters.setFinishDate(date?.toISOString() || '')}
+        />
       </section>
     </div>
   );

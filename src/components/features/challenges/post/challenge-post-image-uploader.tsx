@@ -1,6 +1,7 @@
 'use client';
 
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
+import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 const ChallengePostImageUploader = () => {
@@ -39,7 +40,13 @@ const ChallengePostImageUploader = () => {
           ref={inputRef}
         />
         {previewImage ? (
-          <img src={previewImage} alt="미리보기 이미지" className="h-[140px] w-[240px] rounded-lg object-cover" />
+          <Image
+            src={previewImage}
+            alt="미리보기 이미지"
+            width={240}
+            height={140}
+            className="rounded-lg object-cover"
+          />
         ) : (
           <div className="bg-muted flex h-[140px] w-[240px] items-center justify-center">
             <p className="text-muted-foreground">이미지를 업로드하세요</p>

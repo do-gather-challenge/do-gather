@@ -5,12 +5,12 @@
  * @returns {string} - 조건에 맞는 클래스 이름
  */
 export const getDayCheckboxClass = (day: string, executeDays: string[]): string => {
-  let buttonClass = 'h-8 w-8 rounded-full border';
+  let buttonClass = 'h-8 w-8 rounded-full border cursor-pointer';
 
   if (executeDays.includes(day)) {
     buttonClass += ' bg-primary border-red-700';
   } else {
-    buttonClass += ' border-border hover:bg-primary hover:border-red-700';
+    buttonClass += ' border-border hover:bg-primary hover:border-red-700 ';
   }
 
   return buttonClass;
@@ -23,12 +23,12 @@ export const getDayCheckboxClass = (day: string, executeDays: string[]): string 
  * @returns {string} - 조건에 맞는 클래스 이름
  */
 export const getCategoryRadioClass = (category: string, selectedCategory: string): string => {
-  let buttonClass = 'cursor-pointer';
+  let buttonClass = 'cursor-pointer rounded-full border';
 
   if (selectedCategory === category) {
-    buttonClass += ' opacity-100 border rounded-full border-red-700';
+    buttonClass += ' opacity-100 border-red-700';
   } else {
-    buttonClass += ' opacity-40 hover:opacity-100 ';
+    buttonClass += ' opacity-40 hover:opacity-100';
   }
 
   return buttonClass;
