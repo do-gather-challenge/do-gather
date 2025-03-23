@@ -1,4 +1,4 @@
-// 일단 post 관련 산수는 여기에 모아 두고 나중에 다른 곳에 합치겠습니다.
+// 일단 post 관련 constant는 모두 여기에 모아 두고 나중에 다른 적절한 곳에 합치겠습니다.
 export const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 export const SUPABASE_STORAGE_BUCKET = 'challenge-images';
 export const ERROR_MESSAGES = {
@@ -6,7 +6,13 @@ export const ERROR_MESSAGES = {
   IMAGE_UPLOAD_FAILED: '이미지 업로드에 실패했습니다.',
   LOGIN_REQUIRED: '로그인 후 사용 가능합니다.',
   CHALLENGE_CREATION_FAILED: '챌린지 생성에 실패했습니다.',
-  CHALLENGE_CREATION_SUCCESS: '챌린지가 성공적으로 생성되었습니다!'
+  CHALLENGE_CREATION_SUCCESS: '챌린지가 성공적으로 생성되었습니다!',
+  TITLE_REQUIRED: '제목을 입력해 주세요.',
+  DESCRIPTION_REQUIRED: '설명을 입력해 주세요.',
+  START_DATE_REQUIRED: '시작일을 선택해 주세요.',
+  FINISH_DATE_REQUIRED: '종료일을 선택해 주세요.',
+  CATEGORY_REQUIRED: '카테고리를 선택해 주세요.',
+  EXECUTE_DAYS_REQUIRED: '실행 요일을 선택해 주세요.',
 };
 export const DATABASE = {
   TABLES: {

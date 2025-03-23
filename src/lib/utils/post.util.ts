@@ -1,3 +1,4 @@
+import { ERROR_MESSAGES } from '@/constants/challenge-post.constants';
 import { ChallengePost } from '@/types/challenge.type';
 
 /**
@@ -57,12 +58,12 @@ export const generateFileName = (file: File): string => {
 export const validateChallengePost = (challenge: ChallengePost): string | null => {
   const { title, description, startDate, finishDate, category, executeDays } = challenge;
 
-  if (!title) return '제목을 입력해 주세요.';
-  if (!description) return '설명을 입력해 주세요.';
-  if (!startDate) return '시작일을 선택해 주세요.';
-  if (!finishDate) return '종료일을 선택해 주세요.';
-  if (!category) return '카테고리를 선택해 주세요.';
-  if (executeDays.length === 0) return '실행 요일을 선택해 주세요.';
+  if (!title) return ERROR_MESSAGES.TITLE_REQUIRED;
+  if (!description) return ERROR_MESSAGES.DESCRIPTION_REQUIRED;
+  if (!startDate) return ERROR_MESSAGES.START_DATE_REQUIRED;
+  if (!finishDate) return ERROR_MESSAGES.FINISH_DATE_REQUIRED;
+  if (!category) return ERROR_MESSAGES.CATEGORY_REQUIRED;
+  if (executeDays.length === 0) return ERROR_MESSAGES.EXECUTE_DAYS_REQUIRED;
 
   return null;
 };

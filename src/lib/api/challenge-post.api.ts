@@ -59,7 +59,7 @@ export const fetchCreatePost = async (
 /**
  * 이미지를 Supabase Storage에 업로드하는 함수
  * @param {File} file - 업로드할 파일
- * @returns {Promise<string | null>} - 업로드된 이미지의 공개 URL
+ * @returns {Promise<string | null>} - 업로드된 이미지의 URL
  */
 export const uploadImageToStorage = async (file: File): Promise<string | null> => {
   const browserClient = createClient();
@@ -82,8 +82,8 @@ export const uploadImageToStorage = async (file: File): Promise<string | null> =
  * 챌린지 데이터를 데이터베이스에 삽입하는 함수
  * @param {ChallengePost} challenge - 생성할 챌린지 데이터
  * @param {string} imageUrl - 챌린지 이미지 URL
- * @param {string} userId - 생성자 ID
- * @returns {Promise<{ data: any; error: any }>} - 삽입 결과
+ * @param {string} userId - 유저 ID
+ * @returns {Promise<{ data: any; error: any }>}
  */
 export const insertChallenge = async (
   challenge: ChallengePost,
