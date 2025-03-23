@@ -9,7 +9,7 @@ export type Challenge = {
   finishDate: string;
   title: string;
   description: string;
-  category: string;
+  category: ChallengeCategoryType;
   challengeImage: string;
   creatorId: string;
   executeDays: string[];
@@ -18,6 +18,10 @@ export type Challenge = {
 
 export type ChallengeWithParticipation = Challenge & {
   isParticipating: boolean;
+};
+
+export type ChallengePost = Omit<Challenge, 'id' | 'creatorId' | 'participantCount' | 'category'> & {
+  category: ChallengeCategoryType | '';
 };
 
 export type ChallengeFilterOptions = {

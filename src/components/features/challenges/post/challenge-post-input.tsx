@@ -1,6 +1,6 @@
 'use client';
 
-import { ChallengePost } from '@/lib/hooks/use-challenge-form';
+import { ChallengePost } from '@/types/challenge.type';
 import dynamic from 'next/dynamic';
 
 const Input = dynamic(() => import('@/components/ui/input').then((mod) => mod.Input), { ssr: false });

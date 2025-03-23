@@ -2,11 +2,12 @@
 
 import Tag from '@/components/ui/tag';
 import { DAYS } from '@/constants/challenge.constants';
-import { ChallengePost, ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
+import { ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
 import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
-import { ChallengeCategory, ChallengeCategoryType } from '@/types/challenge-category.type';
+import { categories, ChallengeCategoryType } from '@/types/challenge-category.type';
 import { useState } from 'react';
 import ChallengePostDatePicker from './challenge-post-date-picker';
+import { ChallengePost } from '@/types/challenge.type';
 
 type ChallengePostSelectorProps = {
   challenge: ChallengePost;
@@ -37,7 +38,7 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
   };
 
   // 챌린지 선택 핸들러
-  const handleCategorySelection = (category: string) => {
+  const handleCategorySelection = (category: ChallengeCategoryType) => {
     setters.setCategory(category);
   };
 
@@ -84,7 +85,7 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
       <section className="mb-6">
         <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
         <div className="flex gap-2">
-          {Object.keys(ChallengeCategory).map((category) => (
+          {categories.map((category) => (
             <label key={category} className={getCategoryRadioClass(category, challenge.category)}>
               <input
                 type="radio"
