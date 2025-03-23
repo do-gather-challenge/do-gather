@@ -5,8 +5,8 @@ import { Form } from '@/components/ui/form';
 import { useSignInForm } from '@/lib/hooks/use-sign-in-form';
 import browserClient from '@/lib/supabase/client';
 import Image from 'next/image';
-import AuthInputForm from './auth-input-field';
 import Link from 'next/link';
+import AuthInputField from './auth-input-field';
 
 const AuthSignInForm = () => {
   const { form, onSubmit } = useSignInForm();
@@ -23,14 +23,20 @@ const AuthSignInForm = () => {
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
-        <AuthInputForm
+        <AuthInputField
           control={form.control}
           label="이메일"
           name="email"
           type="email"
           placeholder="email@example.com"
         />
-        <AuthInputForm control={form.control} label="비밀번호" name="password" type="password" placeholder="password" />
+        <AuthInputField
+          control={form.control}
+          label="비밀번호"
+          name="password"
+          type="password"
+          placeholder="password"
+        />
         <Button type="submit" className="bg-secondary w-full text-white">
           Login
         </Button>
