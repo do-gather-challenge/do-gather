@@ -3,7 +3,9 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import browserClient from '../supabase/client';
 import { useRouter } from 'next/navigation';
+
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!@$%&*?]{6,16}$/;
+
 export const useSignInForm = () => {
   const router = useRouter();
 
