@@ -3,27 +3,21 @@
 import { Button } from '@/components/ui/button';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
-
-const formSchema = z.object({
-  email: z.string(),
-  password: z.string()
-});
+import { useSignInForm } from '@/lib/hooks/use-sign-in-form';
+import browserClient from '@/lib/supabase/client';
+import Image from 'next/image';
 
 const AuthSignInForm = () => {
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: {
-      email: '',
-      password: ''
-    }
-  });
+  const { form, onSubmit } = useSignInForm();
 
-  const onSubmit = () => {};
-
-  const signInWithGithub = () => {};
+  const signInWithGithub = async () => {
+    await browserClient.auth.signInWithOAuth({
+      provider: 'github',
+      options: {
+        redirectTo: window.origin + 'api/auth/callback'
+      }
+    });
+  };
 
   return (
     <Form {...form}>
