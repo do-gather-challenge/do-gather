@@ -1,26 +1,25 @@
 import { Button } from '@/components/ui/button';
+import { fetchCreatePost } from '@/lib/api/challenge-post.api';
+
 import { ChallengePost } from '@/types/challenge.type';
 import { useRouter } from 'next/navigation';
 
 type ChallengePostButtonGroupProps = {
   challenge: ChallengePost;
+  challengeImageFile: File | null;
 };
 
-const ChallengePostButtonGroup = ({ challenge }: ChallengePostButtonGroupProps) => {
+const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePostButtonGroupProps) => {
   const router = useRouter();
 
   const handleSubmitChallenge = async () => {
-    const { title, description, startDate, finishDate, category, executeDays } = challenge;
-    if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
-      return alert('모든 필수 정보를 입력해 주세요.');
-    }
+    const result = await fetchCreatePost(challenge, challengeImageFile);
 
-    try {
-      // console.log('챌린지 생성 데이터:', challenge);
-      alert('챌린지가 성공적으로 생성되었습니다!');
-    } catch (error) {
-      console.error('챌린지 생성 중 오류 발생:', error);
-      alert('챌린지 생성에 실패했습니다.');
+    if (result.success) {
+      alert(result.message);
+      console.log('챌린지 생성 데이터:', challenge);
+    } else {
+      alert(result.message);
     }
   };
 
