@@ -6,7 +6,6 @@ import { ChallengeSort } from '@/types/challenge-sort.type';
 import { ChallengeStatus } from '@/types/challenge-status.type';
 import { Challenge, ChallengeFilterOptions, ChallengeWithParticipation } from '@/types/challenge.type';
 import { Pagination } from '@/types/common.type';
-import { notFound } from 'next/navigation';
 
 /**
  * 챌린지 목록을 페이지네이션, 필터링, 정렬 조건에 맞게 조회하는 함수
@@ -75,7 +74,7 @@ export const fetchGetChallengesByPage = async (
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
 export const fetchGetChallengeById = async (challengeId: number): Promise<Challenge | null> => {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const { data, error } = await supabase.from('challenges').select('*').eq('id', challengeId).single();
 
@@ -94,14 +93,15 @@ export const fetchGetChallengeById = async (challengeId: number): Promise<Challe
 export const fetchGetChallengeWithParticipation = async (
   challengeId: number
 ): Promise<ChallengeWithParticipation | null> => {
-  const supabase = await createClient();
+  const supabase = createClient();
   const challenge = await fetchGetChallengeById(challengeId);
+  if (!challenge) return null;
 
   const {
     data: { user }
   } = await supabase.auth.getUser();
 
-  if (!user || !challenge) return challenge ? { ...challenge, isParticipating: false } : null;
+  if (!user) return { ...challenge, isParticipating: false };
 
   const { data } = await supabase
     .from('participants')
