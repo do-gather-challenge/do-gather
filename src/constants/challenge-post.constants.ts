@@ -8,3 +8,20 @@ export const ERROR_MESSAGES = {
   CHALLENGE_CREATION_FAILED: '챌린지 생성에 실패했습니다.',
   CHALLENGE_CREATION_SUCCESS: '챌린지가 성공적으로 생성되었습니다!'
 };
+export const DATABASE = {
+  TABLES: {
+    CHALLENGES: 'challenges',
+    PARTICIPANTS: 'participants'
+  },
+  COLUMNS: {
+    TITLE: 'title',
+    DESCRIPTION: 'description',
+    START_DATE: 'start_date',
+    FINISH_DATE: 'finish_date',
+    CATEGORY: 'category',
+    EXECUTE_DAYS: 'execute_days',
+    CHALLENGE_IMAGE: 'challenge_image',
+    CREATED_AT: 'created_at',
+    CREATOR_ID: 'creator_id'
+  }
+};
