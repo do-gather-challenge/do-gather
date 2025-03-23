@@ -48,7 +48,7 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
         <section className="flex flex-col gap-2 md:flex-row md:justify-between">
           <ChallengeDetailInfoField type="진행 기간">
             <span className="whitespace-nowrap">{challenge.startDate}</span> ~{' '}
-            <span className="whitespace-nowrap">{challenge.startDate}</span>
+            <span className="whitespace-nowrap">{challenge.finishDate}</span>
           </ChallengeDetailInfoField>
           <ChallengeDetailInfoField type="반복 일정">{challenge.executeDays.join(' ')}</ChallengeDetailInfoField>
           <ChallengeDetailInfoField type="참여 인원">
