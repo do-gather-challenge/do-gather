@@ -31,7 +31,6 @@ const AuthSignInForm = () => {
           placeholder="email@example.com"
         />
         <AuthInputForm control={form.control} label="비밀번호" name="password" type="password" placeholder="password" />
-
         <Button type="submit" className="bg-secondary w-full text-white">
           Login
         </Button>
@@ -43,10 +42,13 @@ const AuthSignInForm = () => {
             <Image src="/images/ICON_GITHUB.png" alt="google logo" width={24} height={24} className="rounded" />
           </Button>
         </div>
-        <div className='flex justify-center gap-4 '>
+        <div className="flex justify-center gap-4">
           <span>계정이 없으신가요?</span>
-          <Link href={'/sign-up'} className='font-bold hover:underline hover:scale-115'>가입 하기</Link>
+          <Link href="/sign-up" className="font-bold hover:scale-115 hover:underline">
+            가입하기
+          </Link>
         </div>
+        ㅋ
       </form>
     </Form>
   );
