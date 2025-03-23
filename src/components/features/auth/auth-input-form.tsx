@@ -2,15 +2,15 @@ import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/comp
 import { Input } from '@/components/ui/input';
 import { Control } from 'react-hook-form';
 
-type InPutFormProps = {
-  control: Control<{
-    email: string;
-    password: string;
-  }>;
-  label: string;
-  type: string;
-  placeholder: string;
-};
+// type InPutFormProps = {
+//   control: Control<{
+//     email: string;
+//     password: string;
+//   }>;
+//   label: string;
+//   type: string;
+//   placeholder: string;
+// };
 
 const AuthInputForm = ({ control, label, type, placeholder, name }: any) => {
   return (
@@ -19,9 +19,9 @@ const AuthInputForm = ({ control, label, type, placeholder, name }: any) => {
       name={name}
       render={({ field }) => (
         <FormItem>
-          <FormLabel>Password</FormLabel>
+          <FormLabel>{label}</FormLabel>
           <FormControl>
-            <Input type="password" placeholder="password" {...field} />
+            <Input type={type} placeholder={placeholder} {...field} />
           </FormControl>
           <FormMessage />
         </FormItem>
