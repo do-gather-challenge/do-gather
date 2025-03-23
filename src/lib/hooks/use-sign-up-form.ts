@@ -3,56 +3,22 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import browserClient from '../supabase/client';
 import { useRouter } from 'next/navigation';
+import AuthSchema from '@/constants/auth-schema.constant';
 
-const nicknameRegex = /^(?=.{2,12}$)[가-힣A-Za-z0-9]+$/;
-const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!#@$%&*?]{6,16}$/;
+const signUpDefaultValues = {
+  email: '',
+  nickname: '',
+  password: '',
+  confirmPassword: ''
+};
 
 export const useSignUpForm = () => {
   const router = useRouter();
 
-  const signFormSchema = z
-    .object({
-      email: z.string().email({
-        message: '유효한 이메일 형식이 아닙니다.'
-      }),
-      nickname: z
-        .string()
-        .min(2, {
-          message: '2~12자 이하의 한글/영어/숫자만 가능'
-        })
-        .max(12, {
-          message: '2~12자 이하의 한글/영어/숫자만 가능'
-        })
-        .regex(nicknameRegex, {
-          message: '특수문자, 공백이 포함 될 수 없습니다.'
-        }),
-      password: z
-        .string()
-        .min(6, {
-          message: '비밀번호(6~16자)가 너무 짧습니다.'
-        })
-        .max(16, {
-          message: '비밀번호(6~16자)가 너무 깁니다. '
-        })
-        .regex(passwordRegex, {
-          message: '영문, 숫자, 특수문자(!@$%^&*()를 최소 1개 이상 포함하여야 합니다. '
-        }),
-      confirmPassword: z.string()
-    })
-    .refine((data) => data.password === data.confirmPassword, {
-      message: '비밀번호가 일치하지 않습니다.',
-      path: ['confirmPassword']
-    });
-
   const form = useForm({
     mode: 'onBlur',
     resolver: zodResolver(signFormSchema),
-    defaultValues: {
-      email: '',
-      nickname: '',
-      password: '',
-      confirmPassword: ''
-    }
+    defaultValues: signUpDefaultValues
   });
 
   const onSubmit = async (values: z.infer<typeof signFormSchema>) => {
@@ -75,3 +41,15 @@ export const useSignUpForm = () => {
 
   return { form, onSubmit };
 };
+
+const signFormSchema = z
+  .object({
+    email: AuthSchema.EMAIL_SCHEMA,
+    nickname: AuthSchema.NICKNAME_SCHEMA,
+    password: AuthSchema.PASSWORD_SCHEMA,
+    confirmPassword: AuthSchema.CONFIRMPASSWORD_SCHEMA
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: '비밀번호가 일치하지 않습니다.',
+    path: ['confirmPassword']
+  });
