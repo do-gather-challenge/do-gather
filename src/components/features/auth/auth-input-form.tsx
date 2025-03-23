@@ -1,17 +1,16 @@
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
+import { Control, FieldPath, FieldValues } from 'react-hook-form';
 
-// type InPutFormProps = {
-//   control: Control<{
-//     email: string;
-//     password: string;
-//   }>;
-//   label: string;
-//   type: string;
-//   placeholder: string;
-// };
+type AuthInPutFieldProps<T extends FieldValues> = {
+  control: Control<T>;
+  name: FieldPath<T>;
+  label: string;
+  type: string;
+  placeholder: string;
+};
 
-const AuthInputForm = ({ control, label, type, placeholder, name }: any) => {
+const AuthInputField = <T extends FieldValues>({ control, label, type, placeholder, name }: AuthInPutFieldProps<T>) => {
   return (
     <FormField
       control={control}
@@ -29,4 +28,4 @@ const AuthInputForm = ({ control, label, type, placeholder, name }: any) => {
   );
 };
 
-export default AuthInputForm;
+export default AuthInputField;
