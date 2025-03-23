@@ -12,24 +12,11 @@ type InPutFormProps = {
   placeholder: string;
 };
 
-const AuthInputForm = ({
-  control,
-  label,
-  type,
-  placeholder
-}: {
-  control: Control<{
-    email: string;
-    password: string;
-  }>;
-  label: string;
-  type: string;
-  placeholder: string;
-}) => {
+const AuthInputForm = ({ control, label, type, placeholder, name }: any) => {
   return (
     <FormField
       control={control}
-      name="password"
+      name={name}
       render={({ field }) => (
         <FormItem>
           <FormLabel>Password</FormLabel>
