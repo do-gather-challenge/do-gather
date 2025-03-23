@@ -14,7 +14,7 @@ const formSchema = z.object({
   confirmPassword: z.string()
 });
 
-const SignUpForm = () => {
+const AuthSignUpForm = () => {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -84,7 +84,7 @@ const SignUpForm = () => {
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-secondary w-full">
+        <Button type="submit" className="bg-secondary w-full text-white">
           회원가입 완료
         </Button>
       </form>
@@ -92,4 +92,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default AuthSignUpForm;
