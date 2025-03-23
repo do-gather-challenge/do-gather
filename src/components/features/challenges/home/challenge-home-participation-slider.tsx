@@ -22,30 +22,29 @@ const ChallengeHomeParticipationSlider = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [cardsPerPage, setCardsPerPage] = useState(4);
 
-  // 브레이크포인트 기반 cardsPerPage 계산
   const calculateCardsPerPage = () => {
     const width = window.innerWidth;
-    if (width < 640) return 1; // 모바일
-    if (width < 768) return 2; // 태블릿
-    if (width < 1024) return 3; // 중간
-    return 4; // 데스크탑
+    if (width < 640) return 1; 
+    if (width < 768) return 2; 
+    if (width < 1024) return 3; 
+    return 4; 
   };
 
+  // 창 크기 바뀌면 첫 페이지로 초기화
   useEffect(() => {
     const handleResize = () => {
       const newCount = calculateCardsPerPage();
       setCardsPerPage(newCount);
-      setPageIndex(0); // 크기 바뀌면 첫 페이지로 초기화
+      setPageIndex(0); 
     };
 
-    handleResize(); // 초기 실행
+    handleResize(); 
     window.addEventListener('resize', handleResize);
 
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
   const maxPage = Math.ceil(cards.length / cardsPerPage);
-  console.log(maxPage);
 
   const toNextPage = () => {
     if (pageIndex < maxPage - 1) setPageIndex((p) => p + 1);
@@ -60,7 +59,6 @@ const ChallengeHomeParticipationSlider = () => {
       <div className="mb-2 flex items-center justify-between px-2">
         <h2 className="text-2xl">🔥내가 참여중인 챌린지</h2>
         <div className="space-x-2">
-          {/* 좌우 버튼 */}
           <Button
             variant="outline"
             onClick={toPrevPage}
