@@ -2,11 +2,14 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import browserClient from '../supabase/client';
+import { useRouter } from 'next/navigation';
 
 const nicknameRegex = /^(?=.{2,12}$)[가-힣A-Za-z0-9]+$/;
 const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$&*?!%])[A-Za-z\d!#@$%&*?]{6,16}$/;
 
 export const useSignUpForm = () => {
+  const router = useRouter();
+
   const signFormSchema = z
     .object({
       email: z.string().email({
@@ -55,10 +58,19 @@ export const useSignUpForm = () => {
   const onSubmit = async (values: z.infer<typeof signFormSchema>) => {
     const { email, password } = values;
 
-    await browserClient.auth.signUp({
+    const { data, error } = await browserClient.auth.signUp({
       email,
       password
     });
+
+    if (error) {
+      console.error(error.message);
+      return alert('회원가입 실패');
+    }
+
+    if (!!data.user) {
+      return router.back();
+    }
   };
 
   return { form, onSubmit };
