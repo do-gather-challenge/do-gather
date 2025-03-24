@@ -4,8 +4,19 @@ import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 
-const MyPageEditProfile = () => {
+type MyPageEditProfileProps = {
+  setSelectedTab: (tab: 'profile' | 'challenge') => void;
+};
+
+const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab }) => {
+  const challenges = [
+    { label: '오늘의 챌린지', count: COUNT_TODAYS_CHALLENGE },
+    { label: '참여 중인 챌린지', count: COUNT_TODAYS_CHALLENGE },
+    { label: '완료한 챌린지', count: COUNT_TODAYS_CHALLENGE }
+  ];
+
   return (
     <section className="mt-5 flex w-full flex-col items-center sm:gap-10">
       <form className="flex flex-col items-center gap-3 sm:gap-5">
@@ -25,20 +36,19 @@ const MyPageEditProfile = () => {
           프로필 수정하기
         </Button>
       </form>
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:gap-15">
-        <Button variant="primary" className="flex w-60 justify-between p-5 sm:h-12">
-          <p>오늘의 챌린지</p>
-          <p className="font-bold">{COUNT_TODAYS_CHALLENGE}</p>
-        </Button>
-        <Button variant="primary" className="flex w-60 justify-between p-5 sm:h-12">
-          <p>참여 중인 챌린지</p>
-          <p className="font-bold">{COUNT_TODAYS_CHALLENGE}</p>
-        </Button>
-        <Button variant="primary" className="flex w-60 justify-between p-5 sm:h-12">
-          <p>완료한 챌린지</p>
-          <p className="font-bold">{COUNT_TODAYS_CHALLENGE}</p>
-        </Button>
-      </div>
+      <nav className="mt-5 flex flex-col gap-2 sm:flex-row sm:gap-15">
+        {challenges.map((challenge, index) => (
+          <Link
+            key={index}
+            href="#"
+            onClick={() => setSelectedTab('challenge')}
+            className="bg-primary hover:bg-primary-foreground flex w-60 items-center justify-between rounded-md p-5 text-sm transition-all hover:text-black/50 sm:h-12"
+          >
+            <p>{challenge.label}</p>
+            <p className="font-bold">{challenge.count}</p>
+          </Link>
+        ))}
+      </nav>
     </section>
   );
 };
