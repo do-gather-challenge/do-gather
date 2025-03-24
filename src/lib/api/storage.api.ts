@@ -1,6 +1,5 @@
-import { FILES } from '@/constants/files.constant';
 import browserClient from '../supabase/client';
-import { generateFileName, validateFile } from '../utils/post.util';
+import { generateFileName } from '../utils/post.util';
 import { ERROR_MESSAGES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
 
 /**
@@ -9,12 +8,6 @@ import { ERROR_MESSAGES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-p
  * @returns { Promise<{ url: string | null; error: string | null }>} - 업로드된 이미지의 URL
  */
 export const fetchUploadImage = async (file: File): Promise<{ url: string | null; error: string | null }> => {
-  // 파일 형식 및 크기 검증
-  const validationError = validateFile(file, FILES.ALLOWED_TYPES, FILES.MAX_SIZE);
-  if (validationError) {
-    return { url: null, error: validationError };
-  }
-
   const fileName = generateFileName(file);
 
   const { error: uploadError } = await browserClient.storage.from(SUPABASE_STORAGE_BUCKET).upload(fileName, file);
@@ -27,5 +20,6 @@ export const fetchUploadImage = async (file: File): Promise<{ url: string | null
   const {
     data: { publicUrl }
   } = browserClient.storage.from(SUPABASE_STORAGE_BUCKET).getPublicUrl(fileName);
+
   return { url: publicUrl, error: null };
 };

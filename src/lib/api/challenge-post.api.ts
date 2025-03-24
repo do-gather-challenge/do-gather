@@ -1,5 +1,5 @@
 import { ChallengePost } from '@/types/challenge.type';
-import { validateChallengePost } from '../utils/post.util';
+import { validateChallengePost, validateUploadFile } from '../utils/post.util';
 import { DATABASE, ERROR_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { fetchUploadImage } from './storage.api';
@@ -18,6 +18,14 @@ export const fetchCreatePost = async (
   const validationError = validateChallengePost(challenge);
   if (validationError) {
     return { success: false, message: validationError };
+  }
+
+  // 이미지 파일 검증
+  if (challengeImageFile) {
+    const fileError = validateUploadFile(challengeImageFile);
+    if (fileError) {
+      return { success: false, message: fileError };
+    }
   }
 
   try {

@@ -1,4 +1,5 @@
 import { ERROR_MESSAGES } from '@/constants/challenge-post.constants';
+import { FILES } from '@/constants/files.constant';
 import { ChallengePost } from '@/types/challenge.type';
 
 /**
@@ -43,9 +44,10 @@ export const getCategoryRadioClass = (category: string, selectedCategory: string
  * @returns {string} - 생성된 파일 이름
  */
 export const generateFileName = (file: File): string => {
-  const timestamp = crypto.randomUUID;
-  const fileName = file.name.replace(/[^a-zA-Z0-9-_\.]/g, ''); // 특수 문자 및 한글 제거
-  return `${timestamp}-${fileName}`;
+  const random = Math.random().toString(36).slice(2, 8); // 파일이름 중복 줄이기 위해
+  const timestamp = Date.now();
+  const fileName = file.name.replace(/[^a-zA-Z0-9-_\.]/g, '');
+  return `${timestamp}-${random}-${fileName}`;
 };
 
 // 일단 post 관련 함수는 여기에 모아 두고 나중에 다른 곳에 합치겠습니다.
@@ -97,4 +99,14 @@ export const validateFile = (file: File, allowedTypes: string[], maxSize: number
   }
 
   return null;
+};
+
+/**
+ * 파일 유효성 검증하는 유틸리티 함수
+ * @param {File} file - 검사할 파일
+ * @returns {string | null} - 에러 메시지 또는 null(유효한 경우)
+ */
+
+export const validateUploadFile = (file: File): string | null => {
+  return validateFile(file, FILES.ALLOWED_TYPES, FILES.MAX_SIZE);
 };
