@@ -1,8 +1,8 @@
-'use client';
-
-import { useState } from 'react';
+import { Calendar } from '@/components/ui/calendar';
+import { Button } from '@/components/ui/button';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
-import ChallengePostDateModal from './challenge-post-date-modal';
+import { CalendarIcon } from 'lucide-react';
 
 type DateRangePickerProps = {
   startDate: Date | undefined;
@@ -12,53 +12,60 @@ type DateRangePickerProps = {
 };
 
 const ChallengePostDatePicker = ({ startDate, endDate, onStartDateChange, onEndDateChange }: DateRangePickerProps) => {
-  const [isStartDatePickerOpen, setIsStartDatePickerOpen] = useState(false);
-  const [isEndDatePickerOpen, setIsEndDatePickerOpen] = useState(false);
-
   return (
-    <div className="flex gap-1">
+    <div className="flex items-center gap-2">
       {/* 시작 날짜 선택 */}
-      <div className="relative">
-        <button
-          type="button"
-          onClick={() => setIsStartDatePickerOpen(true)}
-          className="border-border flex h-[24px] w-[124px] items-center justify-center rounded-md border p-1 hover:cursor-pointer"
-        >
-          {startDate ? format(startDate, 'yyyy-MM-dd') : '시작 날짜 선택'}
-        </button>
-        <ChallengePostDateModal
-          isOpen={isStartDatePickerOpen}
-          selectedDate={startDate}
-          onSelect={(date) => {
-            onStartDateChange(date);
-            setIsStartDatePickerOpen(false);
-          }}
-          onClose={() => setIsStartDatePickerOpen(false)}
-        />
-      </div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="outline" className="w-[130px] justify-start text-left font-normal" asChild>
+            <div>
+              <CalendarIcon className="h-4 w-4" />
+              {startDate ? format(startDate, 'yyyy-MM-dd') : '시작 날짜 선택'}
+            </div>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={startDate}
+            onSelect={(date) => {
+              onStartDateChange(date);
+              if (endDate && date && endDate < date) {
+                onEndDateChange(undefined);
+              }
+            }}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
 
-      <span>~</span>
+      <span className="text-sm">~</span>
 
       {/* 종료 날짜 선택 */}
-      <div className="relative">
-        <button
-          type="button"
-          onClick={() => setIsEndDatePickerOpen(true)}
-          className="border-border flex h-[24px] w-[124px] items-center justify-center rounded-md border p-1 hover:cursor-pointer"
-        >
-          {endDate ? format(endDate, 'yyyy-MM-dd') : '종료 날짜 선택'}
-        </button>
-        <ChallengePostDateModal
-          isOpen={isEndDatePickerOpen}
-          selectedDate={endDate}
-          onSelect={(date) => {
-            onEndDateChange(date);
-            setIsEndDatePickerOpen(false);
-          }}
-          onClose={() => setIsEndDatePickerOpen(false)}
-          disabled={(date) => date < (startDate || new Date())}
-        />
-      </div>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
+            variant="outline"
+            className="w-[130px] justify-start text-left font-normal"
+            disabled={!startDate}
+            asChild
+          >
+            <div>
+              <CalendarIcon className="h-4 w-4" />
+              {endDate ? format(endDate, 'yyyy-MM-dd') : '종료 날짜 선택'}
+            </div>
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-auto p-0">
+          <Calendar
+            mode="single"
+            selected={endDate}
+            onSelect={onEndDateChange}
+            disabled={(date) => date < (startDate || new Date())}
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
     </div>
   );
 };
