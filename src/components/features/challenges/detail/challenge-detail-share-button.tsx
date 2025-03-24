@@ -38,12 +38,23 @@ const ChallengeDetailShareButton = ({ title, description, challengeImage }: Chal
     });
   };
 
+  const handleCopyLinkClick = async () => {
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      // TODO: toastify로 변경하기
+      alert('링크 복사 완료!');
+    } catch (err) {
+      // TODO: toastify로 변경하기
+      alert('링크 복사 실패..');
+    }
+  };
+
   return (
     <div className="flex flex-1 items-center justify-end gap-2">
       <button onClick={handleKakaoShareClick} className="h-8 w-8 overflow-hidden rounded-sm">
         <Image src={KAKAO_TALK_IMAGE} alt="카카오톡 이미지" />
       </button>
-      <button className="bg-gray hover:bg-gray/60 h-8 w-8 overflow-hidden rounded-sm">
+      <button onClick={handleCopyLinkClick} className="bg-gray hover:bg-gray/60 h-8 w-8 overflow-hidden rounded-sm">
         <IoIosLink className="m-auto text-2xl font-semibold" />
       </button>
     </div>
