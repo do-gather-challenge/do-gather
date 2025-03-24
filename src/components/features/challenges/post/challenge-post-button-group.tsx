@@ -14,7 +14,6 @@ const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePo
 
   const handleSubmitChallenge = async () => {
     const result = await fetchCreatePost(challenge, challengeImageFile);
-
     if (result.success) {
       alert(result.message);
       // console.log('챌린지 생성 데이터:', challenge);
@@ -23,9 +22,16 @@ const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePo
     }
   };
 
+  const handleGoBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/home');
+    }
+  };
   return (
     <div className="flex justify-center gap-6">
-      <Button variant="secondary" onClick={() => router.back()}>
+      <Button variant="secondary" onClick={handleGoBack}>
         뒤로가기
       </Button>
       <Button variant="secondary" onClick={handleSubmitChallenge}>
