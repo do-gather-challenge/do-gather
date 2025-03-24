@@ -2,10 +2,17 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
 import TQProvider from '@/lib/providers/TQProvider';
+import Script from 'next/script';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2'
 });
+
+declare global {
+  interface Window {
+    Kakao: any;
+  }
+}
 
 export const metadata: Metadata = {
   title: 'DoGather',
@@ -22,6 +29,7 @@ export default function RootLayout({
       <body className={`text-black ${pretendard.className} antialiased`}>
         <TQProvider>{children}</TQProvider>
       </body>
+      <Script src="https://developers.kakao.com/sdk/js/kakao.js" strategy="afterInteractive" />
     </html>
   );
 }
