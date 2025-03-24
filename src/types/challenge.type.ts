@@ -18,6 +18,7 @@ export type Challenge = {
 
 export type ChallengeWithParticipation = Challenge & {
   isParticipating: boolean;
+  isCompleted: boolean;
 };
 
 export type ChallengePost = Omit<Challenge, 'id' | 'creatorId' | 'participantCount' | 'category'> & {
