@@ -77,6 +77,21 @@ export const fetchCreatePost = async (
  */
 export const uploadImageToStorage = async (file: File): Promise<string | null> => {
   const browserClient = createClient();
+
+  // 파일 형식 (PNG 또는 JPG만 허용)
+  const allowedTypes = ['image/png', 'image/jpeg'];
+  if (!allowedTypes.includes(file.type)) {
+    console.error('이미지 형식 오류:', file.type);
+    return null;
+  }
+
+  // 파일 크기 (3MB 이하만 허용)
+  const maxSize = 3 * 1024 * 1024; 
+  if (file.size > maxSize) {
+    console.error('이미지 크기 오류:', file.size);
+    return null;
+  }
+
   const fileName = generateFileName(file);
 
   const { error: uploadError } = await browserClient.storage.from(SUPABASE_STORAGE_BUCKET).upload(fileName, file);
