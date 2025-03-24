@@ -1,18 +1,6 @@
-'use client';
-
+import { useState } from 'react';
 import { ChallengeCategoryType } from '@/types/challenge-category.type';
 import { ChallengePost } from '@/types/challenge.type';
-import { useEffect, useState } from 'react';
-
-export type ChallengePostSetters = {
-  setTitle: (value: string) => void;
-  setDescription: (value: string) => void;
-  setStartDate: (date: string) => void;
-  setFinishDate: (date: string) => void;
-  setCategory: (category: ChallengeCategoryType) => void;
-  setExecuteDays: (executeDays: string[]) => void;
-  setChallengeImage: (file: File) => void;
-};
 
 // 챌린지 폼 상태 관리 훅
 export const useChallengeForm = () => {
@@ -26,15 +14,7 @@ export const useChallengeForm = () => {
     challengeImage: '',
     executeDays: []
   });
-
-  //hydration 경고를 방지하기 위해, startDate와 finishDate가 없을 경우 오늘 날짜로 초기화
-  useEffect(() => {
-    setChallenge((prev) => ({
-      ...prev,
-      startDate: prev.startDate || new Date().toISOString().split('T')[0],
-      finishDate: prev.finishDate || new Date().toISOString().split('T')[0]
-    }));
-  }, []);
+  const [challengeImageFile, setChallengeImageFile] = useState<File | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const target = e.target;
@@ -60,12 +40,14 @@ export const useChallengeForm = () => {
   const setCategory = (category: ChallengeCategoryType) => setChallenge((prev) => ({ ...prev, category }));
   const setExecuteDays = (executeDays: string[]) => setChallenge((prev) => ({ ...prev, executeDays }));
   const setChallengeImage = (file: File) => {
+    setChallengeImageFile(file);
     const imageUrl = URL.createObjectURL(file);
     setChallenge((prev) => ({ ...prev, challengeImage: imageUrl }));
   };
 
   return {
     challenge,
+    challengeImageFile,
     setters: {
       setTitle,
       setDescription,

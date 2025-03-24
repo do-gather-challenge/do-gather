@@ -33,3 +33,15 @@ export const getCategoryRadioClass = (category: string, selectedCategory: string
 
   return buttonClass;
 };
+
+/**
+ * 파일 이름을 생성하는 유틸리티 함수
+ * @param {File} file - 업로드할 파일
+ * @returns {string} - 생성된 파일 이름
+ */
+export const generateFileName = (file: File): string => {
+  const random = Math.random().toString(36).slice(2, 8); // 파일이름 중복 줄이기 위해
+  const timestamp = Date.now();
+  const fileName = file.name.replace(/[^a-zA-Z0-9-_\.]/g, '');
+  return `${timestamp}-${random}-${fileName}`;
+};
