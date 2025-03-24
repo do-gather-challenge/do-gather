@@ -23,7 +23,7 @@ const AuthSignUpForm = () => {
             />
           );
         })}
-        <Button type="submit" className="bg-secondary w-full text-white">
+        <Button type="submit" variant="secondary" className="w-full">
           회원가입 완료
         </Button>
       </form>
