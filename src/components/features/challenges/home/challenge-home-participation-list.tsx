@@ -8,21 +8,13 @@ type ParticipationListProps = {
   cardsPerPage: number;
   challenges: Challenge[];
   isPending: boolean;
-  isFetching: boolean;
 };
 
-const ChallengeHomeParticipationList = ({
-  cardsPerPage,
-  challenges,
-  isPending,
-  isFetching
-}: ParticipationListProps) => {
+const ChallengeHomeParticipationList = ({ cardsPerPage, challenges, isPending }: ParticipationListProps) => {
   return (
     <div className="relative w-full overflow-hidden">
-      <div
-        className={`grid place-items-center gap-6 transition-all duration-500 ease-in-out ${getGridCols(cardsPerPage)}`}
-      >
-        {isPending || isFetching
+      <div className={`grid place-items-center gap-6 ${getGridCols(cardsPerPage)}`}>
+        {isPending
           ? Array.from({ length: cardsPerPage }).map((_, i) => (
               <div key={i} className="bg-muted h-[240px] w-[240px] animate-pulse rounded-lg" />
             ))

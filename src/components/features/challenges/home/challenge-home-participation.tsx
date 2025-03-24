@@ -7,7 +7,7 @@ import ChallengeHomeParticipationList from './challenge-home-participation-list'
 
 const ChallengeHomeParticipation = () => {
   const { pageIndex, setPageIndex, cardsPerPage } = useChallengeResponsiveCardsPerPage();
-  const { pageCount, challenges, isPending, isFetching } = useGetMyInProgressChallengesQuery(pageIndex, cardsPerPage);
+  const { pageCount, challenges, isPending } = useGetMyInProgressChallengesQuery(pageIndex, cardsPerPage);
 
   const toNextPage = () => {
     if (pageIndex < pageCount - 1) setPageIndex((p) => p + 1);
@@ -25,7 +25,7 @@ const ChallengeHomeParticipation = () => {
           <Button
             variant="outline"
             onClick={toPrevPage}
-            disabled={pageIndex === 0 || isFetching}
+            disabled={pageIndex === 0}
             className="rounded-full px-3 disabled:opacity-30"
           >
             ←
@@ -33,19 +33,14 @@ const ChallengeHomeParticipation = () => {
           <Button
             variant="outline"
             onClick={toNextPage}
-            disabled={pageIndex === pageCount - 1 || isFetching}
+            disabled={pageIndex === pageCount - 1}
             className="rounded-full px-3 disabled:opacity-30"
           >
             →
           </Button>
         </div>
       </div>
-      <ChallengeHomeParticipationList
-        cardsPerPage={cardsPerPage}
-        challenges={challenges}
-        isPending={isPending}
-        isFetching={isFetching}
-      />
+      <ChallengeHomeParticipationList cardsPerPage={cardsPerPage} challenges={challenges} isPending={isPending} />
     </section>
   );
 };
