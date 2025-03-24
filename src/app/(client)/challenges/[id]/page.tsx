@@ -10,6 +10,8 @@ import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import { isValidNumber } from '@/lib/utils/validate.util';
 import { fetchGetChallengeWithParticipation } from '@/lib/api/challenge.api';
 import ImageVideoSize from '@/constants/image.constant';
+import Link from 'next/link';
+import { Button } from 'react-day-picker';
 
 type ChallengeDetailPageProps = {
   params: { id: string };
@@ -70,7 +72,15 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
           <p className="mt-2 whitespace-pre-wrap">{challenge.description}</p>
         </section>
       </div>
-      <ChallengeDetailBackButton />
+      <div className="flex justify-center gap-4">
+        <ChallengeDetailBackButton />
+        <Link
+          href={`/challenges/edit/${challenge.id}`}
+          className="flex items-center justify-center rounded border border-black px-3 hover:bg-black/20"
+        >
+          챌린지 수정
+        </Link>
+      </div>
     </section>
   );
 };
