@@ -1,6 +1,4 @@
-'use server';
-
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 import { transformChallengeDataArray } from '@/lib/utils/transform.util';
 import { ErrorMessage } from '@/constants/error-message.constant';
 import { Challenge } from '@/types/challenge.type';
@@ -73,16 +71,33 @@ const fetchGetMyChallengesByPage = async (
 
   const baseQuery = supabase.from('challenges').select('*', { count: 'exact' }).in('id', challengeIds);
   const filteredQuery = filterFn(baseQuery);
-  const paginatedQuery = filteredQuery.range(from, to);
 
-  const { data, error, count } = await paginatedQuery;
+  // 먼저 전체 개수를 가져오기
+  const { count } = await filteredQuery;
+  const totalCount = count ?? 0;
+
+  if (!count || from >= count) {
+    // 데이터가 없거나 요청 범위가 초과되었을 경우 빈 배열 반환
+    return {
+      data: [],
+      pagination: {
+        page,
+        limit,
+        total: totalCount,
+        pageCount: Math.ceil((count ?? 0) / limit) || 0
+      }
+    };
+  }
+
+  // 페이지네이션 적용 후 데이터 가져오기
+  const paginatedQuery = filteredQuery.range(from, to);
+  const { data, error } = await paginatedQuery;
 
   if (error) {
     console.error('Error fetching challenges:', error);
     throw error;
   }
 
-  const totalCount = count ?? 0;
   const transformedData = transformChallengeDataArray(data);
 
   return {
