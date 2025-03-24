@@ -17,9 +17,9 @@ const ChallengePostDatePicker = ({ startDate, endDate, onStartDateChange, onEndD
       {/* 시작 날짜 선택 */}
       <Popover>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start text-left text-[14px] font-normal" asChild>
+          <Button variant="outline" className="w-[130px] justify-start text-left font-normal" asChild>
             <div>
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="h-4 w-4" />
               {startDate ? format(startDate, 'yyyy-MM-dd') : '시작 날짜 선택'}
             </div>
           </Button>
@@ -46,12 +46,12 @@ const ChallengePostDatePicker = ({ startDate, endDate, onStartDateChange, onEndD
         <PopoverTrigger asChild>
           <Button
             variant="outline"
-            className="w-[150px] justify-start text-left font-normal"
+            className="w-[130px] justify-start text-left font-normal"
             disabled={!startDate}
             asChild
           >
             <div>
-              <CalendarIcon className="mr-2 h-4 w-4" />
+              <CalendarIcon className="h-4 w-4" />
               {endDate ? format(endDate, 'yyyy-MM-dd') : '종료 날짜 선택'}
             </div>
           </Button>
