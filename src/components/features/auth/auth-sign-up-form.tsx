@@ -49,13 +49,13 @@ const SignUpInputField = [
   {
     name: 'password',
     label: '비밀번호',
-    placeholder: '비밀번호(6~12자)',
+    placeholder: '비밀번호(6~16자)',
     type: 'password'
   },
   {
     name: 'confirmPassword',
     label: '비밀번호 확인',
-    placeholder: '입력하신 비밀번호(6~12자)',
+    placeholder: '입력하신 비밀번호(6~16자)',
     type: 'password'
   }
 ] as const;
