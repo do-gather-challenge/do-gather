@@ -1,6 +1,5 @@
 import Image from 'next/image';
 import FLASHER from '../../../public/images/icon-deadline.png';
-import { isValidDate } from '@/lib/utils/validate-date.util';
 
 type DeadlineBadgeProps = {
   dayLeft: string;
