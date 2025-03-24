@@ -1,13 +1,18 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useGetMyInProgressChallengesQuery } from '@/lib/queries/useGetMyInProgressChallengesQuery';
+import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
 import { useChallengeResponsiveCardsPerPage } from '@/lib/hooks/use-challenge-responsive-cards-per-page';
 import ChallengeHomeParticipationList from './challenge-home-participation-list';
 
 const ChallengeHomeParticipation = () => {
   const { pageIndex, setPageIndex, cardsPerPage } = useChallengeResponsiveCardsPerPage();
-  const { pageCount, challenges, isPending } = useGetMyInProgressChallengesQuery(pageIndex, cardsPerPage);
+  const { pageCount, challenges, isPending, error, isError } = useGetMyInProgressChallengesQuery(
+    pageIndex,
+    cardsPerPage
+  );
+
+  if (isError) return <p>에러 발생 : {(error as Error).message}</p>;
 
   const toNextPage = () => {
     if (pageIndex < pageCount - 1) setPageIndex((p) => p + 1);
