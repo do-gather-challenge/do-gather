@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Tag from '@/components/ui/tag';
@@ -6,12 +7,10 @@ import ChallengeDetailShareButton from '@/components/features/challenges/detail/
 import ChallengeDetailBackButton from '@/components/features/challenges/detail/challenge-detail-back-button';
 import ChallengeDetailJoinButton from '@/components/features/challenges/detail/challenge-detail-join-button';
 import ChallengeDetailCompleteButton from '@/components/features/challenges/detail/challenge-detail-complete-button';
-import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import { isValidNumber } from '@/lib/utils/validate.util';
 import { fetchGetChallengeWithParticipation } from '@/lib/api/challenge.api';
 import ImageVideoSize from '@/constants/image.constant';
-import Link from 'next/link';
-import { Button } from 'react-day-picker';
+import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 
 type ChallengeDetailPageProps = {
   params: { id: string };
