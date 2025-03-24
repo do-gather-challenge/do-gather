@@ -31,3 +31,17 @@ export type ChallengeFilterOptions = {
   status: ChallengeStatusType;
   sortBy: ChallengeSortType;
 };
+
+export type ChallengeSnakeCase = {
+  id: number;
+  created_at: string;
+  start_date: string;
+  finish_date: string;
+  title: string;
+  description: string;
+  category: ChallengeCategoryType;
+  challenge_image: string;
+  creator_id: string;
+  execute_days: string[];
+  participant_count: number;
+};
