@@ -22,16 +22,5 @@ export const DATABASE = {
   TABLES: {
     CHALLENGES: 'challenges',
     PARTICIPANTS: 'participants'
-  },
-  COLUMNS: {
-    TITLE: 'title',
-    DESCRIPTION: 'description',
-    START_DATE: 'start_date',
-    FINISH_DATE: 'finish_date',
-    CATEGORY: 'category',
-    EXECUTE_DAYS: 'execute_days',
-    CHALLENGE_IMAGE: 'challenge_image',
-    CREATED_AT: 'created_at',
-    CREATOR_ID: 'creator_id'
   }
 };
