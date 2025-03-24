@@ -1,5 +1,11 @@
+import ChallengePopular from '@/components/features/challenges/home/challenge-popular';
+
 const HomePage = () => {
-  return <div>HomePage</div>;
+  return (
+    <div>
+      <ChallengePopular />
+    </div>
+  );
 };
 
 export default HomePage;
