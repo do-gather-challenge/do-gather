@@ -44,7 +44,7 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
                 priority
               />
             </figure>
-            <ChallengeDetailJoinButton />
+            <ChallengeDetailJoinButton challengeId={challenge.id} isParticipating={challenge.isParticipating} />
           </section>
           <section className="flex flex-col gap-2">
             <div className="min-h-[200px] flex-1 border border-red-500 md:min-h-0">챌린지 참여 로그 세션</div>
