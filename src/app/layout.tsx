@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import './globals.css';
+import TQProvider from '@/lib/providers/TQProvider';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2'
@@ -18,7 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`text-black ${pretendard.className} antialiased`}>{children}</body>
+      <body className={`text-black ${pretendard.className} antialiased`}>
+        <TQProvider>{children}</TQProvider>
+      </body>
     </html>
   );
 }
