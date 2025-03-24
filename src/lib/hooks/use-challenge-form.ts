@@ -1,8 +1,6 @@
-'use client';
-
+import { useState } from 'react';
 import { ChallengeCategoryType } from '@/types/challenge-category.type';
 import { ChallengePost } from '@/types/challenge.type';
-import { useState } from 'react';
 
 // 챌린지 폼 상태 관리 훅
 export const useChallengeForm = () => {
@@ -17,6 +15,7 @@ export const useChallengeForm = () => {
     executeDays: []
   });
   const [challengeImageFile, setChallengeImageFile] = useState<File | null>(null);
+ 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const target = e.target;
