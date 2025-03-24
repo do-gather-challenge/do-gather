@@ -43,7 +43,21 @@ export const fetchCreatePost = async (
     const userId = session.user.id;
 
     // 챌린지 생성
-    const { data: challengeData, error: insertError } = await insertChallenge(challenge, imageUrl, userId);
+    const { data: challengeData, error: insertError } = await browserClient
+      .from(DATABASE.TABLES.CHALLENGES)
+      .insert({
+        [DATABASE.COLUMNS.TITLE]: challenge.title,
+        [DATABASE.COLUMNS.DESCRIPTION]: challenge.description,
+        [DATABASE.COLUMNS.START_DATE]: challenge.startDate,
+        [DATABASE.COLUMNS.FINISH_DATE]: challenge.finishDate,
+        [DATABASE.COLUMNS.CATEGORY]: challenge.category,
+        [DATABASE.COLUMNS.EXECUTE_DAYS]: challenge.executeDays,
+        [DATABASE.COLUMNS.CHALLENGE_IMAGE]: imageUrl || null,
+        [DATABASE.COLUMNS.CREATED_AT]: new Date().toISOString(),
+        [DATABASE.COLUMNS.CREATOR_ID]: userId
+      })
+      .select()
+      .single();
 
     if (insertError) {
       throw insertError;
@@ -76,35 +90,4 @@ export const uploadImageToStorage = async (file: File): Promise<string | null> =
     data: { publicUrl }
   } = browserClient.storage.from(SUPABASE_STORAGE_BUCKET).getPublicUrl(fileName);
   return publicUrl;
-};
-
-/**
- * 챌린지 데이터를 데이터베이스에 삽입하는 함수
- * @param {ChallengePost} challenge - 생성할 챌린지 데이터
- * @param {string} imageUrl - 챌린지 이미지 URL
- * @param {string} userId - 유저 ID
- * @returns {Promise<{ data: any; error: any }>}
- */
-export const insertChallenge = async (
-  challenge: ChallengePost,
-  imageUrl: string,
-  userId: string
-): Promise<{ data: any; error: any }> => {
-  const browserClient = createClient();
-
-  return await browserClient
-    .from(DATABASE.TABLES.CHALLENGES)
-    .insert({
-      [DATABASE.COLUMNS.TITLE]: challenge.title,
-      [DATABASE.COLUMNS.DESCRIPTION]: challenge.description,
-      [DATABASE.COLUMNS.START_DATE]: challenge.startDate,
-      [DATABASE.COLUMNS.FINISH_DATE]: challenge.finishDate,
-      [DATABASE.COLUMNS.CATEGORY]: challenge.category,
-      [DATABASE.COLUMNS.EXECUTE_DAYS]: challenge.executeDays,
-      [DATABASE.COLUMNS.CHALLENGE_IMAGE]: imageUrl || null,
-      [DATABASE.COLUMNS.CREATED_AT]: new Date().toISOString(),
-      [DATABASE.COLUMNS.CREATOR_ID]: userId
-    })
-    .select()
-    .single();
 };

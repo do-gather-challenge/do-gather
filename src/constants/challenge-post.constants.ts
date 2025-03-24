@@ -13,6 +13,8 @@ export const ERROR_MESSAGES = {
   FINISH_DATE_REQUIRED: '종료일을 선택해 주세요.',
   CATEGORY_REQUIRED: '카테고리를 선택해 주세요.',
   EXECUTE_DAYS_REQUIRED: '실행 요일을 선택해 주세요.',
+  TITLE_TOO_LONG: '제목은 30자 이내로 입력해 주세요.',
+  DESCRIPTION_TOO_LONG: '소개는 500자 이내로 입력해 주세요.',
 };
 export const DATABASE = {
   TABLES: {

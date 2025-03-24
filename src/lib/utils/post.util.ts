@@ -65,5 +65,15 @@ export const validateChallengePost = (challenge: ChallengePost): string | null =
   if (!category) return ERROR_MESSAGES.CATEGORY_REQUIRED;
   if (executeDays.length === 0) return ERROR_MESSAGES.EXECUTE_DAYS_REQUIRED;
 
+  // 제목 길이 (30자 이내)
+  if (title.length > 30) {
+    return ERROR_MESSAGES.TITLE_TOO_LONG;
+  }
+
+  // 소개 길이 (500자 이내)
+  if (description.length > 500) {
+    return ERROR_MESSAGES.DESCRIPTION_TOO_LONG;
+  }
+
   return null;
 };
