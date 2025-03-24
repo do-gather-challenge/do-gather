@@ -2,6 +2,7 @@ import React from 'react';
 import ChallengeCard from '../challenge-card';
 import { transformDate } from '@/lib/utils/transform.util';
 import { Challenge } from '@/types/challenge.type';
+import { getGridCols } from '@/lib/utils/classname.util';
 
 type ParticipationListProps = {
   cardsPerPage: number;
@@ -19,15 +20,7 @@ const ChallengeHomeParticipationList = ({
   return (
     <div className="relative w-full overflow-hidden">
       <div
-        className={`grid place-items-center gap-6 transition-all duration-500 ease-in-out ${
-          cardsPerPage === 1
-            ? 'grid-cols-1'
-            : cardsPerPage === 2
-              ? 'grid-cols-2'
-              : cardsPerPage === 3
-                ? 'grid-cols-3'
-                : 'grid-cols-4'
-        }`}
+        className={`grid place-items-center gap-6 transition-all duration-500 ease-in-out ${getGridCols(cardsPerPage)}`}
       >
         {isLoading || isFetching
           ? Array.from({ length: cardsPerPage }).map((_, i) => (

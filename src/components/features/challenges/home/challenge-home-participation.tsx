@@ -33,7 +33,7 @@ const ChallengeHomeParticipation = () => {
           <Button
             variant="outline"
             onClick={toNextPage}
-            disabled={pageIndex === pageCount - 1}
+            disabled={pageIndex === pageCount - 1 || isFetching}
             className="rounded-full px-3 disabled:opacity-30"
           >
             →
