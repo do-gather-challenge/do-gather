@@ -5,11 +5,22 @@ import Link from 'next/link';
 const SignInPage = () => {
   return (
     <section className="bg-primary-foreground flex min-h-screen w-full items-center justify-center">
-      <figure className="m-8 flex max-w-[680px] min-w-[260px] flex-col items-center justify-center rounded-2xl bg-white shadow-2xl md:w-4xl md:flex-row  md:p-0">
-        <Link href="/home" className="relative flex min-h-[240px] w-[300px] p-8 md:h-auto">
-          <Image src="/images/logo.png" className="object-contain p-8" fill alt="logo" />
+      <figure className="m-8 flex w-full max-w-4xl flex-col items-center justify-center rounded-2xl bg-white shadow-2xl md:m-8 md:flex-row">
+        <Link href="/home" className="flex w-full items-center justify-center md:w-1/2">
+          {/* 이미지 컨테이너에 명확한 높이 지정 */}
+          <div className="relative flex h-64 w-3/4 items-center justify-center p-4 sm:h-72 md:h-96 md:w-full md:p-0">
+            <Image
+              src="/images/logo.png"
+              alt="logo"
+              width={250}
+              height={200}
+              priority
+              className="object-contain"
+              style={{ width: 'auto' }}
+            />
+          </div>
         </Link>
-        <div className="w-full max-w-[420px] min-w-[300px] p-8">
+        <div className="w-full p-6 md:w-1/2 md:max-w-md md:p-8">
           <AuthSignInForm />
         </div>
       </figure>
