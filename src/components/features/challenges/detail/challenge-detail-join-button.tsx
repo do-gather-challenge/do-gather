@@ -1,9 +1,9 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { fetchCreateParticipant, fetchDeleteParticipant } from '@/lib/api/participant.api';
 import browserClient from '@/lib/supabase/client';
-import { useEffect, useState } from 'react';
 
 type ChallengeDetailJoinButtonProps = {
   challengeId: number;
@@ -18,12 +18,12 @@ const ChallengeDetailJoinButton = ({ challengeId, isParticipating }: ChallengeDe
 
   const handleJoinButtonClick = () => {
     if (!userId) return;
-    fetchCreateParticipant({ challengeId, userId }).catch((e) => console.log(e));
+    fetchCreateParticipant(challengeId).catch((e) => console.log(e));
   };
 
   const handleQuitButtonClick = () => {
     if (!userId) return;
-    fetchDeleteParticipant({ challengeId, userId }).catch((e) => console.log(e));
+    fetchDeleteParticipant(challengeId, userId).catch((e) => console.log(e));
   };
 
   if (!isParticipating)
