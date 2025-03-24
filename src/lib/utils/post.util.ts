@@ -1,7 +1,3 @@
-import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
-import { FILES } from '@/constants/files.constant';
-import { ChallengePost } from '@/types/challenge.type';
-
 /**
  * 요일 체크박스의 클래스 이름을 반환하는 유틸리티 함수
  * @param day - 요일
