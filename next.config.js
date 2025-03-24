@@ -6,13 +6,11 @@ const nextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: "https",
-        hostname: "sleczgiwuppubjccavne.supabase.co",
-        port: "",
-        pathname: "/**"
+        protocol: 'https',
+        hostname: 'sleczgiwuppubjccavne.supabase.co',
       }
     ],
-    formats: ["image/avif", "image/webp"]
+    formats: ['image/avif', 'image/webp']
   }
 };
 
