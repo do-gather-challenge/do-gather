@@ -6,41 +6,16 @@ import { Button } from '@/components/ui/button';
 import { fetchGetMyInProgressChallengesByPage, fetchGetMyUpcomingChallengesByPage } from '@/lib/api/my-challenge.api';
 import { transformDate } from '@/lib/utils/transform.util';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
+import useChallengeResponsiveCardsPerPage from '@/lib/hooks/use-challenge-responsive-cards-per-page';
+import useGetMyInProgressChallengesQuery from '@/lib/queries/useGetMyInProgressChallengesQuery';
 
 const ChallengeHomeParticipation = () => {
   const [pageIndex, setPageIndex] = useState(0);
-  const [cardsPerPage, setCardsPerPage] = useState(4);
-
-  // 창 크기 바뀌면 cardsPerPage 재계산 + 페이지 초기화
-  useEffect(() => {
-    const calculateCardsPerPage = () => {
-      const width = window.innerWidth;
-      if (width < 640) return 1;
-      if (width < 768) return 2;
-      if (width < 1024) return 3;
-      return 4;
-    };
-
-    const handleResize = () => {
-      const newCount = calculateCardsPerPage();
-      setCardsPerPage(newCount);
-      setPageIndex(0);
-    };
-
-    handleResize();
-    window.addEventListener('resize', handleResize);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // pageIndex나 cardsPerPage가 바뀔 때마다 해당 페이지 데이터 fetch
-  const { data, isLoading, isFetching, error } = useQuery({
-    queryKey: ['my-in-progress-challenges', pageIndex, cardsPerPage],
-    queryFn: () => fetchGetMyInProgressChallengesByPage(pageIndex + 1, cardsPerPage)
-  });
-
-  const pageCount = data?.pagination.pageCount ?? 0;
-  const challenges = data?.data ?? [];
+  const cardsPerPage = useChallengeResponsiveCardsPerPage();
+  const { pageCount, challenges, isLoading, isFetching, error } = useGetMyInProgressChallengesQuery(
+    pageIndex,
+    cardsPerPage
+  );
 
   const toNextPage = () => {
     if (pageIndex < pageCount - 1) setPageIndex((p) => p + 1);
