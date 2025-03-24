@@ -22,15 +22,15 @@ export const fetchCreatePost = async (
   }
 
   try {
-    let imageUrl = '';
+    let imageUrl: string | null = '';
 
     // 이미지 업로드
     if (challengeImageFile) {
-      const publicUrl = await uploadImageToStorage(challengeImageFile);
-      if (!publicUrl) {
-        return { success: false, message: ERROR_MESSAGES.IMAGE_UPLOAD_FAILED };
+      const { url, error: uploadError } = await uploadImageToStorage(challengeImageFile);
+      if (uploadError) {
+        return { success: false, message: uploadError };
       }
-      imageUrl = publicUrl;
+      imageUrl = url;
     }
 
     // 로그인 세션 확인
@@ -73,23 +73,23 @@ export const fetchCreatePost = async (
 /**
  * 이미지를 Supabase Storage에 업로드하는 함수
  * @param {File} file - 업로드할 파일
- * @returns {Promise<string | null>} - 업로드된 이미지의 URL
+ * @returns { Promise<{ url: string | null; error: string | null }>} - 업로드된 이미지의 URL
  */
-export const uploadImageToStorage = async (file: File): Promise<string | null> => {
+export const uploadImageToStorage = async (file: File): Promise<{ url: string | null; error: string | null }> => {
   const browserClient = createClient();
 
   // 파일 형식 (PNG 또는 JPG만 허용)
   const allowedTypes = ['image/png', 'image/jpeg'];
   if (!allowedTypes.includes(file.type)) {
     console.error('이미지 형식 오류:', file.type);
-    return null;
+    return { url: null, error: ERROR_MESSAGES.IMAGE_TYPE_INVALID };
   }
 
   // 파일 크기 (3MB 이하만 허용)
-  const maxSize = 3 * 1024 * 1024; 
+  const maxSize = 3 * 1024 * 1024;
   if (file.size > maxSize) {
     console.error('이미지 크기 오류:', file.size);
-    return null;
+    return { url: null, error: ERROR_MESSAGES.IMAGE_SIZE_TOO_LARGE };
   }
 
   const fileName = generateFileName(file);
@@ -98,11 +98,11 @@ export const uploadImageToStorage = async (file: File): Promise<string | null> =
 
   if (uploadError) {
     console.error('이미지 업로드 오류:', uploadError);
-    return null;
+    return { url: null, error: ERROR_MESSAGES.IMAGE_UPLOAD_FAILED };
   }
 
   const {
     data: { publicUrl }
   } = browserClient.storage.from(SUPABASE_STORAGE_BUCKET).getPublicUrl(fileName);
-  return publicUrl;
+  return { url: publicUrl, error: null };
 };
