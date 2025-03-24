@@ -1,5 +1,4 @@
-
-import { ChallengePostSetters } from '@/types/challege-post.type';
+import { ChallengePostSetters } from '@/types/challenge-post.type';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 

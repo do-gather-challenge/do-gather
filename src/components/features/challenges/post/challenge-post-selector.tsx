@@ -5,7 +5,8 @@ import { categories, ChallengeCategoryType } from '@/types/challenge-category.ty
 import { useState } from 'react';
 import ChallengePostDatePicker from './challenge-post-date-picker';
 import { ChallengePost } from '@/types/challenge.type';
-import { ChallengePostSetters } from '@/types/challege-post.type';
+import { ChallengePostSetters } from '@/types/challenge-post.type';
+
 
 type ChallengePostSelectorProps = {
   challenge: ChallengePost;
