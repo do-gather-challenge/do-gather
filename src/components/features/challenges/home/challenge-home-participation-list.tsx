@@ -36,7 +36,7 @@ const ChallengeHomeParticipationList = ({
           : challenges.map((challenge) => (
               <ChallengeCard
                 key={challenge.id}
-                thumbnail="/React.png"
+                thumbnail={challenge.challengeImage}
                 category={challenge.category}
                 participants={challenge.participantCount}
                 title={challenge.title}

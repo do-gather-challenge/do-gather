@@ -1,6 +1,7 @@
 import { Card, CardContent, CardTitle } from '@/components/ui/card';
 import Tag from '@/components/ui/tag';
 import { ChallengeCategoryType } from '@/types/challenge-category.type';
+import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import { LuUserRound } from 'react-icons/lu';
 import Image from 'next/image';
 
@@ -17,7 +18,12 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, fi
   return (
     <Card className="w-60 gap-4 pt-0 pb-2">
       <figure className="relative aspect-video w-full">
-        <Image src={thumbnail} alt="thumbnail" className="h-full w-full rounded-t-md object-cover object-center" fill />
+        <Image
+          src={thumbnail || DEFAULT_CHALLENGE_IMAGE}
+          alt="thumbnail"
+          className="h-full w-full rounded-t-md object-cover object-center"
+          fill
+        />
       </figure>
       <CardContent className="space-y-2">
         <div className="flex justify-between">

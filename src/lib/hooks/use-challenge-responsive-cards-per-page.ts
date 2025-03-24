@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 
 // 창 크기 바뀔 경우 cardsPerPage 재계산 + 페이지 초기화
-const useChallengeResponsiveCardsPerPage = () => {
+export const useChallengeResponsiveCardsPerPage = () => {
   const [pageIndex, setPageIndex] = useState(0);
   const [cardsPerPage, setCardsPerPage] = useState(4);
 
@@ -29,5 +29,3 @@ const useChallengeResponsiveCardsPerPage = () => {
 
   return { pageIndex, setPageIndex, cardsPerPage };
 };
-
-export default useChallengeResponsiveCardsPerPage;

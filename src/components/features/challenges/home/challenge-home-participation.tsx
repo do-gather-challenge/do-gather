@@ -1,8 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import useChallengeResponsiveCardsPerPage from '@/lib/hooks/use-challenge-responsive-cards-per-page';
-import useGetMyInProgressChallengesQuery from '@/lib/queries/useGetMyInProgressChallengesQuery';
+import { useGetMyInProgressChallengesQuery } from '@/lib/queries/useGetMyInProgressChallengesQuery';
+import { useChallengeResponsiveCardsPerPage } from '@/lib/hooks/use-challenge-responsive-cards-per-page';
 import ChallengeHomeParticipationList from './challenge-home-participation-list';
 
 const ChallengeHomeParticipation = () => {
