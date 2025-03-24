@@ -20,16 +20,16 @@ const MyPageMyChallenge = () => {
         </div>
         <div className="flex gap-2 sm:mt-5 sm:flex-col">
           <Button variant="primary" className="h-8 w-20 justify-center p-0 sm:h-12 sm:w-60 sm:justify-between sm:p-5">
+            <p className="sm:hidden">Today</p>
+            <p className="hidden sm:block">오늘 인증한 챌린지</p>
+          </Button>
+          <Button variant="primary" className="h-8 w-20 justify-center p-0 sm:h-12 sm:w-60 sm:justify-between sm:p-5">
             <p className="sm:hidden">참여중</p>
             <p className="hidden sm:block">참여 중인 챌린지</p>
           </Button>
           <Button variant="primary" className="h-8 w-20 justify-center p-0 sm:h-12 sm:w-60 sm:justify-between sm:p-5">
             <p className="sm:hidden">완료</p>
             <p className="hidden sm:block">완료한 챌린지</p>
-          </Button>
-          <Button variant="primary" className="h-8 w-20 justify-center p-0 sm:h-12 sm:w-60 sm:justify-between sm:p-5">
-            <p className="sm:hidden">관심</p>
-            <p className="hidden sm:block">관심 챌린지 보기</p>
           </Button>
         </div>
       </div>
