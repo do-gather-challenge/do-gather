@@ -20,6 +20,15 @@ const AuthSignInForm = () => {
     });
   };
 
+  const signInWithGoogle = async () => {
+    await browserClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.origin + 'api/auth/callback'
+      }
+    });
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
@@ -38,7 +47,7 @@ const AuthSignInForm = () => {
           Login
         </Button>
         <div className="flex items-center justify-between gap-4">
-          <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
+          <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGoogle}>
             <Image src="/images/ICON_GOOGLE.png" alt="google logo" width={24} height={24} className="rounded" />
           </Button>
           <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
