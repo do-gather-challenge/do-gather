@@ -17,7 +17,7 @@ const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePo
 
     if (result.success) {
       alert(result.message);
-      console.log('챌린지 생성 데이터:', challenge);
+      // console.log('챌린지 생성 데이터:', challenge);
     } else {
       alert(result.message);
     }
