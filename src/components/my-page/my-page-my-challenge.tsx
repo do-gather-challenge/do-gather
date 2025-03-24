@@ -4,6 +4,7 @@ import Image from 'next/image';
 import React, { useState } from 'react';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Button } from '@/components/ui/button';
+import MyPageMyCompletedChallenges from './my-page-my-completed-challenges';
 
 type MyChallengeAlias = 'Today' | '참여중' | '완료';
 type MyPageMyChallenges = {
@@ -48,7 +49,10 @@ const MyPageMyChallenge = () => {
           ))}
         </div>
       </div>
-      <div className="grid w-full grid-cols-1 p-5 sm:w-[70%] sm:grid-cols-3">{selectedChallenge}</div>
+      <div className="grid w-full grid-cols-1 p-5 sm:w-[70%] sm:grid-cols-3">
+        {selectedChallenge}
+        {selectedChallenge === '완료' && <MyPageMyCompletedChallenges />}
+      </div>
     </section>
   );
 };
