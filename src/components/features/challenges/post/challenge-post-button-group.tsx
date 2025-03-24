@@ -1,31 +1,37 @@
-'use client';
-
 import { Button } from '@/components/ui/button';
+import { fetchCreateChallenge } from '@/lib/api/challenge-post.api';
+
 import { ChallengePost } from '@/types/challenge.type';
+import { useRouter } from 'next/navigation';
 
 type ChallengePostButtonGroupProps = {
   challenge: ChallengePost;
+  challengeImageFile: File | null;
 };
 
-const ChallengePostButtonGroup = ({ challenge }: ChallengePostButtonGroupProps) => {
-  const handleSubmitChallenge = async () => {
-    const { title, description, startDate, finishDate, category, executeDays } = challenge;
-    if (!title || !description || !startDate || !finishDate || !category || executeDays.length === 0) {
-      return alert('모든 필수 정보를 입력해 주세요.');
-    }
+const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePostButtonGroupProps) => {
+  const router = useRouter();
 
-    try {
+  const handleSubmitChallenge = async () => {
+    const result = await fetchCreateChallenge(challenge, challengeImageFile);
+    if (result.success) {
+      alert(result.message);
       // console.log('챌린지 생성 데이터:', challenge);
-      alert('챌린지가 성공적으로 생성되었습니다!');
-    } catch (error) {
-      console.error('챌린지 생성 중 오류 발생:', error);
-      alert('챌린지 생성에 실패했습니다.');
+    } else {
+      alert(result.message);
     }
   };
 
+  const handleGoBack = () => {
+    if (window.history.length > 1) {
+      router.back();
+    } else {
+      router.push('/home');
+    }
+  };
   return (
     <div className="flex justify-center gap-6">
-      <Button variant="secondary" onClick={() => alert('뒤로가기')}>
+      <Button variant="secondary" onClick={handleGoBack}>
         뒤로가기
       </Button>
       <Button variant="secondary" onClick={handleSubmitChallenge}>
