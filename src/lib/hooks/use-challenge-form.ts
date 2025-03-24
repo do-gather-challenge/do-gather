@@ -15,7 +15,6 @@ export const useChallengeForm = () => {
     executeDays: []
   });
   const [challengeImageFile, setChallengeImageFile] = useState<File | null>(null);
- 
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const target = e.target;

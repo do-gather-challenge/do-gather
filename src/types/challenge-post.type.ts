@@ -1,4 +1,4 @@
-import { ChallengeCategoryType } from "./challenge-category.type";
+import { ChallengeCategoryType } from './challenge-category.type';
 
 export type ChallengePostSetters = {
   setTitle: (value: string) => void;

@@ -43,7 +43,7 @@ export const getCategoryRadioClass = (category: string, selectedCategory: string
  * @returns {string} - 생성된 파일 이름
  */
 export const generateFileName = (file: File): string => {
-  const timestamp = Date.now();
+  const timestamp = crypto.randomUUID;
   const fileName = file.name.replace(/[^a-zA-Z0-9-_\.]/g, ''); // 특수 문자 및 한글 제거
   return `${timestamp}-${fileName}`;
 };

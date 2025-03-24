@@ -7,7 +7,6 @@ import ChallengePostDatePicker from './challenge-post-date-picker';
 import { ChallengePost } from '@/types/challenge.type';
 import { ChallengePostSetters } from '@/types/challenge-post.type';
 
-
 type ChallengePostSelectorProps = {
   challenge: ChallengePost;
   setters: ChallengePostSetters;

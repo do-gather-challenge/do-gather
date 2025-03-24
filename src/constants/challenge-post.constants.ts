@@ -35,4 +35,3 @@ export const DATABASE = {
     CREATOR_ID: 'creator_id'
   }
 };
-
