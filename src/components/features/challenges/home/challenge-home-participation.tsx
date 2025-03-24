@@ -12,7 +12,7 @@ const ChallengeHomeParticipation = () => {
     cardsPerPage
   );
 
-  if (isError) return <p>에러 발생 : {(error as Error).message}</p>;
+  if (isError) return <p className="text-center">에러 발생 : {(error as Error).message}</p>;
 
   const toNextPage = () => {
     if (pageIndex < pageCount - 1) setPageIndex((p) => p + 1);
