@@ -1,4 +1,5 @@
-import { ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
+
+import { ChallengePostSetters } from '@/types/challege-post.type';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 

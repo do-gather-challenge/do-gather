@@ -1,11 +1,11 @@
 import Tag from '@/components/ui/tag';
 import { DAYS } from '@/constants/challenge-post.constants';
-import { ChallengePostSetters } from '@/lib/hooks/use-challenge-form';
 import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
 import { categories, ChallengeCategoryType } from '@/types/challenge-category.type';
 import { useState } from 'react';
 import ChallengePostDatePicker from './challenge-post-date-picker';
 import { ChallengePost } from '@/types/challenge.type';
+import { ChallengePostSetters } from '@/types/challege-post.type';
 
 type ChallengePostSelectorProps = {
   challenge: ChallengePost;

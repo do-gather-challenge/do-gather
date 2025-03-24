@@ -77,3 +77,24 @@ export const validateChallengePost = (challenge: ChallengePost): string | null =
 
   return null;
 };
+
+/**
+ * 파일 형식 및 크기를 검증하는 유틸리티 함수
+ * @param {File} file - 검증할 파일
+ * @param {string[]} allowedTypes - 허용되는 파일 형식
+ * @param {number} maxSize - 허용되는 최대 파일 크기
+ * @returns {string | null} - 오류 메시지 또는 null
+ */
+export const validateFile = (file: File, allowedTypes: string[], maxSize: number): string | null => {
+  // 파일 형식
+  if (!allowedTypes.includes(file.type)) {
+    return ERROR_MESSAGES.IMAGE_TYPE_INVALID;
+  }
+
+  // 파일 크기
+  if (file.size > maxSize) {
+    return ERROR_MESSAGES.IMAGE_SIZE_TOO_LARGE;
+  }
+
+  return null;
+};

@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/client';
 import { ChallengePost } from '@/types/challenge.type';
-import { generateFileName, validateChallengePost } from '../utils/post.util';
-import { DATABASE, ERROR_MESSAGES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
+import { generateFileName, validateChallengePost, validateFile } from '../utils/post.util';
+import { DATABASE, ERROR_MESSAGES, FILES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
 
 /**
  * 챌린지 게시물을 생성하는 API 함수
@@ -26,7 +26,7 @@ export const fetchCreatePost = async (
 
     // 이미지 업로드
     if (challengeImageFile) {
-      const { url, error: uploadError } = await uploadImageToStorage(challengeImageFile);
+      const { url, error: uploadError } = await fetchUploadImage(challengeImageFile);
       if (uploadError) {
         return { success: false, message: uploadError };
       }
@@ -75,21 +75,13 @@ export const fetchCreatePost = async (
  * @param {File} file - 업로드할 파일
  * @returns { Promise<{ url: string | null; error: string | null }>} - 업로드된 이미지의 URL
  */
-export const uploadImageToStorage = async (file: File): Promise<{ url: string | null; error: string | null }> => {
+export const fetchUploadImage = async (file: File): Promise<{ url: string | null; error: string | null }> => {
   const browserClient = createClient();
 
-  // 파일 형식 (PNG 또는 JPG만 허용)
-  const allowedTypes = ['image/png', 'image/jpeg'];
-  if (!allowedTypes.includes(file.type)) {
-    console.error('이미지 형식 오류:', file.type);
-    return { url: null, error: ERROR_MESSAGES.IMAGE_TYPE_INVALID };
-  }
-
-  // 파일 크기 (3MB 이하만 허용)
-  const maxSize = 3 * 1024 * 1024;
-  if (file.size > maxSize) {
-    console.error('이미지 크기 오류:', file.size);
-    return { url: null, error: ERROR_MESSAGES.IMAGE_SIZE_TOO_LARGE };
+  // 파일 형식 및 크기 검증
+  const validationError = validateFile(file, FILES.ALLOWED_TYPES, FILES.MAX_SIZE);
+  if (validationError) {
+    return { url: null, error: validationError };
   }
 
   const fileName = generateFileName(file);

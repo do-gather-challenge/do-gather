@@ -4,16 +4,6 @@ import { ChallengeCategoryType } from '@/types/challenge-category.type';
 import { ChallengePost } from '@/types/challenge.type';
 import { useState } from 'react';
 
-export type ChallengePostSetters = {
-  setTitle: (value: string) => void;
-  setDescription: (value: string) => void;
-  setStartDate: (date: string) => void;
-  setFinishDate: (date: string) => void;
-  setCategory: (category: ChallengeCategoryType) => void;
-  setExecuteDays: (executeDays: string[]) => void;
-  setChallengeImage: (file: File) => void;
-};
-
 // 챌린지 폼 상태 관리 훅
 export const useChallengeForm = () => {
   const [challenge, setChallenge] = useState<ChallengePost>({
