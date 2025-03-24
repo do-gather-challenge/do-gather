@@ -29,7 +29,7 @@ export const fetchCreateChallenge = async (
   }
 
   try {
-    let imageUrl: string | null = '';
+    let imageUrl: string | null = null;
 
     // 이미지 업로드
     if (challengeImageFile) {
