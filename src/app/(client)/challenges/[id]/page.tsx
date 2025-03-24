@@ -48,7 +48,11 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
           </section>
           <section className="flex flex-col gap-2">
             <div className="min-h-[200px] flex-1 border border-red-500 md:min-h-0">챌린지 참여 로그 세션</div>
-            <ChallengeDetailCompleteButton />
+            <ChallengeDetailCompleteButton
+              challengeId={challenge.id}
+              isParticipating={challenge.isParticipating}
+              isCompleted={challenge.isCompleted}
+            />
           </section>
         </div>
         <section className="flex flex-col gap-2 md:flex-row md:justify-between">
