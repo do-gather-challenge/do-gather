@@ -7,7 +7,7 @@ import ChallengePostButtonGroup from '@/components/features/challenges/post/chal
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 
 const ChallengePostPage: React.FC = () => {
-  const { challenge, setters, handleChange } = useChallengeForm();
+  const { challenge, challengeImageFile, setters, handleChange } = useChallengeForm();
 
   return (
     <section className="mx-auto mt-[100px] mb-6 max-w-[320px] p-6 md:max-w-[640px]">
@@ -20,7 +20,7 @@ const ChallengePostPage: React.FC = () => {
       </section>
 
       <div className="flex justify-center gap-6">
-        <ChallengePostButtonGroup challenge={challenge} />
+        <ChallengePostButtonGroup challenge={challenge} challengeImageFile={challengeImageFile} />
       </div>
     </section>
   );
