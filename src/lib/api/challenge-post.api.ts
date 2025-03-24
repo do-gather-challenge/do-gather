@@ -1,8 +1,9 @@
 import { ChallengePost } from '@/types/challenge.type';
-import { validateChallengePost, validateUploadFile } from '../utils/post.util';
+
 import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { fetchUploadImage } from './storage.api';
+import { validateChallengePost, validateFile } from '../utils/validate.util';
 
 /**
  * 챌린지 게시물을 생성하는 API 함수
@@ -22,9 +23,9 @@ export const fetchCreateChallenge = async (
 
   // 이미지 파일 검증
   if (challengeImageFile) {
-    const fileError = validateUploadFile(challengeImageFile);
-    if (fileError) {
-      return { success: false, message: fileError };
+    const fileValidationError = validateFile(challengeImageFile);
+    if (fileValidationError) {
+      return { success: false, message: fileValidationError };
     }
   }
 
