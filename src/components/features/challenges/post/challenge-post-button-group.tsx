@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { fetchCreatePost } from '@/lib/api/challenge-post.api';
+import { fetchCreateChallenge } from '@/lib/api/challenge-post.api';
 
 import { ChallengePost } from '@/types/challenge.type';
 import { useRouter } from 'next/navigation';
@@ -13,7 +13,7 @@ const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePo
   const router = useRouter();
 
   const handleSubmitChallenge = async () => {
-    const result = await fetchCreatePost(challenge, challengeImageFile);
+    const result = await fetchCreateChallenge(challenge, challengeImageFile);
     if (result.success) {
       alert(result.message);
       // console.log('챌린지 생성 데이터:', challenge);

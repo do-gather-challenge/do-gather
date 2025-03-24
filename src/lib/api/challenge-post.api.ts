@@ -10,7 +10,7 @@ import { fetchUploadImage } from './storage.api';
  * @param {File | null} challengeImageFile - 챌린지 이미지 파일
  * @returns {Promise<{ success: boolean; message: string }>} - 성공 여부와 메시지
  */
-export const fetchCreatePost = async (
+export const fetchCreateChallenge = async (
   challenge: ChallengePost,
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
