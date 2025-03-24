@@ -1,4 +1,4 @@
-import { ERROR_MESSAGES } from '@/constants/challenge-post.constants';
+import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import { FILES } from '@/constants/files.constant';
 import { ChallengePost } from '@/types/challenge.type';
 
@@ -60,21 +60,21 @@ export const generateFileName = (file: File): string => {
 export const validateChallengePost = (challenge: ChallengePost): string | null => {
   const { title, description, startDate, finishDate, category, executeDays } = challenge;
 
-  if (!title) return ERROR_MESSAGES.TITLE_REQUIRED;
-  if (!description) return ERROR_MESSAGES.DESCRIPTION_REQUIRED;
-  if (!startDate) return ERROR_MESSAGES.START_DATE_REQUIRED;
-  if (!finishDate) return ERROR_MESSAGES.FINISH_DATE_REQUIRED;
-  if (!category) return ERROR_MESSAGES.CATEGORY_REQUIRED;
-  if (executeDays.length === 0) return ERROR_MESSAGES.EXECUTE_DAYS_REQUIRED;
+  if (!title) return FETCH_MESSAGES.TITLE_REQUIRED;
+  if (!description) return FETCH_MESSAGES.DESCRIPTION_REQUIRED;
+  if (!startDate) return FETCH_MESSAGES.START_DATE_REQUIRED;
+  if (!finishDate) return FETCH_MESSAGES.FINISH_DATE_REQUIRED;
+  if (!category) return FETCH_MESSAGES.CATEGORY_REQUIRED;
+  if (executeDays.length === 0) return FETCH_MESSAGES.EXECUTE_DAYS_REQUIRED;
 
   // 제목 길이 (30자 이내)
   if (title.length > 30) {
-    return ERROR_MESSAGES.TITLE_TOO_LONG;
+    return FETCH_MESSAGES.TITLE_TOO_LONG;
   }
 
   // 소개 길이 (500자 이내)
   if (description.length > 500) {
-    return ERROR_MESSAGES.DESCRIPTION_TOO_LONG;
+    return FETCH_MESSAGES.DESCRIPTION_TOO_LONG;
   }
 
   return null;
@@ -90,12 +90,12 @@ export const validateChallengePost = (challenge: ChallengePost): string | null =
 export const validateFile = (file: File, allowedTypes: string[], maxSize: number): string | null => {
   // 파일 형식
   if (!allowedTypes.includes(file.type)) {
-    return ERROR_MESSAGES.IMAGE_TYPE_INVALID;
+    return FETCH_MESSAGES.IMAGE_TYPE_INVALID;
   }
 
   // 파일 크기
   if (file.size > maxSize) {
-    return ERROR_MESSAGES.IMAGE_SIZE_TOO_LARGE;
+    return FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE;
   }
 
   return null;

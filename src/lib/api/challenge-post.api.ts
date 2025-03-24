@@ -1,6 +1,6 @@
 import { ChallengePost } from '@/types/challenge.type';
 import { validateChallengePost, validateUploadFile } from '../utils/post.util';
-import { DATABASE, ERROR_MESSAGES } from '@/constants/challenge-post.constants';
+import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { fetchUploadImage } from './storage.api';
 
@@ -45,7 +45,7 @@ export const fetchCreateChallenge = async (
       data: { session }
     } = await browserClient.auth.getSession();
     if (!session) {
-      return { success: false, message: ERROR_MESSAGES.LOGIN_REQUIRED };
+      return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
     }
     const userId = session.user.id;
 
@@ -70,9 +70,9 @@ export const fetchCreateChallenge = async (
       throw insertError;
     }
 
-    return { success: true, message: ERROR_MESSAGES.CHALLENGE_CREATION_SUCCESS };
+    return { success: true, message: FETCH_MESSAGES.CHALLENGE_CREATION_SUCCESS };
   } catch (error) {
     console.error('챌린지 생성 중 오류 발생:', error);
-    return { success: false, message: ERROR_MESSAGES.CHALLENGE_CREATION_FAILED };
+    return { success: false, message: FETCH_MESSAGES.CHALLENGE_CREATION_FAILED };
   }
 };

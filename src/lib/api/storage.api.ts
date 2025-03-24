@@ -1,6 +1,6 @@
 import browserClient from '../supabase/client';
 import { generateFileName } from '../utils/post.util';
-import { ERROR_MESSAGES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
+import { FETCH_MESSAGES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
 
 /**
  * 이미지를 Supabase Storage에 업로드하는 함수
@@ -14,7 +14,7 @@ export const fetchUploadImage = async (file: File): Promise<{ url: string | null
 
   if (uploadError) {
     console.error('이미지 업로드 오류:', uploadError);
-    return { url: null, error: ERROR_MESSAGES.IMAGE_UPLOAD_FAILED };
+    return { url: null, error: FETCH_MESSAGES.IMAGE_UPLOAD_FAILED };
   }
 
   const {

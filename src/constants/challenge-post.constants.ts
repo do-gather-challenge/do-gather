@@ -1,7 +1,7 @@
 // 일단 post 관련 constant는 모두 여기에 모아 두고 나중에 다른 적절한 곳에 합치겠습니다.
 export const DAYS = ['월', '화', '수', '목', '금', '토', '일'];
 export const SUPABASE_STORAGE_BUCKET = 'challenge-images';
-export const ERROR_MESSAGES = {
+export const FETCH_MESSAGES = {
   REQUIRED_FIELDS: '모든 필수 정보를 입력해 주세요.',
   IMAGE_UPLOAD_FAILED: '이미지 업로드에 실패했습니다.',
   LOGIN_REQUIRED: '로그인 후 사용 가능합니다.',
