@@ -25,7 +25,11 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
       <div className="flex flex-col gap-4 md:flex-row md:items-center">
         <Tag category={challenge.category} />
         <h2 className="text-xl font-semibold md:text-2xl">{challenge.title}</h2>
-        <ChallengeDetailShareButton />
+        <ChallengeDetailShareButton
+          title={challenge.title}
+          challengeImage={challenge.challengeImage}
+          description={challenge.description}
+        />
       </div>
       <div className="space-y-4 p-4 md:p-6">
         <div className="grid gap-4 md:grid-cols-2">
