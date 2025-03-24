@@ -7,14 +7,14 @@ import { getGridCols } from '@/lib/utils/classname.util';
 type ParticipationListProps = {
   cardsPerPage: number;
   challenges: Challenge[];
-  isLoading: boolean;
+  isPending: boolean;
   isFetching: boolean;
 };
 
 const ChallengeHomeParticipationList = ({
   cardsPerPage,
   challenges,
-  isLoading,
+  isPending,
   isFetching
 }: ParticipationListProps) => {
   return (
@@ -22,7 +22,7 @@ const ChallengeHomeParticipationList = ({
       <div
         className={`grid place-items-center gap-6 transition-all duration-500 ease-in-out ${getGridCols(cardsPerPage)}`}
       >
-        {isLoading || isFetching
+        {isPending || isFetching
           ? Array.from({ length: cardsPerPage }).map((_, i) => (
               <div key={i} className="bg-muted h-[240px] w-[240px] animate-pulse rounded-lg" />
             ))

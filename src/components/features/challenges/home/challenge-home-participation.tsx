@@ -7,7 +7,7 @@ import ChallengeHomeParticipationList from './challenge-home-participation-list'
 
 const ChallengeHomeParticipation = () => {
   const { pageIndex, setPageIndex, cardsPerPage } = useChallengeResponsiveCardsPerPage();
-  const { pageCount, challenges, isLoading, isFetching } = useGetMyInProgressChallengesQuery(pageIndex, cardsPerPage);
+  const { pageCount, challenges, isPending, isFetching } = useGetMyInProgressChallengesQuery(pageIndex, cardsPerPage);
 
   const toNextPage = () => {
     if (pageIndex < pageCount - 1) setPageIndex((p) => p + 1);
@@ -43,7 +43,7 @@ const ChallengeHomeParticipation = () => {
       <ChallengeHomeParticipationList
         cardsPerPage={cardsPerPage}
         challenges={challenges}
-        isLoading={isLoading}
+        isPending={isPending}
         isFetching={isFetching}
       />
     </section>
