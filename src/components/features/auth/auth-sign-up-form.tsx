@@ -14,6 +14,7 @@ const AuthSignUpForm = () => {
         {SignUpInputField.map((input) => {
           return (
             <AuthInputField
+              key={input.name}
               control={form.control}
               label={input.label}
               name={input.name}
