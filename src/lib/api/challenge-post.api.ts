@@ -1,7 +1,8 @@
-import { createClient } from '@/lib/supabase/client';
 import { ChallengePost } from '@/types/challenge.type';
-import { generateFileName, validateChallengePost, validateFile } from '../utils/post.util';
-import { DATABASE, ERROR_MESSAGES, FILES, SUPABASE_STORAGE_BUCKET } from '@/constants/challenge-post.constants';
+import { validateChallengePost } from '../utils/post.util';
+import { DATABASE, ERROR_MESSAGES } from '@/constants/challenge-post.constants';
+import browserClient from '../supabase/client';
+import { fetchUploadImage } from './storage.api';
 
 /**
  * 챌린지 게시물을 생성하는 API 함수
@@ -13,8 +14,6 @@ export const fetchCreatePost = async (
   challenge: ChallengePost,
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
-  const browserClient = createClient();
-
   // 필수 입력값 검증
   const validationError = validateChallengePost(challenge);
   if (validationError) {
@@ -43,7 +42,7 @@ export const fetchCreatePost = async (
     const userId = session.user.id;
 
     // 챌린지 생성
-    const { data: challengeData, error: insertError } = await browserClient
+    const { error: insertError } = await browserClient
       .from(DATABASE.TABLES.CHALLENGES)
       .insert({
         [DATABASE.COLUMNS.TITLE]: challenge.title,
@@ -68,33 +67,4 @@ export const fetchCreatePost = async (
     console.error('챌린지 생성 중 오류 발생:', error);
     return { success: false, message: ERROR_MESSAGES.CHALLENGE_CREATION_FAILED };
   }
-};
-
-/**
- * 이미지를 Supabase Storage에 업로드하는 함수
- * @param {File} file - 업로드할 파일
- * @returns { Promise<{ url: string | null; error: string | null }>} - 업로드된 이미지의 URL
- */
-export const fetchUploadImage = async (file: File): Promise<{ url: string | null; error: string | null }> => {
-  const browserClient = createClient();
-
-  // 파일 형식 및 크기 검증
-  const validationError = validateFile(file, FILES.ALLOWED_TYPES, FILES.MAX_SIZE);
-  if (validationError) {
-    return { url: null, error: validationError };
-  }
-
-  const fileName = generateFileName(file);
-
-  const { error: uploadError } = await browserClient.storage.from(SUPABASE_STORAGE_BUCKET).upload(fileName, file);
-
-  if (uploadError) {
-    console.error('이미지 업로드 오류:', uploadError);
-    return { url: null, error: ERROR_MESSAGES.IMAGE_UPLOAD_FAILED };
-  }
-
-  const {
-    data: { publicUrl }
-  } = browserClient.storage.from(SUPABASE_STORAGE_BUCKET).getPublicUrl(fileName);
-  return { url: publicUrl, error: null };
 };
