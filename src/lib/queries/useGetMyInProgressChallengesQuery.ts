@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
-import React from 'react';
 import { fetchGetMyInProgressChallengesByPage } from '../api/my-challenge.api';
+import { queryKeys } from '@/constants/query-keys';
 
 const useGetMyInProgressChallengesQuery = (pageIndex: number, cardsPerPage: number) => {
   const { data, isLoading, isFetching } = useQuery({
-    queryKey: ['my-in-progress-challenges', pageIndex, cardsPerPage],
+    queryKey: [queryKeys.MY_IN_PROGRESS_CHALLENGE, pageIndex, cardsPerPage],
     queryFn: () => fetchGetMyInProgressChallengesByPage(pageIndex + 1, cardsPerPage)
   });
 
