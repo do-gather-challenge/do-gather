@@ -10,10 +10,10 @@ type ChallengeCardProps = {
   participants: number;
   title: string;
   startDate: string;
-  endDate: string;
+  finishDate: string;
 };
 
-const ChallengeCard = ({ thumbnail, category, participants, title, startDate, endDate }: ChallengeCardProps) => {
+const ChallengeCard = ({ thumbnail, category, participants, title, startDate, finishDate }: ChallengeCardProps) => {
   return (
     <Card className="w-60 gap-4 pt-0 pb-2">
       <figure className="relative aspect-video w-full">
@@ -29,7 +29,7 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, en
         </div>
         <CardTitle>{title}</CardTitle>
         <span className="text-sm">
-          진행기간 : {startDate} ~ {endDate}
+          진행기간 : {startDate} ~ {finishDate}
         </span>
       </CardContent>
     </Card>
