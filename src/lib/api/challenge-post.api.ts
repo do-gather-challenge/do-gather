@@ -54,15 +54,15 @@ export const fetchCreateChallenge = async (
     const { error: insertError } = await browserClient
       .from(DATABASE.TABLES.CHALLENGES)
       .insert({
-        ['title']: challenge.title,
-        ['description']: challenge.description,
-        ['start_date']: challenge.startDate,
-        ['finish_date']: challenge.finishDate,
-        ['category']: challenge.category,
-        ['execute_days']: challenge.executeDays,
-        ['challenge_image']: imageUrl,
-        ['created_at']: new Date().toISOString(),
-        ['creator_id']: userId
+        title: challenge.title,
+        description: challenge.description,
+        start_date: challenge.startDate,
+        finish_date: challenge.finishDate,
+        category: challenge.category,
+        execute_days: challenge.executeDays,
+        challenge_image: imageUrl,
+        created_at: new Date().toISOString(),
+        creator_id: userId
       })
       .select()
       .single();
