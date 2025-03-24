@@ -1,8 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
-import browserClient from '@/lib/supabase/client';
 import { fetchCreateChallengeCompleted } from '@/lib/api/completed.api';
 
 type ChallengeDetailCompleteButtonProps = {
@@ -15,12 +13,6 @@ const ChallengeDetailCompleteButton = ({
   isParticipating,
   isCompleted
 }: ChallengeDetailCompleteButtonProps) => {
-  const [userId, setUserId] = useState<string>('');
-
-  useEffect(() => {
-    browserClient.auth.getUser().then(({ data }) => setUserId(data.user?.id || ''));
-  }, []);
-
   const handleCompletedButtonClick = () => {
     if (!isParticipating) return;
     fetchCreateChallengeCompleted(challengeId).catch((e) => console.log(e));
