@@ -45,6 +45,7 @@
   --color-black: var(--black);
   --color-white: var(--white);
   --color-gray: var(--gray);
+  --color-blue: var(--blue)
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -93,6 +94,7 @@
   --black: #333333;
   --white: #fbfbfb;
   --gray: #e2e8f0;
+  --blue: #2563eb;
 }
 
 html {
