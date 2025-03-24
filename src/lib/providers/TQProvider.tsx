@@ -1,5 +1,5 @@
 'use client';
-
+// tqprovider
 import { isServer, QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 function makeQueryClient() {
