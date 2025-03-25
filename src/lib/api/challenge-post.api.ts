@@ -3,7 +3,6 @@ import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { fetchUploadImage } from './storage.api';
 import { validateChallengePost, validateFile } from '../utils/validate.util';
-import { getSession } from './user-Info.api';
 
 /**
  * 챌린지 게시물을 생성하는 API 함수
@@ -42,11 +41,13 @@ export const fetchCreateChallenge = async (
     }
 
     // 로그인 세션 확인
-    const sessionResult = await getSession();
-    if (sessionResult.error || !sessionResult.user) {
+    const {
+      data: { session }
+    } = await browserClient.auth.getSession();
+    if (!session) {
       return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
     }
-    const userId = sessionResult.user.id;
+    const userId = session.user.id;
 
     // 챌린지 생성
     const { error: insertError } = await browserClient
@@ -116,11 +117,13 @@ export const fetchUpdateChallenge = async (
     }
 
     // 로그인 세션 확인
-    const sessionResult = await getSession();
-    if (sessionResult.error || !sessionResult.user) {
+    const {
+      data: { session }
+    } = await browserClient.auth.getSession();
+    if (!session) {
       return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
     }
-    const userId = sessionResult.user.id;
+    const userId = session.user.id;
 
     // 챌린지 수정
     const updatePayload: Record<string, any> = {
@@ -136,17 +139,6 @@ export const fetchUpdateChallenge = async (
       updatePayload.challenge_image = imageUrl;
     }
 
-    //지울 예정
-    const { data: post } = await browserClient
-      .from(DATABASE.TABLES.CHALLENGES)
-      .select('*')
-      .eq('id', challengeId)
-      .single();
-
-    if (post.creator_id !== sessionResult.user.id) {
-      return { success: false, message: '내가 쓴글 아님' };
-    }
-
     const { data, error: updateError } = await browserClient
       .from(DATABASE.TABLES.CHALLENGES)
       .update(updatePayload)
@@ -156,6 +148,19 @@ export const fetchUpdateChallenge = async (
 
     if (updateError) {
       throw updateError;
+    }
+
+    const { data: post } = await browserClient
+      .from(DATABASE.TABLES.CHALLENGES)
+      .select('*')
+      .eq('id', challengeId)
+      .single();
+
+    console.log('Post Creator ID:', post.creator_id);
+    console.log('Session User ID:', session.user.id);
+
+    if (post.creator_id !== userId) {
+      return { success: false, message: '내가 쓴 글이 아닙니다.' };
     }
 
     if (!data || data.length === 0) {
