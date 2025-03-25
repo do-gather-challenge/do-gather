@@ -74,7 +74,7 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
       <div className="flex justify-center gap-4">
         <ChallengeDetailBackButton />
         <Link
-          href={`/challenges/edit/${challenge.id}`}
+          href={`/challenges/post/${challenge.id}`}
           className="flex items-center justify-center rounded border border-black px-3 hover:bg-black/20"
         >
           챌린지 수정
