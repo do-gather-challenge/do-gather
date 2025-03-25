@@ -45,3 +45,15 @@ export const generateFileName = (file: File): string => {
   const fileName = file.name.replace(/[^a-zA-Z0-9-_\.]/g, '');
   return `${timestamp}-${random}-${fileName}`;
 };
+
+/**
+ * 캘린더에서 날짜를 선택할 때, 하루가 -1 되는 현상을 방지하기 위해 만들어진 유틸리티 함수
+ * @param {Date} date - 변환할 날짜 객체
+ * @returns {string} - 변환된 'YYYY-MM-DD' 형식의 문자열
+ */
+export const toLocalDateString = (date: Date): string => {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};

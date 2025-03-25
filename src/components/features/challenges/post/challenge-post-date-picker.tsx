@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { toLocalDateString } from '@/lib/utils/post.util';
 
 type DateRangePickerProps = {
   startDate: Date | undefined;
@@ -12,14 +13,6 @@ type DateRangePickerProps = {
 };
 
 const ChallengePostDatePicker = ({ startDate, endDate, onStartDateChange, onEndDateChange }: DateRangePickerProps) => {
-  // 로컬 날짜로 변환
-  const toLocalDateString = (date: Date) => {
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-    return `${year}-${month}-${day}`;
-  };
-
   return (
     <div className="flex items-center gap-2">
       {/* 시작 날짜 선택 */}
