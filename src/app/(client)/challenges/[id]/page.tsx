@@ -67,7 +67,7 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
             />
           </section>
         </div>
-        <section className="flex flex-col gap-2 md:flex-row md:justify-between">
+        <section className="flex flex-col gap-2 md:justify-between">
           <ChallengeDetailInfoField type="진행 기간">
             <span className="whitespace-nowrap">{challenge.startDate}</span> ~{' '}
             <span className="whitespace-nowrap">{challenge.finishDate}</span>
