@@ -4,6 +4,7 @@ import { ChallengeCategoryType } from '@/types/challenge-category.type';
 import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import { LuUserRound } from 'react-icons/lu';
 import Image from 'next/image';
+import { transformDate } from '@/lib/utils/transform.util';
 
 type ChallengeCardProps = {
   thumbnail: string | null;
@@ -25,7 +26,7 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, fi
           fill
         />
       </figure>
-      <CardContent className="space-y-2">
+      <CardContent className="relative space-y-2">
         <div className="flex justify-between">
           <Tag category={category} />
           <div className="flex items-center gap-1">
@@ -34,8 +35,8 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, fi
           </div>
         </div>
         <CardTitle>{title}</CardTitle>
-        <span className="absolute bottom-4 text-sm">
-          진행기간 : {startDate} ~ {finishDate}
+        <span className="absolute top-18 text-sm">
+          진행기간 : {transformDate(startDate)} ~ {transformDate(finishDate)}
         </span>
       </CardContent>
     </Card>

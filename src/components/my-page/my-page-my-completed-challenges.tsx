@@ -27,7 +27,7 @@ const MyPageMyCompletedChallenges = () => {
                   participants={challenge.participantCount}
                   title={challenge.title}
                   startDate={challenge.startDate}
-                  endDate={challenge.finishDate}
+                  finishDate={challenge.finishDate}
                 />
               );
             })}
