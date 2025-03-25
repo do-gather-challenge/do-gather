@@ -29,16 +29,10 @@ export const validateChallengePost = (challenge: ChallengePost): string | null =
   if (!finishDate) return FETCH_MESSAGES.FINISH_DATE_REQUIRED;
   if (!category) return FETCH_MESSAGES.CATEGORY_REQUIRED;
   if (executeDays.length === 0) return FETCH_MESSAGES.EXECUTE_DAYS_REQUIRED;
-
   // 제목 길이 (30자 이내)
-  if (title.length > 30) {
-    return FETCH_MESSAGES.TITLE_TOO_LONG;
-  }
-
+  if (title.length > 30) return FETCH_MESSAGES.TITLE_TOO_LONG;
   // 소개 길이 (500자 이내)
-  if (description.length > 500) {
-    return FETCH_MESSAGES.DESCRIPTION_TOO_LONG;
-  }
+  if (description.length > 500) return FETCH_MESSAGES.DESCRIPTION_TOO_LONG;
 
   return null;
 };
@@ -56,14 +50,10 @@ export const validateFile = (
   maxSize: number = FILES.MAX_SIZE
 ): string | null => {
   // 파일 형식 검증
-  if (!allowedTypes.includes(file.type)) {
-    return FETCH_MESSAGES.IMAGE_TYPE_INVALID;
-  }
-
+  if (!allowedTypes.includes(file.type)) return FETCH_MESSAGES.IMAGE_TYPE_INVALID;
   // 파일 크기 검증
-  if (file.size > maxSize) {
-    return FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE;
-  }
+  if (file.size > maxSize) return FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE;
 
   return null;
 };
+
