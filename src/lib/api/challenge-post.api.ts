@@ -15,9 +15,9 @@ export const fetchCreateChallenge = async (
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
   // 필수 입력값 검증
-  const validationError = validateChallengePost(challenge);
-  if (validationError) {
-    return { success: false, message: validationError };
+  const { success, error } = validateChallengePost.safeParse(challenge);
+  if (!success) {
+    return { success: false, message: error.errors[0].message };
   }
 
   // 이미지 파일 검증
@@ -90,9 +90,9 @@ export const fetchUpdateChallenge = async (
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
   // 필수 입력값 검증
-  const validationError = validateChallengePost(updatedChallenge);
-  if (validationError) {
-    return { success: false, message: validationError };
+  const { success, error } = validateChallengePost.safeParse(updatedChallenge);
+  if (!success) {
+    return { success: false, message: error.errors[0].message };
   }
 
   // 이미지 파일 검증

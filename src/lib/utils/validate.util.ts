@@ -1,6 +1,6 @@
 import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import { FILES } from '@/constants/files.constant';
-import { ChallengePost } from '@/types/challenge.type';
+import { z } from 'zod';
 
 /**
  * 문자열이 유효한 양의 정수인지 확인합니다.
@@ -16,26 +16,22 @@ export const isValidNumber = (str: string) => {
 };
 
 /**
- * 챌린지 게시물의 필수 입력값을 검증하는 유틸리티 함수
- * @param {ChallengePost} challenge - 검증할 챌린지 게시물 데이터
- * @returns {string | null} - 검증 결과 (오류 메시지 또는 null)
+ * 챌린지 게시물의 필수 입력값을 검증하는 유틸리티 함수(zod)
  */
-export const validateChallengePost = (challenge: ChallengePost): string | null => {
-  const { title, description, startDate, finishDate, category, executeDays } = challenge;
-
-  if (!title) return FETCH_MESSAGES.TITLE_REQUIRED;
-  if (!description) return FETCH_MESSAGES.DESCRIPTION_REQUIRED;
-  if (!startDate) return FETCH_MESSAGES.START_DATE_REQUIRED;
-  if (!finishDate) return FETCH_MESSAGES.FINISH_DATE_REQUIRED;
-  if (!category) return FETCH_MESSAGES.CATEGORY_REQUIRED;
-  if (executeDays.length === 0) return FETCH_MESSAGES.EXECUTE_DAYS_REQUIRED;
-  // 제목 길이 (30자 이내)
-  if (title.length > 30) return FETCH_MESSAGES.TITLE_TOO_LONG;
-  // 소개 길이 (500자 이내)
-  if (description.length > 500) return FETCH_MESSAGES.DESCRIPTION_TOO_LONG;
-
-  return null;
-};
+export const validateChallengePost = z.object({
+  title: z
+    .string({ required_error: FETCH_MESSAGES.TITLE_REQUIRED })
+    .min(1, FETCH_MESSAGES.TITLE_REQUIRED)
+    .max(30, FETCH_MESSAGES.TITLE_TOO_LONG),
+  description: z
+    .string({ required_error: FETCH_MESSAGES.DESCRIPTION_REQUIRED })
+    .min(1, FETCH_MESSAGES.DESCRIPTION_REQUIRED)
+    .max(500, FETCH_MESSAGES.DESCRIPTION_TOO_LONG),
+  startDate: z.string({ required_error: FETCH_MESSAGES.START_DATE_REQUIRED }),
+  finishDate: z.string({ required_error: FETCH_MESSAGES.FINISH_DATE_REQUIRED }),
+  category: z.string({ required_error: FETCH_MESSAGES.CATEGORY_REQUIRED }),
+  executeDays: z.array(z.string()).min(1, FETCH_MESSAGES.EXECUTE_DAYS_REQUIRED)
+});
 
 /**
  * 파일 유효성 검증 유틸리티 함수 (통합 버전)
@@ -56,4 +52,3 @@ export const validateFile = (
 
   return null;
 };
-
