@@ -3,7 +3,7 @@
 import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
 import ChallengeCard from '../features/challenges/challenge-card';
 
-const MyPageMyCompletedChallenges = () => {
+const MyPageMyTodaysCompletedChallenges = () => {
   const { pageCount, challenges, isPending, isError, error } = useGetMyCompletedChallengesQuery(1, 6);
 
   if (isPending) return <>Loading...</>;
@@ -37,4 +37,4 @@ const MyPageMyCompletedChallenges = () => {
   );
 };
 
-export default MyPageMyCompletedChallenges;
+export default MyPageMyTodaysCompletedChallenges;

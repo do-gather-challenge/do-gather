@@ -6,6 +6,7 @@ import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Button } from '@/components/ui/button';
 import MyPageMyCompletedChallenges from './my-page-my-completed-challenges';
 import MyPageMyInProgressChallenges from './my-page-my-in-progress-challenges';
+import MyPageMyTodaysCompletedChallenges from './my-page-my-todays-completed-challenges';
 
 type MyChallengeAlias = 'Today' | '참여중' | '완료';
 type MyPageMyChallenges = {
@@ -59,6 +60,7 @@ const MyPageMyChallenge = () => {
               return (
                 <div className="flex flex-col gap-5">
                   <p className="text-2xl font-bold">오늘 인증한 챌린지</p>
+                  <MyPageMyTodaysCompletedChallenges />
                 </div>
               );
             case '참여중':

@@ -1,10 +1,11 @@
 'use client';
 
+import { useGetMyPageMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-page-my-in-progress-challenges-query';
 import ChallengeCard from '../features/challenges/challenge-card';
-import { useGetMyInProgressChallengesQuery } from '@/lib/queries/useGetMyInProgressChallengesQuery';
+// import { useGetMyInProgressChallengesQuery } from '@/lib/queries/useGetMyInProgressChallengesQuery'; --- 재사용 필요
 
 const MyPageMyInProgressChallenges = () => {
-  const { pageCount, challenges, isPending, isError, error } = useGetMyInProgressChallengesQuery(1, 6);
+  const { pageCount, challenges, isPending, isError, error } = useGetMyPageMyInProgressChallengesQuery(1, 6);
 
   if (isPending) return <>Loading...</>;
   if (isError) {
@@ -27,7 +28,7 @@ const MyPageMyInProgressChallenges = () => {
                   participants={challenge.participantCount}
                   title={challenge.title}
                   startDate={challenge.startDate}
-                  endDate={challenge.finishDate}
+                  finishDate={challenge.finishDate}
                 />
               );
             })}
