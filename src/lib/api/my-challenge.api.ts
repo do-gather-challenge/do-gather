@@ -1,8 +1,9 @@
 import { createClient } from '@/lib/supabase/client';
 import { transformChallengeDataArray } from '@/lib/utils/transform.util';
 import { ErrorMessage } from '@/constants/error-message.constant';
-import { Challenge } from '@/types/challenge.type';
+import { Challenge, ChallengeSnakeCase } from '@/types/challenge.type';
 import { Pagination } from '@/types/common.type';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 /**
  * 로그인한 사용자의 챌린지 ID 목록을 가져오는 유틸리티 함수
@@ -11,7 +12,7 @@ import { Pagination } from '@/types/common.type';
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
 export const fetchGetAllMyChallengeIds = async (): Promise<string[]> => {
-  const supabase = await createClient();
+  const supabase = createClient();
 
   const {
     data: { user }
@@ -42,16 +43,18 @@ export const fetchGetAllMyChallengeIds = async (): Promise<string[]> => {
  * 사용자의 챌린지 목록을 필터링하여 조회하는 함수
  * @param {number} page - 현재 페이지 (1부터 시작)
  * @param {number} limit - 페이지당 항목 수
- * @param {(query: any) => any} filterFn - 챌린지 필터링 함수
+ * @param {(query: ReturnType<ReturnType<SupabaseClient['from']>['select']>) => ReturnType<ReturnType<SupabaseClient['from']>['select']>} filterFn - 챌린지 필터링 함수
  * @returns {Promise<Pagination<Challenge[]>>} 필터링된 챌린지 목록 및 페이지네이션 정보
  * @throws {PostgrestError} Supabase 쿼리 실행 중 오류가 발생한 경우
  */
 const fetchGetMyChallengesByPage = async (
   page: number,
   limit: number,
-  filterFn: (query: any) => any
+  filterFn: (
+    query: ReturnType<ReturnType<SupabaseClient['from']>['select']>
+  ) => ReturnType<ReturnType<SupabaseClient['from']>['select']>
 ): Promise<Pagination<Challenge[]>> => {
-  const supabase = await createClient();
+  const supabase = createClient();
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
@@ -81,7 +84,7 @@ const fetchGetMyChallengesByPage = async (
   }
 
   const totalCount = count ?? 0;
-  const transformedData = transformChallengeDataArray(data);
+  const transformedData = transformChallengeDataArray(data as ChallengeSnakeCase[]);
 
   return {
     data: transformedData,

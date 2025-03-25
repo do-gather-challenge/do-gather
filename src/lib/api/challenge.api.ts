@@ -101,7 +101,7 @@ export const fetchGetChallengeWithParticipation = async (
     data: { user }
   } = await supabase.auth.getUser();
 
-  if (!user) return { ...challenge, isParticipating: false };
+  if (!user) return { ...challenge, isParticipating: false, isCompleted: false };
 
   const { data } = await supabase
     .from('participants')
@@ -110,8 +110,19 @@ export const fetchGetChallengeWithParticipation = async (
     .eq('user_id', user.id)
     .single();
 
-  return {
-    ...challenge,
-    isParticipating: !!data
-  };
+  if (!data) return { ...challenge, isParticipating: false, isCompleted: false };
+
+  const now = new Date();
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).toISOString();
+
+  const { data: isCompletedData } = await supabase
+    .from('challenge_completions')
+    .select()
+    .eq('challenge_id', challengeId)
+    .eq('user_id', user.id)
+    .gte('created_at', startOfDay)
+    .lt('created_at', endOfDay);
+
+  return { ...challenge, isParticipating: !!data, isCompleted: !!isCompletedData && isCompletedData.length > 0 };
 };
