@@ -11,7 +11,7 @@ import ICON_GITHUB from '@/../public/images/icon-github.png';
 import ICON_GOOGLE from '@/../public/images/icon-google.png';
 
 const AuthSignInForm = () => {
-  const { form, onSubmit } = useSignInForm();
+  const { form } = useSignInForm();
 
   const signInWithGithub = async () => {
     await browserClient.auth.signInWithOAuth({
@@ -31,9 +31,15 @@ const AuthSignInForm = () => {
     });
   };
 
+  const onSubmit = async () => {
+    const values = form.getValues();
+    const { data } = await browserClient.auth.signInWithPassword(values);
+    window.location.href = '/home';
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+      <form action={onSubmit} className="w-full space-y-4">
         {SignInInputField.map((input) => {
           return (
             <AuthInputField
