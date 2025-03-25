@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchGetMyInProgressChallengesByPage } from '../api/my-challenge.api';
-import { challengeQueryKeys } from '@/constants/query-keys/challenge-query-keys.constant';
+import { challengeQueryKeys } from '@/constants/query-keys.constant';
 
 export const useGetMyInProgressChallengesQuery = (pageIndex: number, cardsPerPage: number) => {
   const { data, isPending, error, isError } = useQuery({
