@@ -14,12 +14,13 @@ export const getSession = async () => {
   const supabase = createClient();
 
   const {
-    data: { session },
-    error: sessionError
-  } = await supabase.auth.getSession();
+    data: { user },
+    error: userError
+  } = await supabase.auth.getUser();
+  console.log(user);
 
-  if (sessionError) {
-    const status = sessionError.status;
+  if (userError) {
+    const status = userError.status;
     let message = '알 수 없는 오류가 발생했습니다.';
 
     switch (status) {
@@ -40,39 +41,36 @@ export const getSession = async () => {
         break;
       default:
         // error.message가 존재하면 fallback 메시지로 사용
-        if (sessionError.message) {
-          message = `에러: ${sessionError.message}`;
+        if (userError.message) {
+          message = `에러: ${userError.message}`;
         }
     }
-
-    return {
+    const error = {
       status,
       message
     };
+
+    return { error };
   }
 
-  return { session };
+  return { user };
 };
 
 export const getUserInfo = async () => {
-  const { session } = await getSession();
+  const { user } = await getSession();
   const supabase = createClient();
 
   // 초기값 선언
   let userId: UserInfo['id'] = '';
   let userInfo: UserInfo = initialUserInfo;
 
-  const isLogin = !!session;
+  const isLogin = !!user;
 
-  if (session?.user) {
-    userId = session.user.id;
+  if (user) {
+    userId = user.id;
 
     // userId에 해당하는 유저 정보 가져오기
-    const { data, error } = await supabase
-      .from('users')
-      .select('*')
-      .eq('id', userId) 
-      .single(); 
+    const { data, error } = await supabase.from('users').select('*').eq('id', userId).single();
     if (error) {
       console.error('Error fetching user data:', error.message);
     } else {
