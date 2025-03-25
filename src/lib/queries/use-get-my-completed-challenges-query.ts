@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchGetMyCompletedChallengesByPage } from '../api/my-challenge.api';
+import { queryKeys } from '@/constants/query-keys';
 
 /** useGetMyCompletedChallengesQuery: 로그인한 사용자의 완료된 챌린지 목록을 조회하는 커스텀 훅
  * @param {number} pageIndex - 현재 페이지 인덱스
@@ -14,7 +15,7 @@ import { fetchGetMyCompletedChallengesByPage } from '../api/my-challenge.api';
  */
 export const useGetMyCompletedChallengesQuery = (pageIndex: number, cardsPerPage: number) => {
   const { data, isPending, isError, error } = useQuery({
-    queryKey: [MY_COMPLETED_CHALLENGE, pageIndex, cardsPerPage],
+    queryKey: [queryKeys.MY_COMPLETED_CHALLENGE, pageIndex, cardsPerPage],
     queryFn: () => fetchGetMyCompletedChallengesByPage(pageIndex, cardsPerPage)
   });
 
@@ -23,6 +24,3 @@ export const useGetMyCompletedChallengesQuery = (pageIndex: number, cardsPerPage
 
   return { pageCount, challenges, isPending, isError, error };
 };
-
-/** constants - query-keys */
-const MY_COMPLETED_CHALLENGE = 'my-completed-challenge';

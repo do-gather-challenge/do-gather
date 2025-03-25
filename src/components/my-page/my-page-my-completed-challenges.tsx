@@ -1,6 +1,6 @@
 'use client';
 
-import { useGetMyCompletedChallengesQuery } from '@/lib/queries/useGetMyCompletedChallengesQuery';
+import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
 import ChallengeCard from '../features/challenges/challenge-card';
 
 const MyPageMyCompletedChallenges = () => {
