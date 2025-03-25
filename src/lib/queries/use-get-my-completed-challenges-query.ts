@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { fetchGetMyCompletedChallengesByPage } from '../api/my-challenge.api';
-import { queryKeys } from '@/constants/query-keys';
+import { queryKeys } from '@/constants/query-keys.constant';
 
 /** useGetMyCompletedChallengesQuery: 로그인한 사용자의 완료된 챌린지 목록을 조회하는 커스텀 훅
  * @param {number} pageIndex - 현재 페이지 인덱스
