@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import Image from 'next/image';
 import { notFound } from 'next/navigation';
 import Tag from '@/components/ui/tag';
@@ -6,14 +7,25 @@ import ChallengeDetailShareButton from '@/components/features/challenges/detail/
 import ChallengeDetailBackButton from '@/components/features/challenges/detail/challenge-detail-back-button';
 import ChallengeDetailJoinButton from '@/components/features/challenges/detail/challenge-detail-join-button';
 import ChallengeDetailCompleteButton from '@/components/features/challenges/detail/challenge-detail-complete-button';
-import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import { isValidNumber } from '@/lib/utils/validate.util';
 import { fetchGetChallengeWithParticipation } from '@/lib/api/challenge.api';
 import ImageVideoSize from '@/constants/image.constant';
+import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 
 type ChallengeDetailPageProps = {
   params: { id: string };
 };
+
+export const generateMetadata = async ({ params: { id } }: ChallengeDetailPageProps) => {
+  const challenge = await fetchGetChallengeWithParticipation(Number(id));
+  if (!challenge) return;
+
+  return {
+    title: challenge.title,
+    description: challenge.description
+  };
+};
+
 const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps) => {
   if (!isValidNumber(id)) return notFound();
   const challenge = await fetchGetChallengeWithParticipation(Number(id));
@@ -25,7 +37,11 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
       <div className="flex flex-col gap-4 md:flex-row md:items-center">
         <Tag category={challenge.category} />
         <h2 className="text-xl font-semibold md:text-2xl">{challenge.title}</h2>
-        <ChallengeDetailShareButton />
+        <ChallengeDetailShareButton
+          title={challenge.title}
+          challengeImage={challenge.challengeImage}
+          description={challenge.description}
+        />
       </div>
       <div className="space-y-4 p-4 md:p-6">
         <div className="grid gap-4 md:grid-cols-2">
@@ -40,14 +56,18 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
                 priority
               />
             </figure>
-            <ChallengeDetailJoinButton />
+            <ChallengeDetailJoinButton challengeId={challenge.id} isParticipating={challenge.isParticipating} />
           </section>
           <section className="flex flex-col gap-2">
             <div className="min-h-[200px] flex-1 border border-red-500 md:min-h-0">챌린지 참여 로그 세션</div>
-            <ChallengeDetailCompleteButton />
+            <ChallengeDetailCompleteButton
+              challengeId={challenge.id}
+              isParticipating={challenge.isParticipating}
+              isCompleted={challenge.isCompleted}
+            />
           </section>
         </div>
-        <section className="flex flex-col gap-2 md:flex-row md:justify-between">
+        <section className="flex flex-col gap-2 md:justify-between">
           <ChallengeDetailInfoField type="진행 기간">
             <span className="whitespace-nowrap">{challenge.startDate}</span> ~{' '}
             <span className="whitespace-nowrap">{challenge.finishDate}</span>
@@ -62,7 +82,15 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
           <p className="mt-2 whitespace-pre-wrap">{challenge.description}</p>
         </section>
       </div>
-      <ChallengeDetailBackButton />
+      <div className="flex justify-center gap-4">
+        <ChallengeDetailBackButton />
+        <Link
+          href={`/challenges/post/${challenge.id}`}
+          className="flex items-center justify-center rounded border border-black px-3 hover:bg-black/20"
+        >
+          챌린지 수정
+        </Link>
+      </div>
     </section>
   );
 };
