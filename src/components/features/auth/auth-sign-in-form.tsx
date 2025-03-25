@@ -7,6 +7,8 @@ import browserClient from '@/lib/supabase/client';
 import Image from 'next/image';
 import Link from 'next/link';
 import AuthInputField from './auth-input-field';
+import ICON_GITHUB from '@/../public/images/icon-github.png';
+import ICON_GOOGLE from '@/../public/images/icon-google.png';
 
 const AuthSignInForm = () => {
   const { form, onSubmit } = useSignInForm();
@@ -20,12 +22,22 @@ const AuthSignInForm = () => {
     });
   };
 
+  const signInWithGoogle = async () => {
+    await browserClient.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: window.origin + 'api/auth/callback'
+      }
+    });
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
         {SignInInputField.map((input) => {
           return (
             <AuthInputField
+              key={input.name}
               control={form.control}
               label={input.label}
               name={input.name}
@@ -34,20 +46,20 @@ const AuthSignInForm = () => {
             />
           );
         })}
-        <Button type="submit" className="bg-secondary w-full text-white">
+        <Button type="submit" variant="secondary" className="bg-secondary w-full text-white">
           Login
         </Button>
         <div className="flex items-center justify-between gap-4">
-          <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
-            <Image src="/images/ICON_GOOGLE.png" alt="google logo" width={24} height={24} className="rounded" />
+          <Button type="button" className="bg-gray hover:bg-gray/60 flex-1" onClick={signInWithGoogle}>
+            <Image src={ICON_GOOGLE} alt="google-logo" width={24} height={24} className="rounded" />
           </Button>
-          <Button type="button" className="flex-1 bg-slate-200" onClick={signInWithGithub}>
-            <Image src="/images/ICON_GITHUB.png" alt="google logo" width={24} height={24} className="rounded" />
+          <Button type="button" className="bg-gray hover:bg-gray/60 flex-1" onClick={signInWithGithub}>
+            <Image src={ICON_GITHUB} alt="github-logo" width={24} height={24} className="rounded" />
           </Button>
         </div>
         <div className="flex justify-center gap-4">
           <span>계정이 없으신가요?</span>
-          <Link href="/sign-up" className="font-bold hover:scale-115 hover:underline">
+          <Link href="/sign-up" className="text-blue hover:scale-105 hover:underline">
             가입하기
           </Link>
         </div>
@@ -68,7 +80,7 @@ const SignInInputField = [
   {
     name: 'password',
     label: '비밀번호',
-    placeholder: '비밀번호(6~12자)',
+    placeholder: '비밀번호(6~16자)',
     type: 'password'
   }
 ] as const;

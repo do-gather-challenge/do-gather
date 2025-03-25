@@ -22,11 +22,14 @@ export const useSignUpForm = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof signFormSchema>) => {
-    const { email, password } = values;
+    const { email, nickname, password } = values;
 
     const { data, error } = await browserClient.auth.signUp({
       email,
-      password
+      password,
+      options: {
+        data: { nickname }
+      }
     });
 
     if (error) {
