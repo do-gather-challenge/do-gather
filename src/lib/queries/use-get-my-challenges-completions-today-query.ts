@@ -23,7 +23,6 @@ export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number, cards
 
   /** 참여 중인 나의 챌린지 중에서, challenge_completions 테이블에 해당 챌린지 id가 있으면 필터링 */
   const challengesInProgressArray = dataInProgress?.map((challenge) => challenge.id) ?? []; // 참여 중인 챌린지 리스트
-  console.log(challengesInProgressArray);
 
   const {
     data: completedChallengeIds,
