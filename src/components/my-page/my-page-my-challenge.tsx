@@ -16,13 +16,26 @@ type MyPageMyChallenges = {
 
 const MyPageMyChallenge = () => {
   const [selectedChallenge, setSelectedChallenge] = useState<MyChallengeAlias>('Today');
-
   const challenges: MyPageMyChallenges[] = [
     { label: '오늘 인증한 챌린지', alias: 'Today' },
     { label: '참여 중인 챌린지', alias: '참여중' },
     { label: '완료한 챌린지', alias: '완료' }
   ];
-
+  const challengeComponents = {
+    Today: {
+      title: '오늘 인증한 챌린지',
+      Component: MyPageMyTodaysCompletedChallenges
+    },
+    참여중: {
+      title: '참여 중인 챌린지',
+      Component: MyPageMyInProgressChallenges
+    },
+    완료: {
+      title: '완료한 챌린지',
+      Component: MyPageMyCompletedChallenges
+    }
+  };
+  const { title, Component } = challengeComponents[selectedChallenge];
   return (
     <section className="mt-5 flex w-full flex-col items-center gap-3 sm:flex-row">
       {/* 프로필 & 버튼 */}
@@ -54,33 +67,10 @@ const MyPageMyChallenge = () => {
       </aside>
       {/* 마이 챌린지 */}
       <section className="flex w-full justify-center self-start">
-        {(() => {
-          switch (selectedChallenge) {
-            case 'Today':
-              return (
-                <div className="flex flex-col gap-5">
-                  <p className="text-2xl font-bold">오늘 인증한 챌린지</p>
-                  <MyPageMyTodaysCompletedChallenges />
-                </div>
-              );
-            case '참여중':
-              return (
-                <div className="flex flex-col gap-5">
-                  <p className="text-2xl font-bold">참여 중인 챌린지</p>
-                  <MyPageMyInProgressChallenges />
-                </div>
-              );
-            case '완료':
-              return (
-                <div className="flex flex-col gap-5">
-                  <p className="text-2xl font-bold">완료한 챌린지</p>
-                  <MyPageMyCompletedChallenges />
-                </div>
-              );
-            default:
-              return;
-          }
-        })()}
+        <div className="flex flex-col gap-5">
+          <p className="text-2xl font-bold">{title}</p>
+          <Component />
+        </div>
       </section>
     </section>
   );
