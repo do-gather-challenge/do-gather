@@ -1,13 +1,18 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useGetMyInProgressChallengesQuery } from '@/lib/queries/useGetMyInProgressChallengesQuery';
+import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
 import { useChallengeResponsiveCardsPerPage } from '@/lib/hooks/use-challenge-responsive-cards-per-page';
 import ChallengeHomeParticipationList from './challenge-home-participation-list';
 
 const ChallengeHomeParticipation = () => {
   const { pageIndex, setPageIndex, cardsPerPage } = useChallengeResponsiveCardsPerPage();
-  const { pageCount, challenges, isLoading, isFetching } = useGetMyInProgressChallengesQuery(pageIndex, cardsPerPage);
+  const { pageCount, challenges, isPending, error, isError } = useGetMyInProgressChallengesQuery(
+    pageIndex,
+    cardsPerPage
+  );
+
+  if (isError) return <p className="text-center">에러 발생 : {(error as Error).message}</p>;
 
   const toNextPage = () => {
     if (pageIndex < pageCount - 1) setPageIndex((p) => p + 1);
@@ -25,7 +30,7 @@ const ChallengeHomeParticipation = () => {
           <Button
             variant="outline"
             onClick={toPrevPage}
-            disabled={pageIndex === 0 || isFetching}
+            disabled={pageIndex === 0}
             className="rounded-full px-3 disabled:opacity-30"
           >
             ←
@@ -33,19 +38,14 @@ const ChallengeHomeParticipation = () => {
           <Button
             variant="outline"
             onClick={toNextPage}
-            disabled={pageIndex === pageCount - 1 || isFetching}
+            disabled={pageIndex === pageCount - 1}
             className="rounded-full px-3 disabled:opacity-30"
           >
             →
           </Button>
         </div>
       </div>
-      <ChallengeHomeParticipationList
-        cardsPerPage={cardsPerPage}
-        challenges={challenges}
-        isLoading={isLoading}
-        isFetching={isFetching}
-      />
+      <ChallengeHomeParticipationList cardsPerPage={cardsPerPage} challenges={challenges} isPending={isPending} />
     </section>
   );
 };

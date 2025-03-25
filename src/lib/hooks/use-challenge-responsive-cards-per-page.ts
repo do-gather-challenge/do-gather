@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { breakpoints } from '@/constants/breakpoints';
+import { breakpoints } from '@/constants/breakpoints.constant';
 
 // 창 크기 바뀔 경우 cardsPerPage 재계산 + 페이지 초기화
 export const useChallengeResponsiveCardsPerPage = () => {
