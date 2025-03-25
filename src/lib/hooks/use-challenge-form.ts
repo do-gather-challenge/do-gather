@@ -16,25 +16,20 @@ export const useChallengeForm = () => {
   });
   const [challengeImageFile, setChallengeImageFile] = useState<File | null>(null);
 
+  // 입력 값 변경 핸들러 (제목, 소개)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const target = e.target;
-    const id = target.id as keyof ChallengePost;
-
-    // 타입 안전성 검증
+    const { id, value, type, checked } = e.target as HTMLInputElement;
     if (!(id in challenge)) {
       console.error(`Invalid id: ${id}`);
       return;
     }
-
-    if (target instanceof HTMLInputElement && (target.type === 'checkbox' || target.type === 'radio')) {
-      setChallenge((prev) => ({ ...prev, [id]: target.checked }));
-    } else {
-      setChallenge((prev) => ({ ...prev, [id]: target.value }));
-    }
+    setChallenge((prev) => ({
+      ...prev,
+      [id]: type === 'checkbox' || type === 'radio' ? checked : value
+    }));
   };
 
-  const setTitle = (value: string) => setChallenge((prev) => ({ ...prev, title: value }));
-  const setDescription = (value: string) => setChallenge((prev) => ({ ...prev, description: value }));
+  // 날짜, 카테고리, 요일, 이미지 업데이트용 함수들
   const setStartDate = (date: string) => setChallenge((prev) => ({ ...prev, startDate: date }));
   const setFinishDate = (date: string) => setChallenge((prev) => ({ ...prev, finishDate: date }));
   const setCategory = (category: ChallengeCategoryType) => setChallenge((prev) => ({ ...prev, category }));
@@ -50,8 +45,6 @@ export const useChallengeForm = () => {
     setChallenge,
     challengeImageFile,
     setters: {
-      setTitle,
-      setDescription,
       setStartDate,
       setFinishDate,
       setCategory,
