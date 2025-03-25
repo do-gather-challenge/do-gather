@@ -1,6 +1,5 @@
 import React from 'react';
 import ChallengeCard from '../challenge-card';
-import { transformDate } from '@/lib/utils/transform.util';
 import { Challenge } from '@/types/challenge.type';
 import { getGridCols } from '@/lib/utils/classname.util';
 import ChallengeCardSkeleton from '../challenge-card-skeleton';
@@ -24,8 +23,8 @@ const ChallengeHomeParticipationList = ({ cardsPerPage, challenges, isPending }:
                 category={challenge.category}
                 participants={challenge.participantCount}
                 title={challenge.title}
-                startDate={transformDate(challenge.startDate)}
-                finishDate={transformDate(challenge.finishDate)}
+                startDate={challenge.startDate}
+                finishDate={challenge.finishDate}
               />
             ))}
       </div>
