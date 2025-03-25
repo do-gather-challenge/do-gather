@@ -8,7 +8,7 @@ const SignUpPageModal = () => {
   const { backdropRef, handleCloseModal } = useCloseModal();
 
   return (
-    <section ref={backdropRef} className="fixed inset-0 flex items-center justify-center backdrop-blur-xs">
+    <section ref={backdropRef} className="fixed inset-0 z-[1000] flex items-center justify-center backdrop-blur-xs">
       {/* Modal 영역 */}
       <div className="md: relative mx-10 flex min-h-[540px] w-full min-w-[260px] flex-col items-center justify-evenly gap-12 rounded-lg border-2 bg-white p-4 shadow-lg md:w-[600px]">
         <button
