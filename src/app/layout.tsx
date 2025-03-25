@@ -3,6 +3,7 @@ import localFont from 'next/font/local';
 import './globals.css';
 import TQProvider from '@/lib/providers/TQProvider';
 import Script from 'next/script';
+import { KakaoType } from '@/types/common.type';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2'
@@ -10,7 +11,7 @@ const pretendard = localFont({
 
 declare global {
   interface Window {
-    Kakao: any;
+    Kakao: KakaoType;
   }
 }
 
