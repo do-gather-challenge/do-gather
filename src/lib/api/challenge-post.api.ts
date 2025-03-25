@@ -150,19 +150,6 @@ export const fetchUpdateChallenge = async (
       throw updateError;
     }
 
-    const { data: post } = await browserClient
-      .from(DATABASE.TABLES.CHALLENGES)
-      .select('*')
-      .eq('id', challengeId)
-      .single();
-
-    console.log('Post Creator ID:', post.creator_id);
-    console.log('Session User ID:', session.user.id);
-
-    if (post.creator_id !== userId) {
-      return { success: false, message: '내가 쓴 글이 아닙니다.' };
-    }
-
     if (!data || data.length === 0) {
       return { success: false, message: '챌린지 수정 반영 안됨' };
     }

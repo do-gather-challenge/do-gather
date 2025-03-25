@@ -17,6 +17,8 @@ export const isValidNumber = (str: string) => {
 
 /**
  * 챌린지 게시물의 필수 입력값을 검증하는 유틸리티 함수(zod)
+ * @param data 검증할 챌린지 데이터
+ * @returns 검증 결과
  */
 export const validateChallengePost = z.object({
   title: z
