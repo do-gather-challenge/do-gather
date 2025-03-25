@@ -1,7 +1,7 @@
 import { ChallengePostSetters } from '@/types/challenge-post.type';
 import { ChallengePost } from '@/types/challenge.type';
 import Image from 'next/image';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type ChallengePostImageUploaderProps = {
   setters: ChallengePostSetters;
@@ -12,11 +12,18 @@ const ChallengePostImageUploader = ({ setters, challenge }: ChallengePostImageUp
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 
+  useEffect(() => {
+    if (challenge.challengeImage) {
+      setPreviewImage(challenge.challengeImage);
+    }
+  }, [challenge.challengeImage]);
+
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setters.setChallengeImage(file);
-      setPreviewImage(URL.createObjectURL(file));
+      const newPreview = URL.createObjectURL(file);
+      setPreviewImage(newPreview);
     }
   };
 

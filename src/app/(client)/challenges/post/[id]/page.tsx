@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter, useParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import ChallengePostSelector from '@/components/features/challenges/post/challenge-post-selector';
 import ChallengePostImageUploader from '@/components/features/challenges/post/challenge-post-image-uploader';
 import ChallengePostInput from '@/components/features/challenges/post/challenge-post-input';
@@ -9,24 +9,24 @@ import ChallengePostButtonGroup from '@/components/features/challenges/post/chal
 import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
 import { fetchGetChallengeById } from '@/lib/api/challenge.api';
 
-const ChallengePostPage: React.FC = () => {
-  const router = useRouter();
+const ChallengeEditPage: React.FC = () => {
   const { id } = useParams();
-
   const { challenge, challengeImageFile, setters, handleChange, setChallenge } = useChallengeForm();
-
+  
   useEffect(() => {
     if (id) {
-      fetchGetChallengeById(Number(id)).then((data) => {
+      (async () => {
+        const data = await fetchGetChallengeById(Number(id));
         if (data) {
-          setChallenge(data);
-        } else {
-          alert('챌린지 데이터를 불러오지 못했습니다.');
-          router.push('/home');
+          setChallenge({
+            ...data,
+            startDate: data.startDate,
+            finishDate: data.finishDate
+          });
         }
-      });
+      })();
     }
-  }, [id, router, setChallenge]);
+  }, [id, setChallenge]);
 
   return (
     <section className="mx-auto mb-6 max-w-[320px] p-6 md:max-w-[640px]">
@@ -39,10 +39,15 @@ const ChallengePostPage: React.FC = () => {
       </section>
 
       <div className="flex justify-center gap-6">
-        <ChallengePostButtonGroup challenge={challenge} challengeImageFile={challengeImageFile} isEditMode={true} />
+        <ChallengePostButtonGroup
+          challenge={challenge}
+          challengeImageFile={challengeImageFile}
+          isEditMode={true}
+          challengeId={Number(id)}
+        />
       </div>
     </section>
   );
 };
 
-export default ChallengePostPage;
+export default ChallengeEditPage;

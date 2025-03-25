@@ -1,23 +1,40 @@
 import { Button } from '@/components/ui/button';
-import { fetchCreateChallenge } from '@/lib/api/challenge-post.api';
+import { fetchCreateChallenge, fetchUpdateChallenge } from '@/lib/api/challenge-post.api';
 
 import { ChallengePost } from '@/types/challenge.type';
 import { useRouter } from 'next/navigation';
+import { JSX, useEffect } from 'react';
 
 type ChallengePostButtonGroupProps = {
   challenge: ChallengePost;
   challengeImageFile: File | null;
   isEditMode?: boolean;
+  challengeId?: number;
 };
 
-const ChallengePostButtonGroup = ({ challenge, challengeImageFile, isEditMode }: ChallengePostButtonGroupProps) => {
+const ChallengePostButtonGroup = ({
+  challenge,
+  challengeImageFile,
+  isEditMode = false,
+  challengeId
+}: ChallengePostButtonGroupProps) => {
   const router = useRouter();
 
   const handleSubmitChallenge = async () => {
-    const result = await fetchCreateChallenge(challenge, challengeImageFile);
+    let result;
+    if (isEditMode) {
+      if (challengeId === undefined) {
+        alert('challengeId가 없습니다.');
+        return;
+      }
+      result = await fetchUpdateChallenge(challengeId, challenge, challengeImageFile);
+    } else {
+      result = await fetchCreateChallenge(challenge, challengeImageFile);
+    }
+
     if (result.success) {
       alert(result.message);
-      // console.log('챌린지 생성 데이터:', challenge);
+      router.push('/home');
     } else {
       alert(result.message);
     }
@@ -36,7 +53,7 @@ const ChallengePostButtonGroup = ({ challenge, challengeImageFile, isEditMode }:
         뒤로가기
       </Button>
       <Button variant="secondary" onClick={handleSubmitChallenge}>
-        챌린지생성
+        {isEditMode ? '챌린지 수정' : '챌린지 생성'}
       </Button>
     </div>
   );

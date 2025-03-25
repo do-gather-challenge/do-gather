@@ -20,7 +20,7 @@ const ChallengePostPage: React.FC = () => {
       </section>
 
       <div className="flex justify-center gap-6">
-        <ChallengePostButtonGroup challenge={challenge} challengeImageFile={challengeImageFile} />
+        <ChallengePostButtonGroup challenge={challenge} challengeImageFile={challengeImageFile} isEditMode={false} />
       </div>
     </section>
   );
