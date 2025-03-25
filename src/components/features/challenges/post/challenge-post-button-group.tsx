@@ -32,7 +32,7 @@ const ChallengePostButtonGroup = ({
 
     if (result.success) {
       alert(result.message);
-      router.push('/home');
+      router.push(`/challenges/${challengeId}`);
     } else {
       alert(result.message);
     }
