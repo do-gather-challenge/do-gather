@@ -5,7 +5,7 @@ import { LuUserRound } from 'react-icons/lu';
 import Image from 'next/image';
 
 type ChallengeCardProps = {
-  thumbnail: string;
+  thumbnail: string | null;
   category: ChallengeCategoryType;
   participants: number;
   title: string;
@@ -17,7 +17,12 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, en
   return (
     <Card className="w-60 gap-4 pt-0 pb-2">
       <figure className="relative aspect-video w-full">
-        <Image src={thumbnail} alt="thumbnail" className="h-full w-full rounded-t-md object-cover object-center" fill />
+        <Image
+          src={thumbnail || '/React.png'}
+          alt="thumbnail"
+          className="h-full w-full rounded-t-md object-cover object-center"
+          fill
+        />
       </figure>
       <CardContent className="space-y-2">
         <div className="flex justify-between">
