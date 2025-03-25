@@ -23,7 +23,8 @@ const MyPageMyChallenge = () => {
 
   return (
     <section className="mt-5 flex w-full flex-col items-center gap-3 sm:flex-row">
-      <div className="flex w-full flex-col items-center sm:w-[30%]">
+      {/* 프로필 & 버튼 */}
+      <aside className="flex w-full flex-col items-center sm:w-[30%]">
         <div className="hidden w-60 flex-col gap-5 rounded-2xl border-1 border-black p-10 text-center sm:block">
           <Image
             src={DEFAULT_IMAGE}
@@ -35,7 +36,7 @@ const MyPageMyChallenge = () => {
           />
           <p className="font-bold">Nickname</p>
         </div>
-        <div className="flex gap-2 sm:mt-5 sm:flex-col">
+        <nav className="flex gap-2 sm:mt-5 sm:flex-col">
           {challenges.map((challenge) => (
             <Button
               key={challenge.alias}
@@ -47,12 +48,28 @@ const MyPageMyChallenge = () => {
               <p className="hidden sm:block">{challenge.label}</p>
             </Button>
           ))}
-        </div>
-      </div>
-      <div className="grid w-full grid-cols-1 p-5 sm:w-[70%] sm:grid-cols-3">
-        {selectedChallenge}
-        {selectedChallenge === '완료' && <MyPageMyCompletedChallenges />}
-      </div>
+        </nav>
+      </aside>
+      {/* 마이 챌린지 */}
+      <section className="flex w-full justify-center self-start">
+        {(() => {
+          switch (selectedChallenge) {
+            case 'Today':
+              return <p>오늘 인증한 챌린지</p>;
+            case '참여중':
+              return <p>참여 중인 챌린지</p>;
+            case '완료':
+              return (
+                <div className="flex flex-col gap-5">
+                  <p className="text-2xl font-bold">완료한 챌린지</p>
+                  <MyPageMyCompletedChallenges />
+                </div>
+              );
+            default:
+              return;
+          }
+        })()}
+      </section>
     </section>
   );
 };
