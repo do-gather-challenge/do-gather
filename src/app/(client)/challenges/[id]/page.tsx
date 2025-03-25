@@ -15,6 +15,17 @@ import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 type ChallengeDetailPageProps = {
   params: { id: string };
 };
+
+export const generateMetadata = async ({ params: { id } }: ChallengeDetailPageProps) => {
+  const challenge = await fetchGetChallengeWithParticipation(Number(id));
+  if (!challenge) return;
+
+  return {
+    title: challenge.title,
+    description: challenge.description
+  };
+};
+
 const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps) => {
   if (!isValidNumber(id)) return notFound();
   const challenge = await fetchGetChallengeWithParticipation(Number(id));
