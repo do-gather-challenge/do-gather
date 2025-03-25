@@ -3,6 +3,7 @@ import ChallengeCard from '../challenge-card';
 import { transformDate } from '@/lib/utils/transform.util';
 import { Challenge } from '@/types/challenge.type';
 import { getGridCols } from '@/lib/utils/classname.util';
+import ChallengeCardSkeleton from '../challenge-card-skeleton';
 
 type ParticipationListProps = {
   cardsPerPage: number;
@@ -15,9 +16,7 @@ const ChallengeHomeParticipationList = ({ cardsPerPage, challenges, isPending }:
     <div className="relative w-full overflow-hidden">
       <div className={`grid place-items-center gap-6 ${getGridCols(cardsPerPage)}`}>
         {isPending
-          ? Array.from({ length: cardsPerPage }).map((_, i) => (
-              <div key={i} className="bg-muted h-[240px] w-[240px] animate-pulse rounded-lg" />
-            ))
+          ? Array.from({ length: cardsPerPage }).map((_, i) => <ChallengeCardSkeleton key={i} />)
           : challenges.map((challenge) => (
               <ChallengeCard
                 key={challenge.id}
