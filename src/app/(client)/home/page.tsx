@@ -1,4 +1,4 @@
-import ChallengeHomeAll from '@/components/features/challenges/home/challenge-home-all';
+import ChallengeHomeFind from '@/components/features/challenges/home/challenge-home-find';
 import ChallengeHomeParticipation from '@/components/features/challenges/home/challenge-home-participation';
 import ChallengePopular from '@/components/features/challenges/home/challenge-popular';
 import { getIsLogin } from '@/lib/supabase/server';
@@ -9,7 +9,7 @@ const HomePage = async () => {
     <>
       <ChallengePopular />
       {isLogin && <ChallengeHomeParticipation />}
-      <ChallengeHomeAll />
+      <ChallengeHomeFind />
     </>
   );
 };
