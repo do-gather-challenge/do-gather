@@ -12,7 +12,7 @@ import { fetchGetChallengeById } from '@/lib/api/challenge.api';
 const ChallengeEditPage: React.FC = () => {
   const { id } = useParams();
   const { challenge, challengeImageFile, setters, handleChange, setChallenge } = useChallengeForm();
-  
+
   useEffect(() => {
     if (id) {
       (async () => {

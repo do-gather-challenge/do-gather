@@ -1,9 +1,7 @@
 import { Button } from '@/components/ui/button';
 import { fetchCreateChallenge, fetchUpdateChallenge } from '@/lib/api/challenge-post.api';
-
 import { ChallengePost } from '@/types/challenge.type';
 import { useRouter } from 'next/navigation';
-import { JSX, useEffect } from 'react';
 
 type ChallengePostButtonGroupProps = {
   challenge: ChallengePost;

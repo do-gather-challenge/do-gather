@@ -1,5 +1,4 @@
 import { ChallengePost } from '@/types/challenge.type';
-
 import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { fetchUploadImage } from './storage.api';
