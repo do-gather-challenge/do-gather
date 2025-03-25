@@ -27,3 +27,12 @@ export const transformChallengeData = (challenge: any): Challenge => ({
 export const transformChallengeDataArray = (challenges: any[] | null): Challenge[] => {
   return challenges?.map(transformChallengeData) || [];
 };
+
+/**
+ * startDate, finishDate의 형식을 바꿉니다.
+ * @param {string} date - 기존 Date 형식의 문자열 ex)2025-03-01
+ * @returns {string} 바뀐 문자열 ex)25.03.01
+ */
+export const transformDate = (date: string) => {
+  return date.slice(2).replaceAll('-', '.');
+};
