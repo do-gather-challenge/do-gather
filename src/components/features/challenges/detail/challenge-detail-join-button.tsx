@@ -18,12 +18,12 @@ const ChallengeDetailJoinButton = ({ challengeId, isParticipating }: ChallengeDe
 
   const handleJoinButtonClick = () => {
     if (!userId) return;
-    fetchCreateParticipant(challengeId).catch((e) => console.log(e));
+    fetchCreateParticipant(challengeId);
   };
 
   const handleQuitButtonClick = () => {
     if (!userId) return;
-    fetchDeleteParticipant(challengeId, userId).catch((e) => console.log(e));
+    fetchDeleteParticipant(challengeId, userId);
   };
 
   if (!isParticipating)

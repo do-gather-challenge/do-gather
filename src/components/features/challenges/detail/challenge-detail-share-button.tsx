@@ -43,7 +43,7 @@ const ChallengeDetailShareButton = ({ title, description, challengeImage }: Chal
       await navigator.clipboard.writeText(shareUrl);
       // TODO: toastify로 변경하기
       alert('링크 복사 완료!');
-    } catch (err) {
+    } catch {
       // TODO: toastify로 변경하기
       alert('링크 복사 실패..');
     }

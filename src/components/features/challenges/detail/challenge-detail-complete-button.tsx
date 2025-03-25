@@ -15,7 +15,7 @@ const ChallengeDetailCompleteButton = ({
 }: ChallengeDetailCompleteButtonProps) => {
   const handleCompletedButtonClick = () => {
     if (!isParticipating) return;
-    fetchCreateChallengeCompleted(challengeId).catch((e) => console.log(e));
+    fetchCreateChallengeCompleted(challengeId);
   };
 
   if (isCompleted)
