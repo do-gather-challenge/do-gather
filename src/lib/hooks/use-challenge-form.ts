@@ -3,7 +3,7 @@ import { ChallengeCategoryType } from '@/types/challenge-category.type';
 import { ChallengePost } from '@/types/challenge.type';
 
 // 챌린지 폼 상태 관리 훅
-export const useChallengeForm = () => {
+export const useChallengeForm = (initialValues?: Partial<ChallengePost>) => {
   const [challenge, setChallenge] = useState<ChallengePost>({
     createdAt: '',
     startDate: '',
@@ -12,7 +12,8 @@ export const useChallengeForm = () => {
     description: '',
     category: '',
     challengeImage: '',
-    executeDays: []
+    executeDays: [],
+    ...initialValues
   });
   const [challengeImageFile, setChallengeImageFile] = useState<File | null>(null);
 
