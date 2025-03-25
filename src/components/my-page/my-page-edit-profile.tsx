@@ -91,9 +91,6 @@ const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab })
     // 새 이미지가 선택되었으면 업로드 처리
     if (selectedFile) {
       const filePath = generateFileName(selectedFile);
-
-      console.log('selected===>', selectedFile);
-      console.log('path===>', filePath);
       const { error: uploadError } = await browserClient.storage
         .from('profile-images')
         .upload(filePath, selectedFile, { upsert: true });
