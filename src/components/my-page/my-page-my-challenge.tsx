@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Button } from '@/components/ui/button';
 import MyPageMyCompletedChallenges from './my-page-my-completed-challenges';
+import MyPageMyInProgressChallenges from './my-page-my-in-progress-challenges';
 
 type MyChallengeAlias = 'Today' | '참여중' | '완료';
 type MyPageMyChallenges = {
@@ -55,9 +56,18 @@ const MyPageMyChallenge = () => {
         {(() => {
           switch (selectedChallenge) {
             case 'Today':
-              return <p>오늘 인증한 챌린지</p>;
+              return (
+                <div className="flex flex-col gap-5">
+                  <p className="text-2xl font-bold">오늘 인증한 챌린지</p>
+                </div>
+              );
             case '참여중':
-              return <p>참여 중인 챌린지</p>;
+              return (
+                <div className="flex flex-col gap-5">
+                  <p className="text-2xl font-bold">참여 중인 챌린지</p>
+                  <MyPageMyInProgressChallenges />
+                </div>
+              );
             case '완료':
               return (
                 <div className="flex flex-col gap-5">
