@@ -17,7 +17,6 @@ export const getSession = async () => {
     data: { user },
     error: userError
   } = await supabase.auth.getUser();
-  console.log(user);
 
   if (userError) {
     const status = userError.status;
