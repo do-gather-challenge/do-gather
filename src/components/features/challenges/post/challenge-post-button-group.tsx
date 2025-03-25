@@ -32,7 +32,7 @@ const ChallengePostButtonGroup = ({
 
     if (result.success) {
       alert(result.message);
-      router.push(`/challenges/${challengeId}`);
+      isEditMode ? router.push(`/challenges/${challengeId}`) : router.push('/home');
     } else {
       alert(result.message);
     }

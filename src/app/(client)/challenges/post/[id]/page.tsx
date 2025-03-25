@@ -1,53 +1,27 @@
-'use client';
-
-import { useEffect } from 'react';
-import { useParams } from 'next/navigation';
-import ChallengePostSelector from '@/components/features/challenges/post/challenge-post-selector';
-import ChallengePostImageUploader from '@/components/features/challenges/post/challenge-post-image-uploader';
-import ChallengePostInput from '@/components/features/challenges/post/challenge-post-input';
-import ChallengePostButtonGroup from '@/components/features/challenges/post/challenge-post-button-group';
-import { useChallengeForm } from '@/lib/hooks/use-challenge-form';
+import ChallengeEditPage from '@/components/features/challenges/post/challenge-edit-page';
 import { fetchGetChallengeById } from '@/lib/api/challenge.api';
+import { Metadata } from 'next';
 
-const ChallengeEditPage: React.FC = () => {
-  const { id } = useParams();
-  const { challenge, challengeImageFile, setters, handleChange, setChallenge } = useChallengeForm();
+export async function generateMetadata({ params }: { params: { id: number } }): Promise<Metadata> {
+  const challenge = await fetchGetChallengeById(Number(params.id));
 
-  useEffect(() => {
-    if (id) {
-      (async () => {
-        const data = await fetchGetChallengeById(Number(id));
-        if (data) {
-          setChallenge({
-            ...data,
-            startDate: data.startDate,
-            finishDate: data.finishDate
-          });
-        }
-      })();
+  return {
+    title: challenge ? `${challenge.title} - 챌린지 수정 |DOGATHER` : '챌린지 수정 | DOGATHER',
+    description: challenge
+      ? `${challenge.title} 챌린지 정보를 수정하는 페이지입니다.`
+      : '챌린지 정보를 수정하는 페이지입니다.',
+    openGraph: {
+      title: challenge ? `${challenge.title} - 챌린지 수정 | DOGATHER` : '챌린지 수정 | DOGATHER',
+      description: challenge
+        ? `${challenge.title} 챌린지 정보를 수정하는 페이지입니다.`
+        : '챌린지 정보를 수정하는 페이지입니다.',
+      images: challenge?.challengeImage || '/images/logo.png'
     }
-  }, [id, setChallenge]);
+  };
+}
 
-  return (
-    <section className="mx-auto mb-6 max-w-[320px] p-6 md:max-w-[640px]">
-      <h1 className="mb-6 text-2xl font-bold">챌린지 수정</h1>
-      <ChallengePostInput challenge={challenge} handleChange={handleChange} />
-
-      <section className="mb-6 grid grid-cols-1 gap-6 md:grid-cols-2">
-        <ChallengePostSelector challenge={challenge} setters={setters} />
-        <ChallengePostImageUploader setters={setters} challenge={challenge} />
-      </section>
-
-      <div className="flex justify-center gap-6">
-        <ChallengePostButtonGroup
-          challenge={challenge}
-          challengeImageFile={challengeImageFile}
-          isEditMode={true}
-          challengeId={Number(id)}
-        />
-      </div>
-    </section>
-  );
+const page = ({ params }: { params: { id: number } }) => {
+  return <ChallengeEditPage />;
 };
 
-export default ChallengeEditPage;
+export default page;
