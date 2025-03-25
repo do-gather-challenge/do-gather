@@ -77,3 +77,96 @@ export const fetchCreateChallenge = async (
     return { success: false, message: FETCH_MESSAGES.CHALLENGE_CREATION_FAILED };
   }
 };
+
+/**
+ * 챌린지 게시물을 수정하는 API 함수
+ * @param {number} challengeId - 수정할 챌린지의 ID
+ * @param {ChallengePost} updatedChallenge - 수정할 챌린지 데이터
+ * @param {File | null} challengeImageFile - 새로 업로드할 챌린지 이미지 파일
+ * @returns {Promise<{ success: boolean; message: string }>} - 성공 여부와 메시지
+ */
+export const fetchUpdateChallenge = async (
+  challengeId: number,
+  updatedChallenge: ChallengePost,
+  challengeImageFile: File | null
+): Promise<{ success: boolean; message: string }> => {
+  // 필수 입력값 검증
+  const validationError = validateChallengePost(updatedChallenge);
+  if (validationError) {
+    return { success: false, message: validationError };
+  }
+
+  // 이미지 파일 검증
+  if (challengeImageFile) {
+    const fileValidationError = validateFile(challengeImageFile);
+    if (fileValidationError) {
+      return { success: false, message: fileValidationError };
+    }
+  }
+
+  try {
+    let imageUrl: string | null = null;
+
+    // 이미지 업로드 (파일이 제공된 경우)
+    if (challengeImageFile) {
+      const { url, error: uploadError } = await fetchUploadImage(challengeImageFile);
+
+      if (uploadError || !url) {
+        return { success: false, message: uploadError || '이미지 업로드에 실패했습니다.' };
+      }
+      imageUrl = url;
+    }
+
+    // 로그인 세션 확인
+    const {
+      data: { session }
+    } = await browserClient.auth.getSession();
+
+    if (!session) {
+      return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
+    }
+
+    const userId = session.user.id;
+
+    // 챌린지 수정
+    const updatePayload: Record<string, any> = {
+      title: updatedChallenge.title,
+      description: updatedChallenge.description,
+      start_date: updatedChallenge.startDate,
+      finish_date: updatedChallenge.finishDate,
+      category: updatedChallenge.category,
+      execute_days: updatedChallenge.executeDays
+    };
+
+    if (imageUrl) {
+      updatePayload.challenge_image = imageUrl;
+    }
+
+    const { data, error: updateError } = await browserClient
+      .from(DATABASE.TABLES.CHALLENGES)
+      .update(updatePayload)
+      .eq('id', challengeId)
+      .eq('creator_id', userId)
+      .select();
+
+    if (updateError) {
+      throw updateError;
+    }
+
+    if (!data || data.length === 0) {
+      return { success: false, message: '챌린지 수정 반영 안됨' };
+    }
+
+    return {
+      success: true,
+      message: '챌린지 수정 성공'
+    };
+  } catch (error: unknown) {
+    console.error('챌린지 수정 중 오류 발생:', error);
+
+    return {
+      success: false,
+      message: error instanceof Error ? error.message : '챌린지 수정에 실패했습니다.'
+    };
+  }
+};
