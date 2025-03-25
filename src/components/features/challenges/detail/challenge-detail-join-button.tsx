@@ -13,6 +13,7 @@ const ChallengeDetailJoinButton = ({ challengeId, isParticipating }: ChallengeDe
   const [userId, setUserId] = useState<string>('');
 
   useEffect(() => {
+    browserClient.auth.signInWithPassword({ email: 'test@example.com', password: 'test12345678' });
     browserClient.auth.getUser().then(({ data }) => setUserId(data.user?.id || ''));
   }, []);
 
@@ -23,7 +24,7 @@ const ChallengeDetailJoinButton = ({ challengeId, isParticipating }: ChallengeDe
 
   const handleQuitButtonClick = () => {
     if (!userId) return;
-    fetchDeleteParticipant(challengeId, userId);
+    fetchDeleteParticipant(challengeId);
   };
 
   if (!isParticipating)
