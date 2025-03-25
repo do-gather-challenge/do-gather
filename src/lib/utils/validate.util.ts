@@ -1,4 +1,4 @@
-import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
+import { ChallengePostSchema, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import { FILES } from '@/constants/files.constant';
 import { z } from 'zod';
 
@@ -21,18 +21,12 @@ export const isValidNumber = (str: string) => {
  * @returns 검증 결과
  */
 export const validateChallengePost = z.object({
-  title: z
-    .string({ required_error: FETCH_MESSAGES.TITLE_REQUIRED })
-    .min(1, FETCH_MESSAGES.TITLE_REQUIRED)
-    .max(30, FETCH_MESSAGES.TITLE_TOO_LONG),
-  description: z
-    .string({ required_error: FETCH_MESSAGES.DESCRIPTION_REQUIRED })
-    .min(1, FETCH_MESSAGES.DESCRIPTION_REQUIRED)
-    .max(500, FETCH_MESSAGES.DESCRIPTION_TOO_LONG),
-  startDate: z.string({ required_error: FETCH_MESSAGES.START_DATE_REQUIRED }),
-  finishDate: z.string({ required_error: FETCH_MESSAGES.FINISH_DATE_REQUIRED }),
-  category: z.string({ required_error: FETCH_MESSAGES.CATEGORY_REQUIRED }),
-  executeDays: z.array(z.string()).min(1, FETCH_MESSAGES.EXECUTE_DAYS_REQUIRED)
+  title: ChallengePostSchema.TITLE_SCHEMA,
+  description: ChallengePostSchema.DESCRIPTION_SCHEMA,
+  startDate: ChallengePostSchema.START_DATE_SCHEMA,
+  finishDate: ChallengePostSchema.FINISH_DATE_SCHEMA,
+  category: ChallengePostSchema.CATEGORY_SCHEMA,
+  executeDays: ChallengePostSchema.EXECUTE_DAYS_SCHEMA
 });
 
 /**
