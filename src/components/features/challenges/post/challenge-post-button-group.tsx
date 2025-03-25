@@ -7,9 +7,10 @@ import { useRouter } from 'next/navigation';
 type ChallengePostButtonGroupProps = {
   challenge: ChallengePost;
   challengeImageFile: File | null;
+  isEditMode?: boolean;
 };
 
-const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePostButtonGroupProps) => {
+const ChallengePostButtonGroup = ({ challenge, challengeImageFile, isEditMode }: ChallengePostButtonGroupProps) => {
   const router = useRouter();
 
   const handleSubmitChallenge = async () => {

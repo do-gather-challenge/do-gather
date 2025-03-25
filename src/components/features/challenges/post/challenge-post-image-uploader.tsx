@@ -1,12 +1,14 @@
 import { ChallengePostSetters } from '@/types/challenge-post.type';
+import { ChallengePost } from '@/types/challenge.type';
 import Image from 'next/image';
 import { useRef, useState } from 'react';
 
 type ChallengePostImageUploaderProps = {
   setters: ChallengePostSetters;
+  challenge: ChallengePost;
 };
 
-const ChallengePostImageUploader = ({ setters }: ChallengePostImageUploaderProps) => {
+const ChallengePostImageUploader = ({ setters, challenge }: ChallengePostImageUploaderProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string | null>(null);
 

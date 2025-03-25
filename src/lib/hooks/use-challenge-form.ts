@@ -47,6 +47,7 @@ export const useChallengeForm = () => {
 
   return {
     challenge,
+    setChallenge,
     challengeImageFile,
     setters: {
       setTitle,
