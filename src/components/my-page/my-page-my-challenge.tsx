@@ -6,7 +6,7 @@ import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Button } from '@/components/ui/button';
 import MyPageMyCompletedChallenges from './my-page-my-completed-challenges';
 import MyPageMyInProgressChallenges from './my-page-my-in-progress-challenges';
-import MyPageMyTodaysCompletedChallenges from './my-page-my-todays-completed-challenges';
+import MyPageMyTodaysCompletedChallenges from './my-page-my-challenges-completions-today';
 
 type MyChallengeAlias = 'Today' | '참여중' | '완료';
 type MyPageMyChallenges = {
