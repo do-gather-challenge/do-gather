@@ -33,7 +33,7 @@ const AuthSignInForm = () => {
 
   const onSubmit = async () => {
     const values = form.getValues();
-    const { data } = await browserClient.auth.signInWithPassword(values);
+    await browserClient.auth.signInWithPassword(values);
     window.location.href = '/home';
   };
 
