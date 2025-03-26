@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, useTransition } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
 import { fetchChallengeLogsPerPage } from '@/lib/api/challenge-logs.api';
 import { ChallengeLogSnakeCase, ChallengeLogStatus, ChallengeLogWithUser } from '@/types/challenge-log.type';
@@ -16,7 +16,6 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
   const [logs, setLogs] = useState<ChallengeLogWithUser[]>([]);
   const [isPending, setIsPending] = useState(true);
   const logListRef = useRef<HTMLOListElement>(null);
-  const supabase = browserClient;
 
   useEffect(() => {
     fetchChallengeLogsPerPage(challengeId).then((logData) => {
@@ -24,6 +23,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
       setIsPending(false);
     });
 
+    const supabase = browserClient;
     const channel = supabase
       .channel('log_changes')
       .on(
@@ -40,7 +40,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
     return () => {
       supabase.removeChannel(channel);
     };
-  }, []);
+  }, [challengeId, logs]);
 
   useEffect(() => {
     if (logListRef.current) {
