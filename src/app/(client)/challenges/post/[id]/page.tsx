@@ -30,6 +30,8 @@ export async function generateMetadata({ params }: { params: { id: number } }): 
 const ChallengeEditPage = async ({ params }: { params: { id: string } }) => {
   const challenge = await fetchGetChallengeById(Number(params.id));
   if (!challenge) return notFound();
+  // const { user } = await getSession();
+  // console.log('유저:',user?.id); // 디버깅용으로 배포직전 삭제할게요
   return challenge ? <ChallengePostForm mode="edit" initialData={challenge} /> : <div>챌린지를 찾을 수 없습니다</div>;
 };
 

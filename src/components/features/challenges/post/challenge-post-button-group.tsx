@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import useChallengePostMutation from '@/lib/hooks/use-challenge-post-mutation';
+import browserClient from '@/lib/supabase/client';
 import { ChallengePost } from '@/types/challenge.type';
 import { useRouter } from 'next/navigation';
 
@@ -17,6 +18,7 @@ const ChallengePostButtonGroup = ({
   challengeId
 }: ChallengePostButtonGroupProps) => {
   const router = useRouter();
+
   const { mutate: handleChallengeMutation, isPending } = useChallengePostMutation({
     isEditMode,
     challenge,
@@ -24,8 +26,9 @@ const ChallengePostButtonGroup = ({
     challengeId
   });
 
-  const handleSubmitChallenge = () => {
+  const handleSubmitChallenge = async () => {
     try {
+      await browserClient.auth.refreshSession();
       handleChallengeMutation();
     } catch (error) {
       console.error(error);
