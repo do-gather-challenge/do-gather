@@ -28,7 +28,7 @@ export function ChallengeHomePagination({
         </PaginationItem>
         {pages.map((page, i) => {
           if (page === -1) {
-            return <PaginationEllipsis />;
+            return <PaginationEllipsis key={i} />;
           }
           const isCurrentPage = currentPage === page;
           return (
