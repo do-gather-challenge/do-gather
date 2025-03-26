@@ -8,12 +8,6 @@ const HomePage = async () => {
   const isLogin = await getIsLogin();
   return (
     <>
-      <div>
-        HomePage
-        <Link href="/sign-in"> 로그인 하러가기</Link>
-        <Link href="/sign-up"> 회원가입 하러가기 </Link>
-        {/* <TestComponent /> */}
-      </div>
       <ChallengePopular />
       {isLogin && <ChallengeHomeParticipation />}
       <ChallengeHomeFind />
