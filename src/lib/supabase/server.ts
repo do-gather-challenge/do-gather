@@ -1,3 +1,4 @@
+
 import { SUPABASE_ANON_KEY, SUPABASE_URL } from '@/constants/env.constant';
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
@@ -24,7 +25,7 @@ export function createClient() {
 }
 
 export const getIsLogin = async () => {
-  const serverClient = await createClient();
+  const serverClient = createClient();
   const {
     data: { session }
   } = await serverClient.auth.getSession();
