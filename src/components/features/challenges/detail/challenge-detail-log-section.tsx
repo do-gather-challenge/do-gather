@@ -2,15 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
-import { fetchChallengeLogsPerPage } from '@/lib/api/challenge-logs.api';
-import { ChallengeLogSnakeCase, ChallengeLogStatus, ChallengeLogWithUser } from '@/types/challenge-log.type';
-import { Avatar, AvatarImage } from '@/components/ui/avatar';
-import { AvatarFallback } from '@radix-ui/react-avatar';
+import { fetchGetAllChallengeLogs } from '@/lib/api/challenge-logs.api';
+import { ChallengeLogSnakeCase, ChallengeLogWithUser } from '@/types/challenge-log.type';
 import { fetchUserInfoById } from '@/lib/api/user-Info.api';
 import { transformChallengeLogData } from '@/lib/utils/transform.util';
 import LOADING_SPINNER from '@/../public/images/loading-spinner.svg';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import ChallengeDetailLogContent from '@/components/features/challenges/detail/challenge-detail-log-content';
 
 type ChallengeDetailLogSectionProps = {
   challengeId: number;
@@ -32,7 +31,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
   }, []);
 
   useEffect(() => {
-    fetchChallengeLogsPerPage(challengeId).then((logData) => {
+    fetchGetAllChallengeLogs(challengeId).then((logData) => {
       setLogs(logData);
       setIsPending(false);
     });
@@ -57,7 +56,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
   }, [challengeId]);
 
   useEffect(() => {
-    scrollToBottom();
+    if (logListRef.current) logListRef.current.scrollTop = logListRef.current.scrollHeight;
   }, [logListRef.current]);
 
   return (
@@ -69,18 +68,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
       ) : (
         <ol ref={logListRef} className="h-full space-y-3 overflow-scroll p-3">
           {logs.map((log) => (
-            <li key={log.id}>
-              <p className="flex items-center gap-2">
-                <Avatar className="border-gray flex items-center justify-center border-2 text-sm">
-                  <AvatarImage src={log.user.profileImage || ''} alt={`${log.user.nickname} 프로필 이미지`} />
-                  <AvatarFallback>{log.user.nickname.slice(0, 2)}</AvatarFallback>
-                </Avatar>
-                <span className="font-semibold">{log.user.nickname}</span>
-              </p>
-              <p className="ml-2 break-keep text-gray-600">
-                {log.user.nickname}님이 {StatusMessage[log.status]}
-              </p>
-            </li>
+            <ChallengeDetailLogContent key={log.id} {...log} />
           ))}
         </ol>
       )}
@@ -94,9 +82,3 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
 };
 
 export default ChallengeDetailLogSection;
-
-const StatusMessage: Record<ChallengeLogStatus, string> = {
-  ENTER: '챌린지에 들어왔습니다.',
-  EXIT: '챌린지에 나갔습니다.',
-  DONE: '챌린지를 수행 완료했습니다.'
-} as const;
