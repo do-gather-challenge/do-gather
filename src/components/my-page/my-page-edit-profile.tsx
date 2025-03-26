@@ -10,11 +10,11 @@ import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
-import { fetchUserNicknameById } from '@/lib/api/my-page-edit-profile.api';
 import { generateFileName } from '@/lib/utils/post.util';
 import { ErrorMessage } from '@/constants/error-message.constant';
 import { FILES } from '@/constants/files.constant';
 import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
+import { getUserInfo } from '@/lib/api/user-Info.api';
 import RoundedImage from '../ui/rounded-image';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
 
@@ -22,48 +22,32 @@ import type { MyPageEditProfileProps } from '@/types/my-page-type';
 
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string>(DEFAULT_IMAGE.src);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [nickname, setNickname] = useState<string | null>(null);
-  const [newNickname, setNewNickname] = useState<string>('');
+  const [nickname, setNickname] = useState<string>('nickname');
 
   /** 기존 닉네임 및 프로필 이미지 불러오기 */
   useEffect(() => {
-    const fetchProfileData = async () => {
-      const { data, error } = await browserClient.auth.getUser();
-      if (error || !data.user) return;
-
-      const userNickname = await fetchUserNicknameById(data.user.id);
-      setNickname(userNickname);
-      setNewNickname(userNickname ?? '');
-
-      // 기존 프로필 이미지 가져오기
-      const { data: userData, error: userError } = await browserClient
-        .from('users')
-        .select('profile_image')
-        .eq('id', data.user.id)
-        .single();
-
-      if (!userError && userData?.profile_image) {
-        setPreviewImage(userData.profile_image);
-      }
-    };
-
-    fetchProfileData();
+    setIsLoading(true);
+    getUserInfo()
+      .then((data) => {
+        const { nickname, profile_image } = data.userInfo;
+        setNickname(nickname);
+        setPreviewImage(profile_image || '');
+      })
+      .finally(() => setIsLoading(false));
   }, []);
+
+  if (isLoading) return;
 
   /** 이미지 파일 선택 핸들러 */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
-
       // 파일 검증
       if (!FILES.ALLOWED_TYPES.includes(file.type)) return alert(FETCH_MESSAGES.IMAGE_TYPE_INVALID);
-
-      if (file.size > FILES.MAX_SIZE) {
-        alert(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
-        return;
-      }
+      if (file.size > FILES.MAX_SIZE) return alert(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
 
       setSelectedFile(file);
       setPreviewImage(URL.createObjectURL(file)); // 미리보기 업데이트
@@ -72,7 +56,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
 
   /** 닉네임 입력 핸들러 */
   const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewNickname(e.target.value);
+    setNickname(e.target.value);
   };
 
   /** 프로필 업데이트 핸들러 */
@@ -103,7 +87,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
     // 닉네임 및 프로필 이미지 업데이트
     const { error: updateError } = await browserClient
       .from('users')
-      .update({ nickname: newNickname, profile_image: profileImageUrl })
+      .update({ nickname: nickname, profile_image: profileImageUrl })
       .eq('id', data.user.id);
 
     if (updateError) {
@@ -111,7 +95,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       alert('프로필 업데이트에 실패했습니다.');
     } else {
       alert('프로필이 성공적으로 업데이트되었습니다.');
-      setNickname(newNickname);
+      setNickname(nickname);
     }
   };
 
@@ -132,7 +116,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
         {/* 닉네임 입력 */}
         <div className="mt-3 flex w-60 flex-col gap-1 sm:mt-5 sm:w-80">
           <Label>Nickname</Label>
-          <Input value={newNickname} onChange={handleNicknameChange} />
+          <Input value={nickname} onChange={handleNicknameChange} />
         </div>
 
         {/* 제출 버튼 */}
