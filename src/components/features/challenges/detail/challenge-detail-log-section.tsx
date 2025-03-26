@@ -19,7 +19,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
 
   useEffect(() => {
     fetchChallengeLogsPerPage(challengeId).then((logData) => {
-      setLogs([...logData, ...logs]);
+      setLogs(logData);
       setIsPending(false);
     });
 
@@ -40,7 +40,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
     return () => {
       supabase.removeChannel(channel);
     };
-  }, [challengeId, logs]);
+  }, [challengeId]);
 
   useEffect(() => {
     if (logListRef.current) {

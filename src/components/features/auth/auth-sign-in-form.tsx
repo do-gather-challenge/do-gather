@@ -9,6 +9,7 @@ import AuthInputField from './auth-input-field';
 import ICON_GITHUB from '@/../public/images/icon-github.png';
 import ICON_GOOGLE from '@/../public/images/icon-google.png';
 import AuthToggleLink from './auth-toggle-link';
+import { PROJECT_URL } from '@/constants/env.constant';
 
 /**
  * @function useSignInForm : 로그인 Form 제출 관리 훅
@@ -23,16 +24,17 @@ const AuthSignInForm = () => {
     await browserClient.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: window.origin + 'api/auth/callback'
+        redirectTo: `${PROJECT_URL}/api/auth/callback`
       }
     });
   };
+
   // Google 로그인
   const signInWithGoogle = async () => {
     await browserClient.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.origin + 'api/auth/callback'
+        redirectTo: `${PROJECT_URL}/api/auth/callback`
       }
     });
   };
