@@ -20,12 +20,12 @@ const ChallengeHomeFindFilter = () => {
     searchTerm: ''
   });
   const [page, setPage] = useState(1);
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isPending, isError } = useQuery({
     queryKey: [queryKeys.FILTERED_CHALLENGE, page, filters],
     queryFn: () => fetchGetChallengesByPage(page, CARDS_PER_PAGE, filters)
   });
 
-  if (isError) return <div>잠시 후 다시 시도해주세요 : {error.message}</div>;
+  if (isError) return <div>잠시 후 다시 시도해주세요</div>;
   const pageCount = data?.pagination.pageCount ?? 0;
   const challenges = data?.data || [];
 

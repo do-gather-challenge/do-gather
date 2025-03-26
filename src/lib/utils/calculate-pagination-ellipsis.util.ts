@@ -6,10 +6,13 @@
  * @param total - 전체 페이지 개수
  * @returns number[] - 축소가 된 페이지는 -1로 저장된 페이지 페열
  */
+
+const MAX_PAGE = 5;
+
 export function calculatePaginationEllipsis(current: number, total: number): number[] {
   const pages: number[] = [];
 
-  if (total <= 5) {
+  if (total <= MAX_PAGE) {
     return Array.from({ length: total }, (_, i) => i + 1);
   }
 
