@@ -10,7 +10,7 @@ type FilteredListProps = {
 
 const ChallengeHomeFindFilteredList = ({ challenges, isPending }: FilteredListProps) => {
   return (
-    <div className="relative grid w-full grid-cols-1 place-items-center gap-6 overflow-hidden sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+    <div className="relative grid w-full grid-cols-1 place-items-center gap-6 overflow-hidden py-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {isPending
         ? Array.from({ length: CARDS_PER_PAGE }).map((_, i) => <ChallengeCardSkeleton key={i} />)
         : challenges.map((challenge) => (

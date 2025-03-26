@@ -64,7 +64,7 @@ const ChallengeHomeFindFilter = () => {
             onChange={(value) => handleFilterChange('sortBy', value)}
           />
         </div>
-        <div className="relative inline-block text-2xl w-80">
+        <div className="relative inline-block text-2xl w-80 sm:w-[38rem] lg:w-96">
           <Input
             placeholder="검색어 입력"
             className="h-12 w-full rounded-full bg-white pr-10 pl-4 !text-lg focus-visible:ring-0"
