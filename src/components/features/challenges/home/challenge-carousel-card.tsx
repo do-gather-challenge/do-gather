@@ -12,6 +12,7 @@ import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import Autoplay from 'embla-carousel-autoplay';
 import { Challenge } from '@/types/challenge.type';
 import URL from '@/constants/app-url.constant';
+import ImageVideoSize from '@/constants/image.constant';
 
 type ChallengeCarouselCardProps = {
   data: Challenge[];
@@ -19,8 +20,7 @@ type ChallengeCarouselCardProps = {
 
 const ChallengeCarouselCard = ({ data }: ChallengeCarouselCardProps) => {
   return (
-    // Autoplay를 서버 컴포넌트에서 실행했더니, 에러 발생해서 'use client'로 변경했습니다
-    <Carousel plugins={[Autoplay({ delay: 2000 })]} className="w-[calc(100vw-10rem)] max-w-6xl">
+    <Carousel plugins={[Autoplay({ delay: 3000 })]} className="w-[calc(100vw-10rem)] max-w-6xl">
       <CarouselContent>
         {data.map((challenge) => {
           const dayLeft = calculateDaysLeft(challenge.startDate);
@@ -30,7 +30,7 @@ const ChallengeCarouselCard = ({ data }: ChallengeCarouselCardProps) => {
               <Link className="block" href={URL.CHALLENGES_ID(challenge.id)}>
                 <article className="p-1">
                   <Card className="h-full w-full">
-                    <CardContent className="h-full max-h-[25rem] w-full overflow-y-auto md:max-h-[18rem] md:min-h-[18rem]">
+                    <CardContent className="h-full max-h-[25rem] w-full flex-grow overflow-hidden md:max-h-[18rem] md:min-h-[18rem]">
                       <div className="mb-5 flex w-full justify-between">
                         <Tag category={challenge.category} />
                         <StartDateBadge dayLeft={String(dayLeft)} />
@@ -41,15 +41,15 @@ const ChallengeCarouselCard = ({ data }: ChallengeCarouselCardProps) => {
                           <Image
                             src={challenge.challengeImage || DEFAULT_CHALLENGE_IMAGE}
                             alt={challenge.title}
-                            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                            fill
+                            height={ImageVideoSize.HEIGHT}
+                            width={ImageVideoSize.WIDTH}
                             className="h-full object-cover"
                           />
                         </figure>
 
                         <div className="flex w-full flex-col gap-1 text-sm md:mt-0 md:w-1/2">
                           <h1 className="mb-2 text-xl font-semibold">{challenge.title}</h1>
-                          <p className="mb-3 text-sm whitespace-pre-line">{challenge.description}</p>
+                          <p className="mb-3 line-clamp-1 text-sm md:line-clamp-5">{challenge.description}</p>
                           <ChallengeDetailInfoField type="진행 기간">
                             <span className="whitespace-nowrap">{challenge.startDate}</span> ~{' '}
                             <span className="whitespace-nowrap">{challenge.finishDate}</span>
