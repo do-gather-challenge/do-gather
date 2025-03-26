@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { format } from 'date-fns';
 import { CalendarIcon } from 'lucide-react';
+import { toLocalDateString } from '@/lib/utils/post.util';
 
 type DateRangePickerProps = {
   startDate: Date | undefined;
@@ -29,9 +30,12 @@ const ChallengePostDatePicker = ({ startDate, endDate, onStartDateChange, onEndD
             mode="single"
             selected={startDate}
             onSelect={(date) => {
-              onStartDateChange(date);
-              if (endDate && date && endDate < date) {
-                onEndDateChange(undefined);
+              if (date) {
+                const localDateString = toLocalDateString(date);
+                onStartDateChange(new Date(localDateString));
+                if (endDate && date > endDate) {
+                  onEndDateChange(undefined);
+                }
               }
             }}
             initialFocus
@@ -60,7 +64,12 @@ const ChallengePostDatePicker = ({ startDate, endDate, onStartDateChange, onEndD
           <Calendar
             mode="single"
             selected={endDate}
-            onSelect={onEndDateChange}
+            onSelect={(date) => {
+              if (date) {
+                const localDateString = toLocalDateString(date);
+                onEndDateChange(new Date(localDateString));
+              }
+            }}
             disabled={(date) => date < (startDate || new Date())}
             initialFocus
           />

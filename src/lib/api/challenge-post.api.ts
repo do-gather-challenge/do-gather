@@ -1,79 +1,124 @@
 import { ChallengePost } from '@/types/challenge.type';
-
 import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
-import { fetchUploadImage } from './storage.api';
 import { validateChallengePost, validateFile } from '../utils/validate.util';
+import { fetchUploadImage } from './storage.api';
+import { getUserInfo } from './user-Info.api';
+import { buildChallengePayload } from '../utils/post.util';
+import { fetchGetChallengeById } from './challenge.api';
 
 /**
- * 챌린지 게시물을 생성하는 API 함수
- * @param {ChallengePost} challenge - 생성할 챌린지 데이터
- * @param {File | null} challengeImageFile - 챌린지 이미지 파일
- * @returns {Promise<{ success: boolean; message: string }>} - 성공 여부와 메시지
+ * 챌린지 생성
+ * @param {ChallengePost} challengeData - 챌린지 데이터
+ * @param {File | null} challengeImageFile - 이미지 파일
+ * @returns {Promise<{ success: boolean; message: string }>}
  */
 export const fetchCreateChallenge = async (
-  challenge: ChallengePost,
+  challengeData: ChallengePost,
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
-  // 필수 입력값 검증
-  const validationError = validateChallengePost(challenge);
-  if (validationError) {
-    return { success: false, message: validationError };
-  }
+  // 입력 검증
+  const { success, error } = validateChallengePost.safeParse(challengeData);
+  if (!success) return { success: false, message: error.errors[0].message };
 
-  // 이미지 파일 검증
-  if (challengeImageFile) {
-    const fileValidationError = validateFile(challengeImageFile);
-    if (fileValidationError) {
-      return { success: false, message: fileValidationError };
-    }
-  }
+  // 사용자 정보 확인
+  const { userId } = await getUserInfo();
+  if (!userId) return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
 
+  // 이미지 업로드
+  const { imageUrl, error: uploadError } = await fetchUploadChallengeImage(challengeImageFile);
+  if (uploadError) return { success: false, message: uploadError };
+
+  // DB에 저장할 payload
+  const payload = buildChallengePayload(challengeData, imageUrl, userId, false);
+
+  // DB에 챌린지 생성 요청
   try {
-    let imageUrl: string | null = null;
+    const result = await browserClient.from(DATABASE.TABLES.CHALLENGES).insert(payload).select().single();
 
-    // 이미지 업로드
-    if (challengeImageFile) {
-      const { url, error: uploadError } = await fetchUploadImage(challengeImageFile);
-      if (uploadError) {
-        return { success: false, message: uploadError };
-      }
-      imageUrl = url;
-    }
-
-    // 로그인 세션 확인
-    const {
-      data: { session }
-    } = await browserClient.auth.getSession();
-    if (!session) {
-      return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
-    }
-    const userId = session.user.id;
-
-    // 챌린지 생성
-    const { error: insertError } = await browserClient
-      .from(DATABASE.TABLES.CHALLENGES)
-      .insert({
-        title: challenge.title,
-        description: challenge.description,
-        start_date: challenge.startDate,
-        finish_date: challenge.finishDate,
-        category: challenge.category,
-        execute_days: challenge.executeDays,
-        challenge_image: imageUrl,
-        created_at: new Date().toISOString(),
-        creator_id: userId
-      })
-      .select()
-      .single();
-
-    if (insertError) {
-      throw insertError;
-    }
-
-    return { success: true, message: FETCH_MESSAGES.CHALLENGE_CREATION_SUCCESS };
+    if (result.error) throw result.error;
+    return { success: true, message: '챌린지 생성 성공' };
   } catch (error) {
-    console.error('챌린지 생성 중 오류 발생:', error);
-    return { success: false, message: FETCH_MESSAGES.CHALLENGE_CREATION_FAILED };
+    console.error('챌린지 생성 오류:', error);
+    return { success: false, message: '챌린지 생성에 실패했습니다.' };
   }
+};
+
+/**
+ * 챌린지 수정
+ * @param {number} challengeId - 챌린지 ID
+ * @param {ChallengePost} updatedChallenge - 수정할 챌린지 데이터
+ * @param {File | null} challengeImageFile - 이미지 파일
+ * @returns {Promise<{ success: boolean; message: string }>}
+ */
+export const fetchUpdateChallenge = async (
+  challengeId: number,
+  updatedChallenge: ChallengePost,
+  challengeImageFile: File | null
+): Promise<{ success: boolean; message: string }> => {
+  // 챌린지 데이터 조회
+  const existingChallenge = await fetchGetChallengeById(challengeId);
+  if (!existingChallenge) {
+    return { success: false, message: '해당 챌린지를 찾을 수 없습니다.' };
+  }
+
+  // 입력 검증
+  const { success, error } = validateChallengePost.safeParse(updatedChallenge);
+  if (!success) return { success: false, message: error.errors[0].message };
+
+  // 사용자 정보 확인
+  const { userId } = await getUserInfo();
+  if (!userId) return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
+
+  // `creator_id`가 일치하는지 확인
+  if (existingChallenge.creatorId !== userId) {
+    return { success: false, message: '이 챌린지의 수정 권한이 없습니다.' };
+  }
+
+  // 이미지 업로드
+  const { imageUrl, error: uploadError } = await fetchUploadChallengeImage(challengeImageFile);
+  if (uploadError) return { success: false, message: uploadError };
+
+  // DB에 수정할 payload (created_at 제외)
+  const updatedPayload = buildChallengePayload(updatedChallenge, imageUrl, userId, true);
+
+  // DB에 챌린지 수정 요청
+  try {
+    const result = await browserClient
+      .from(DATABASE.TABLES.CHALLENGES)
+      .update(updatedPayload)
+      .eq('id', challengeId)
+      .eq('creator_id', userId)
+      .select();
+
+    if (result.error) throw result.error;
+    if (!result.data || result.data.length === 0) {
+      return { success: false, message: '챌린지 수정 반영 안됨' };
+    }
+
+    return { success: true, message: '챌린지 수정 성공' };
+  } catch (error) {
+    console.error('챌린지 수정 오류:', error);
+    return { success: false, message: '챌린지 수정에 실패했습니다.' };
+  }
+};
+
+/**
+ * 챌린지 이미지 업로드
+ * @param {File | null} imageFile - 업로드할 이미지 파일
+ * @returns {Promise<{ imageUrl: string | null; error: string | null }>}
+ */
+
+const fetchUploadChallengeImage = async (
+  imageFile: File | null
+): Promise<{ imageUrl: string | null; error: string | null }> => {
+  if (!imageFile) return { imageUrl: null, error: null };
+
+  const fileValidationError = validateFile(imageFile);
+  if (fileValidationError) return { imageUrl: null, error: fileValidationError };
+
+  const { url, error: uploadError } = await fetchUploadImage(imageFile);
+  return uploadError || !url
+    ? { imageUrl: null, error: uploadError || '이미지 업로드 실패' }
+    : { imageUrl: url, error: null };
 };
