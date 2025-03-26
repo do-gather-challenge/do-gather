@@ -65,8 +65,8 @@ export const buildChallengePayload = (
   imageUrl: string | null,
   userId: string,
   isUpdate: boolean = false
-): Record<string, any> => {
-  const payload: Record<string, any> = {
+): Record<string, string | string[]> => {
+  const payload: Record<string, string | string[]> = {
     title: challengeData.title,
     description: challengeData.description,
     start_date: challengeData.startDate,
