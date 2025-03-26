@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
 import { useChallengeResponsiveCardsPerPage } from '@/lib/hooks/use-challenge-responsive-cards-per-page';
 import ChallengeHomeParticipationList from './challenge-home-participation-list';
+import { ChevronLeftIcon, ChevronRightIcon } from 'lucide-react';
 
 const ChallengeHomeParticipation = () => {
   const { pageIndex, setPageIndex, cardsPerPage } = useChallengeResponsiveCardsPerPage();
@@ -25,23 +26,23 @@ const ChallengeHomeParticipation = () => {
   return (
     <section>
       <div className="flex items-center justify-between px-2">
-        <h2 className="text-2xl">🔥내가 참여중인 챌린지</h2>
+        <h1 className="mb-4 text-2xl">✊내가 진행중인 챌린지</h1>
         <div className="space-x-2">
           <Button
             variant="outline"
             onClick={toPrevPage}
             disabled={pageIndex === 0}
-            className="rounded-full px-3 disabled:opacity-30"
+            className="h-8 w-8 rounded-full disabled:opacity-30"
           >
-            ←
+            <ChevronLeftIcon />
           </Button>
           <Button
             variant="outline"
             onClick={toNextPage}
             disabled={pageIndex === pageCount - 1}
-            className="rounded-full px-3 disabled:opacity-30"
+            className="h-8 w-8 rounded-full px-3 disabled:opacity-30"
           >
-            →
+            <ChevronRightIcon />
           </Button>
         </div>
       </div>

@@ -11,10 +11,12 @@ const ChallengePopular = async () => {
   });
 
   return (
-    <section className="flex flex-col items-center justify-center">
-      <h1 className="mb-3 flex items-center justify-center text-xl font-bold">🔥인기 챌린지</h1>
-      <ChallengeCarouselCard data={popularChallenges} />
-    </section>
+    <>
+      <h1 className="mb-4 text-2xl font-bold">🔥인기 챌린지</h1>
+      <section className="flex items-center justify-center">
+        <ChallengeCarouselCard data={popularChallenges} />
+      </section>
+    </>
   );
 };
 export default ChallengePopular;
