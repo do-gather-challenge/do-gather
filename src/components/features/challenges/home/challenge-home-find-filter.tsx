@@ -1,17 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import ChallengeHomeFindFilteredList from './challenge-home-find-filtered-list';
-import { CARDS_PER_PAGE, CATEGORY_OPTIONS, SORT_OPTIONS, STATUS_OPTIONS } from '@/constants/filter.constant';
+import { CATEGORY_OPTIONS, SORT_OPTIONS, STATUS_OPTIONS } from '@/constants/filter.constant';
 import { Input } from '@/components/ui/input';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
-import { queryKeys } from '@/constants/query-keys.constant';
-import { fetchGetChallengesByPage } from '@/lib/api/challenge.api';
 import { ChallengeFilterOptions } from '@/types/challenge.type';
 import { ChallengeHomeDropdown } from './challenge-home-dropdown';
 import { ChallengeHomePagination } from './challenge-home-pagination';
 import { useGetChallengesByPageQuery } from '@/lib/queries/use-get-challenges-by-page-query';
+import { challengeFilter } from '@/types/challenge-filter.type';
 
 const ChallengeHomeFindFilter = () => {
   const [filters, setFilters] = useState<ChallengeFilterOptions>({
@@ -24,7 +22,7 @@ const ChallengeHomeFindFilter = () => {
   const { pageCount, challenges, isPending, isError } = useGetChallengesByPageQuery(page, filters);
   if (isError) return <div>잠시 후 다시 시도해주세요</div>;
 
-  const handleFilterChange = (key: keyof typeof filters, value: string) => {
+  const handleFilterChange = (key: challengeFilter, value: string) => {
     setPage(1);
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
