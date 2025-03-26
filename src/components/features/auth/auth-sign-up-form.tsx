@@ -4,8 +4,12 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import AuthInputField from './auth-input-field';
 import { useSignUpForm } from '@/lib/hooks/use-sign-up-form';
-import Link from 'next/link';
-import URL from '@/constants/app-url.constant';
+import AuthToggleLink from './auth-toggle-link';
+
+/**
+ * @function useSignInForm : 로그인 제출 Form 관리 훅
+ * @returns {form, onSubmit} : form {email, password} , onSubmit 일반 로그인 제출 함수
+ */
 
 const AuthSignUpForm = () => {
   const { form, onSubmit } = useSignUpForm();
@@ -25,15 +29,12 @@ const AuthSignUpForm = () => {
             />
           );
         })}
+        {/* 회원가입 완료 버튼 */}
         <Button type="submit" variant="secondary" className="w-full">
           회원가입 완료
         </Button>
-        <div className="flex justify-center gap-4">
-          <span>이미 계정이 있으신가요?</span>
-          <Link href={URL.SIGN_IN} className="text-blue hover:scale-105 hover:underline">
-            로그인하기
-          </Link>
-        </div>
+        {/* 로그인 페이지 이동 링크 */}
+        <AuthToggleLink mode="login" />
       </form>
     </Form>
   );
