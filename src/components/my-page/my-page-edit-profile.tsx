@@ -5,22 +5,20 @@
  * @param {Function} props.setSelectedTab - 탭 선택 핸들러
  */
 import React, { useEffect, useRef, useState } from 'react';
-import DEFAULT_IMAGE from '/public/images/default_profile.png';
+import browserClient from '@/lib/supabase/client';
+import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import RoundedImage from '../ui/rounded-image';
-import browserClient from '@/lib/supabase/client';
 import { fetchUserNicknameById } from '@/lib/api/my-page-edit-profile.api';
 import { generateFileName } from '@/lib/utils/post.util';
 import { ErrorMessage } from '@/constants/error-message.constant';
 import { FILES } from '@/constants/files.constant';
 import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
+import RoundedImage from '../ui/rounded-image';
+import DEFAULT_IMAGE from '/public/images/default_profile.png';
 
-type MyPageEditProfileProps = {
-  setSelectedTab: (tab: 'profile' | 'challenge') => void;
-};
+import type { MyPageEditProfileProps } from '@/types/my-page-type';
 
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const inputRef = useRef<HTMLInputElement>(null);

@@ -1,19 +1,15 @@
 'use client';
 
-import Image from 'next/image';
 import React, { useEffect, useState } from 'react';
+import Image from 'next/image';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
-import { Button } from '@/components/ui/button';
 import MyPageMyCompletedChallenges from './my-page-my-completed-challenges';
 import MyPageMyInProgressChallenges from './my-page-my-in-progress-challenges';
 import MyPageMyTodaysCompletedChallenges from './my-page-my-challenges-completions-today';
+import { Button } from '@/components/ui/button';
 import { getUserInfo } from '@/lib/api/user-Info.api';
 
-type MyChallengeAlias = 'Today' | '참여중' | '완료';
-type MyPageMyChallenges = {
-  label: string;
-  alias: MyChallengeAlias;
-};
+import type { MyChallengeAlias, MyPageMyChallenges } from '@/types/my-page-type';
 
 const MyPageMyChallenge = () => {
   const [selectedChallenge, setSelectedChallenge] = useState<MyChallengeAlias>('Today');
