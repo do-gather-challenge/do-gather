@@ -2,13 +2,29 @@
 
 import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
 import ChallengeCard from '../features/challenges/challenge-card';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 
 const MyPageMyCompletedChallenges = () => {
-  const { pageCount, challenges, isPending, isError, error } = useGetMyCompletedChallengesQuery(1, 6);
+  const [pageIndex, setPageIndex] = useState(1);
+  const { pageCount, challenges, isPending, isError, error } = useGetMyCompletedChallengesQuery(pageIndex, 6);
 
   if (isPending) return <>Loading...</>;
   if (isError) return <>Error occurred... {error?.message}</>;
   if (!pageCount) return <>완료된 챌린지가 없습니다.</>;
+
+  const isNextPageEnabled = pageCount > pageIndex;
+  const isPreviousPageEnabled = pageIndex > 1;
+  const handleNextPage = () => {
+    if (isNextPageEnabled) {
+      setPageIndex((prevPageIndex) => prevPageIndex + 1);
+    }
+  };
+  const handlePreviousPage = () => {
+    if (isPreviousPageEnabled) {
+      setPageIndex((prevPageIndex) => prevPageIndex - 1);
+    }
+  };
 
   return (
     <section>
@@ -27,6 +43,14 @@ const MyPageMyCompletedChallenges = () => {
               />
             );
           })}
+      </div>
+      <div className="mt-1 flex items-center justify-center space-x-2">
+        <Button variant="ghost" onClick={handlePreviousPage}>
+          &lt;
+        </Button>
+        <Button variant="ghost" onClick={handleNextPage}>
+          &gt;
+        </Button>
       </div>
     </section>
   );

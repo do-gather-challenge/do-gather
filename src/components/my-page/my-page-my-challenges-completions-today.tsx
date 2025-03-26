@@ -2,14 +2,30 @@
 
 import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-my-challenges-completions-today-query';
 import ChallengeCard from '../features/challenges/challenge-card';
+import { useState } from 'react';
+import { Button } from '../ui/button';
 
 const MyPageMyTodaysCompletedChallenges = () => {
-  const { challenges, pageCount, isLoading, isError, error } = useGetMyChallengesCompletionsTodayQuery(1, 6);
+  const [pageIndex, setPageIndex] = useState(1);
+  const { challenges, pageCount, isLoading, isError, error } = useGetMyChallengesCompletionsTodayQuery(pageIndex, 6);
 
   if (isLoading) return <>Loading...</>;
   if (isError) return <>Error occurred... {error?.message}</>;
   if (!pageCount) return <>인증한 챌린지가 없습니다.</>;
 
+  const isNextPageEnabled = pageCount > pageIndex;
+  const isPreviousPageEnabled = pageIndex > 1;
+
+  const handleNextPage = () => {
+    if (isNextPageEnabled) {
+      setPageIndex((prevPageIndex) => prevPageIndex + 1);
+    }
+  };
+  const handlePreviousPage = () => {
+    if (isPreviousPageEnabled) {
+      setPageIndex((prevPageIndex) => prevPageIndex - 1);
+    }
+  };
   return (
     <section>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -27,6 +43,14 @@ const MyPageMyTodaysCompletedChallenges = () => {
               />
             );
           })}
+      </div>
+      <div className="mt-1 flex items-center justify-center space-x-2">
+        <Button variant="ghost" onClick={handlePreviousPage}>
+          &lt;
+        </Button>
+        <Button variant="ghost" onClick={handleNextPage}>
+          &gt;
+        </Button>
       </div>
     </section>
   );
