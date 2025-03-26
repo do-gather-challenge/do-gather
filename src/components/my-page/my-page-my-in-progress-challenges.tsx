@@ -7,32 +7,26 @@ const MyPageMyInProgressChallenges = () => {
   const { pageCount, challenges, isPending, isError, error } = useGetMyInProgressChallengesQuery(0, 6);
 
   if (isPending) return <>Loading...</>;
-  if (isError) {
-    return <>Error occurred... {error?.message}</>;
-  }
-
+  if (isError) return <>Error occurred... {error?.message}</>;
+  if (!pageCount) return <>참여 중인 챌린지가 없습니다.</>;
   return (
     <section>
-      {!pageCount ? (
-        <p>참여 중인 챌린지가 없습니다.</p>
-      ) : (
-        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {challenges &&
-            challenges.map((challenge) => {
-              return (
-                <ChallengeCard
-                  key={challenge.id}
-                  thumbnail={challenge.challengeImage}
-                  category={challenge.category}
-                  participants={challenge.participantCount}
-                  title={challenge.title}
-                  startDate={challenge.startDate}
-                  finishDate={challenge.finishDate}
-                />
-              );
-            })}
-        </div>
-      )}
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {challenges &&
+          challenges.map((challenge) => {
+            return (
+              <ChallengeCard
+                key={challenge.id}
+                thumbnail={challenge.challengeImage}
+                category={challenge.category}
+                participants={challenge.participantCount}
+                title={challenge.title}
+                startDate={challenge.startDate}
+                finishDate={challenge.finishDate}
+              />
+            );
+          })}
+      </div>
     </section>
   );
 };

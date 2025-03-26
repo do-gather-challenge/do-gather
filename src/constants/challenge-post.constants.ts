@@ -15,7 +15,7 @@ export const FETCH_MESSAGES = {
   EXECUTE_DAYS_REQUIRED: '실행 요일을 선택해 주세요.',
   TITLE_TOO_LONG: '제목은 30자 이내로 입력해 주세요.',
   DESCRIPTION_TOO_LONG: '소개는 500자 이내로 입력해 주세요.',
-  IMAGE_TYPE_INVALID: 'PNG 또는 JPG 파일만 업로드 가능합니다.',
+  IMAGE_TYPE_INVALID: '허용되지 않는 파일 형식입니다. PNG 또는 JPG 파일만 업로드 가능합니다.',
   IMAGE_SIZE_TOO_LARGE: '이미지 크기는 3MB 이하로 업로드 가능합니다.'
 };
 export const DATABASE = {

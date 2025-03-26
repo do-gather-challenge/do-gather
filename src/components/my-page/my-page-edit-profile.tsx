@@ -14,12 +14,15 @@ import RoundedImage from '../ui/rounded-image';
 import browserClient from '@/lib/supabase/client';
 import { fetchUserNicknameById } from '@/lib/api/my-page-edit-profile.api';
 import { generateFileName } from '@/lib/utils/post.util';
+import { ErrorMessage } from '@/constants/error-message.constant';
+import { FILES } from '@/constants/files.constant';
+import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 
 type MyPageEditProfileProps = {
   setSelectedTab: (tab: 'profile' | 'challenge') => void;
 };
 
-const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab }) => {
+const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [previewImage, setPreviewImage] = useState<string>(DEFAULT_IMAGE.src);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -57,12 +60,10 @@ const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab })
       const file = e.target.files[0];
 
       // 파일 검증
-      if (!ALLOWED_TYPES.includes(file.type)) {
-        alert(ERROR_MESSAGES.IMAGE_TYPE_INVALID);
-        return;
-      }
-      if (file.size > MAX_SIZE) {
-        alert(ERROR_MESSAGES.IMAGE_SIZE_TOO_LARGE);
+      if (!FILES.ALLOWED_TYPES.includes(file.type)) return alert(FETCH_MESSAGES.IMAGE_TYPE_INVALID);
+
+      if (file.size > FILES.MAX_SIZE) {
+        alert(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
         return;
       }
 
@@ -81,10 +82,7 @@ const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab })
     e.preventDefault();
 
     const { data, error } = await browserClient.auth.getUser();
-    if (error || !data.user) {
-      alert('사용자 정보를 가져오지 못했습니다.');
-      return;
-    }
+    if (error || !data.user) return alert(ErrorMessage.NOT_AUTHENTICATED);
 
     let profileImageUrl = previewImage;
 
@@ -97,8 +95,7 @@ const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab })
 
       if (uploadError) {
         console.error('이미지 업로드 실패:', uploadError);
-        alert('이미지 업로드에 실패했습니다.');
-        return;
+        return alert('이미지 업로드에 실패했습니다.');
       }
 
       // 업로드된 이미지 URL 가져오기
@@ -128,7 +125,7 @@ const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab })
           <RoundedImage
             src={previewImage}
             fallback="Profile"
-            alt="Profile"
+            alt="Profile Image"
             className="mt-3 h-52 w-52 rounded-full sm:mt-5"
           />
         </div>
@@ -166,7 +163,7 @@ const MyPageEditProfile: React.FC<MyPageEditProfileProps> = ({ setSelectedTab })
 
 export default MyPageEditProfile;
 
-/** 챌린지 카운트 상수 */
+/** 챌린지 카운트 상수 (임시) */
 const COUNT_TODAYS_CHALLENGE = 0;
 
 /** 챌린지 데이터 */
@@ -175,13 +172,3 @@ const challenges = [
   { label: '참여 중인 챌린지', count: COUNT_TODAYS_CHALLENGE },
   { label: '완료한 챌린지', count: COUNT_TODAYS_CHALLENGE }
 ];
-
-/** 허용된 이미지 타입 및 크기 */
-const ALLOWED_TYPES = ['image/png', 'image/jpeg'];
-const MAX_SIZE = 3 * 1024 * 1024;
-
-/** 에러 메시지 */
-const ERROR_MESSAGES = {
-  IMAGE_TYPE_INVALID: '허용되지 않는 파일 형식입니다. PNG 또는 JPEG 이미지를 업로드해주세요.',
-  IMAGE_SIZE_TOO_LARGE: '이미지 크기는 3MB 이하로 업로드 가능합니다.'
-};
