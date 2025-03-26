@@ -87,7 +87,7 @@ const fetchCreateOrUpdateChallenge = async (
       return { success: true, message: '챌린지 수정 성공' };
     } else {
       // 생성일 경우
-      let initialChallenge = {
+      let newChallenge = {
         title: challengeData.title,
         description: challengeData.description,
         start_date: challengeData.startDate,
@@ -98,7 +98,7 @@ const fetchCreateOrUpdateChallenge = async (
         created_at: new Date().toISOString(),
         creator_id: userId
       };
-      result = await browserClient.from(DATABASE.TABLES.CHALLENGES).insert(initialChallenge).select().single();
+      result = await browserClient.from(DATABASE.TABLES.CHALLENGES).insert(newChallenge).select().single();
 
       if (result.error) {
         throw result.error;
