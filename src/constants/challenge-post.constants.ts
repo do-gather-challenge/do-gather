@@ -8,7 +8,7 @@ export const FETCH_MESSAGES = {
   LOGIN_REQUIRED: '로그인 후 사용 가능합니다.',
   CHALLENGE_CREATION_FAILED: '챌린지 생성에 실패했습니다.',
   CHALLENGE_CREATION_SUCCESS: '챌린지가 성공적으로 생성되었습니다!',
-  IMAGE_TYPE_INVALID: 'PNG 또는 JPG 파일만 업로드 가능합니다.',
+  IMAGE_TYPE_INVALID: '허용되지 않는 파일 형식입니다. PNG 또는 JPG 파일만 업로드 가능합니다.',
   IMAGE_SIZE_TOO_LARGE: '이미지 크기는 3MB 이하로 업로드 가능합니다.'
 };
 export const DATABASE = {
