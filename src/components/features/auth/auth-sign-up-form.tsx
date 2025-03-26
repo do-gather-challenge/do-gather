@@ -34,7 +34,7 @@ const AuthSignUpForm = () => {
           회원가입 완료
         </Button>
         {/* 로그인 페이지 이동 링크 */}
-        <AuthToggleLink mode="login" />
+        <AuthToggleLink mode="signUp" />
       </form>
     </Form>
   );

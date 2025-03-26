@@ -66,7 +66,7 @@ const AuthSignInForm = () => {
             <Image src={ICON_GITHUB} alt="github-logo" width={24} height={24} className="rounded" />
           </Button>
         </div>
-        <AuthToggleLink mode="signUp" />
+        <AuthToggleLink mode="login" />
       </form>
     </Form>
   );
