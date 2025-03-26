@@ -14,7 +14,6 @@ const Header = async () => {
     <header className="bg-primary fixed top-0 z-10 flex h-15 w-full items-center justify-between px-20 md:h-20">
       <Link href="/home">
         <Image src={LOGO} alt="헤더 로고" className="h-auto w-14 object-contain md:hidden" />
-
         <Image src={LOGO_HORIZONTAL} alt="헤더 로고 가로형" className="hidden h-auto w-56 object-contain md:block" />
       </Link>
 
