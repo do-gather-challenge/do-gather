@@ -11,6 +11,7 @@ import { fetchGetChallengesByPage } from '@/lib/api/challenge.api';
 import { ChallengeFilterOptions } from '@/types/challenge.type';
 import { ChallengeHomeDropdown } from './challenge-home-dropdown';
 import { ChallengeHomePagination } from './challenge-home-pagination';
+import { useGetChallengesByPageQuery } from '@/lib/queries/use-get-challenges-by-page-query';
 
 const ChallengeHomeFindFilter = () => {
   const [filters, setFilters] = useState<ChallengeFilterOptions>({
@@ -20,14 +21,8 @@ const ChallengeHomeFindFilter = () => {
     searchTerm: ''
   });
   const [page, setPage] = useState(1);
-  const { data, isPending, isError } = useQuery({
-    queryKey: [queryKeys.FILTERED_CHALLENGE, page, filters],
-    queryFn: () => fetchGetChallengesByPage(page, CARDS_PER_PAGE, filters)
-  });
-
+  const { pageCount, challenges, isPending, isError } = useGetChallengesByPageQuery(page, filters);
   if (isError) return <div>잠시 후 다시 시도해주세요</div>;
-  const pageCount = data?.pagination.pageCount ?? 0;
-  const challenges = data?.data || [];
 
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
     setPage(1);
