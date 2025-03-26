@@ -7,6 +7,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
 import Link from 'next/link';
+import Image from 'next/image';
+import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
@@ -16,17 +18,18 @@ import { FILES } from '@/constants/files.constant';
 import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import { getUserInfo } from '@/lib/api/user-Info.api';
 import { TOAST_MESSAGES } from '@/constants/my-page-constant';
-import DEFAULT_IMAGE from '/public/images/default_profile.png';
 
 import type { MyPageEditProfileProps } from '@/types/my-page-type';
-import Image from 'next/image';
+import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
+import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
+import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-my-challenges-completions-today-query';
 
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string>(DEFAULT_IMAGE.src);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState<string>('nickname');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   /** 기존 닉네임 및 프로필 이미지 불러오기 */
   useEffect(() => {
@@ -40,7 +43,15 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  if (isLoading) return;
+  /** 마이 챌린지 현황 count 불러오기  */
+  const { total: countToday } = useGetMyChallengesCompletionsTodayQuery();
+  const { countInProgress } = useGetMyInProgressChallengesQuery();
+  const { countCompleted } = useGetMyCompletedChallengesQuery();
+  const challenges = [
+    { label: '오늘의 챌린지', count: countToday },
+    { label: '참여 중인 챌린지', count: countInProgress },
+    { label: '완료한 챌린지', count: countCompleted }
+  ];
 
   /** 이미지 파일 선택 핸들러 */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -91,6 +102,8 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
     setNickname(nickname);
   };
 
+  if (isLoading) return;
+
   return (
     <section className="mt-5 flex w-full flex-col items-center sm:gap-10">
       <form className="flex flex-col items-center gap-3 sm:gap-5" onSubmit={handleSubmit}>
@@ -138,13 +151,3 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
 };
 
 export default MyPageEditProfile;
-
-/** 챌린지 카운트 상수 (임시) */
-const COUNT_TODAYS_CHALLENGE = 0;
-
-/** 챌린지 데이터 */
-const challenges = [
-  { label: '오늘의 챌린지', count: COUNT_TODAYS_CHALLENGE },
-  { label: '참여 중인 챌린지', count: COUNT_TODAYS_CHALLENGE },
-  { label: '완료한 챌린지', count: COUNT_TODAYS_CHALLENGE }
-];

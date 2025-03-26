@@ -10,12 +10,13 @@ import { useMemo } from 'react';
  * @returns {{
  *   pageCount: number;
  *   challenges: Challenge[];
+ *   total: number;
  *   isPending: boolean;
  *   isError: boolean;
  *   error: unknown;
  * }} 오늘 생성된 챌린지 목록, 총 페이지 수 및 요청 상태 정보
  */
-export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number, cardsPerPage: number) => {
+export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number = 1, cardsPerPage: number = 10) => {
   const { challenges: dataInProgress, isPending: isLoadingInProgress } = useGetMyInProgressChallengesQuery(
     pageIndex - 1,
     cardsPerPage
@@ -42,10 +43,12 @@ export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number, cards
     return dataInProgress?.filter((challenge) => completedData.completedIds.includes(challenge.id)) ?? [];
   }, [dataInProgress, completedData, isPending]);
 
+  const total = completedData?.totalCount;
+
   // 페이지 수 계산
   const pageCount = useMemo(() => {
-    return completedData?.totalCount ? Math.ceil(completedData.totalCount / cardsPerPage) : 0;
+    return total ? Math.ceil(completedData.totalCount / cardsPerPage) : 0;
   }, [completedData, cardsPerPage]);
 
-  return { challenges, pageCount, isLoading, isError, error };
+  return { challenges, pageCount, total, isLoading, isError, error };
 };

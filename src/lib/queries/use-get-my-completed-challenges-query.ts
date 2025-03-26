@@ -13,7 +13,7 @@ import { queryKeys } from '@/constants/query-keys.constant';
  *   error: unknown;
  * }} 완료된 챌린지 목록, 총 페이지 수 및 요청 상태 정보
  */
-export const useGetMyCompletedChallengesQuery = (pageIndex: number, cardsPerPage: number) => {
+export const useGetMyCompletedChallengesQuery = (pageIndex: number = 1, cardsPerPage: number = 6) => {
   const { data, isPending, isError, error } = useQuery({
     queryKey: [queryKeys.MY_COMPLETED_CHALLENGE, pageIndex, cardsPerPage],
     queryFn: () => fetchGetMyCompletedChallengesByPage(pageIndex, cardsPerPage)
@@ -21,6 +21,7 @@ export const useGetMyCompletedChallengesQuery = (pageIndex: number, cardsPerPage
 
   const pageCount = data?.pagination.pageCount ?? 0; // 페이지 카운트 가져오기
   const challenges = data?.data ?? []; // 완료된 챌린지 목록 가져오기
+  const countCompleted = data?.pagination.total;
 
-  return { pageCount, challenges, isPending, isError, error };
+  return { pageCount, challenges, countCompleted, isPending, isError, error };
 };
