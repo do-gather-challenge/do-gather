@@ -87,21 +87,18 @@ const fetchCreateOrUpdateChallenge = async (
       return { success: true, message: '챌린지 수정 성공' };
     } else {
       // 생성일 경우
-      result = await browserClient
-        .from(DATABASE.TABLES.CHALLENGES)
-        .insert({
-          title: challengeData.title,
-          description: challengeData.description,
-          start_date: challengeData.startDate,
-          finish_date: challengeData.finishDate,
-          category: challengeData.category,
-          execute_days: challengeData.executeDays,
-          challenge_image: imageUrl,
-          created_at: new Date().toISOString(),
-          creator_id: userId
-        })
-        .select()
-        .single();
+      let initialChallenge = {
+        title: challengeData.title,
+        description: challengeData.description,
+        start_date: challengeData.startDate,
+        finish_date: challengeData.finishDate,
+        category: challengeData.category,
+        execute_days: challengeData.executeDays,
+        challenge_image: imageUrl,
+        created_at: new Date().toISOString(),
+        creator_id: userId
+      };
+      result = await browserClient.from(DATABASE.TABLES.CHALLENGES).insert(initialChallenge).select().single();
 
       if (result.error) {
         throw result.error;
