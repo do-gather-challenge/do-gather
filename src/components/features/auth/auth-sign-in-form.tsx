@@ -5,14 +5,20 @@ import { Form } from '@/components/ui/form';
 import { useSignInForm } from '@/lib/hooks/use-sign-in-form';
 import browserClient from '@/lib/supabase/client';
 import Image from 'next/image';
-import Link from 'next/link';
 import AuthInputField from './auth-input-field';
 import ICON_GITHUB from '@/../public/images/icon-github.png';
 import ICON_GOOGLE from '@/../public/images/icon-google.png';
+import AuthToggleLink from './auth-toggle-link';
+
+/**
+ * @function useSignInForm : 로그인 제출 Form 관리 훅
+ * @returns {form, onSubmit} : form {email, password} , onSubmit 일반 로그인 제출 함수
+ */
 
 const AuthSignInForm = () => {
   const { form, onSubmit } = useSignInForm();
 
+  // Github 로그인
   const signInWithGithub = async () => {
     await browserClient.auth.signInWithOAuth({
       provider: 'github',
@@ -21,7 +27,7 @@ const AuthSignInForm = () => {
       }
     });
   };
-
+  // Google 로그인
   const signInWithGoogle = async () => {
     await browserClient.auth.signInWithOAuth({
       provider: 'google',
@@ -46,23 +52,21 @@ const AuthSignInForm = () => {
             />
           );
         })}
+        {/* 일반 로그인 버튼 */}
         <Button type="submit" variant="secondary" className="bg-secondary w-full text-white">
           Login
         </Button>
         <div className="flex items-center justify-between gap-4">
+          {/* 구글 로그인 버튼 */}
           <Button type="button" className="bg-gray hover:bg-gray/60 flex-1" onClick={signInWithGoogle}>
             <Image src={ICON_GOOGLE} alt="google-logo" width={24} height={24} className="rounded" />
           </Button>
+          {/* 깃허브 로그인 버튼 */}
           <Button type="button" className="bg-gray hover:bg-gray/60 flex-1" onClick={signInWithGithub}>
             <Image src={ICON_GITHUB} alt="github-logo" width={24} height={24} className="rounded" />
           </Button>
         </div>
-        <div className="flex justify-center gap-4">
-          <span>계정이 없으신가요?</span>
-          <Link href="/sign-up" className="text-blue hover:scale-105 hover:underline">
-            가입하기
-          </Link>
-        </div>
+        <AuthToggleLink mode="signUp" />
       </form>
     </Form>
   );
