@@ -24,7 +24,7 @@ const ChallengeHomeParticipation = () => {
 
   return (
     <section>
-      <div className="mb-2 flex items-center justify-between px-2">
+      <div className="flex items-center justify-between px-2">
         <h2 className="text-2xl">🔥내가 참여중인 챌린지</h2>
         <div className="space-x-2">
           <Button

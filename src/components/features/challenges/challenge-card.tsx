@@ -24,6 +24,7 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, fi
           alt="thumbnail"
           className="h-full w-full rounded-t-md object-cover object-center"
           fill
+          sizes="15rem"
         />
       </figure>
       <CardContent className="relative space-y-2">
