@@ -1,4 +1,3 @@
-import { cn } from '@/lib/utils';
 import { ChallengePostSetters } from '@/types/challenge-post.type';
 import { ChallengePost } from '@/types/challenge.type';
 import { UploadIcon } from 'lucide-react';
@@ -36,21 +35,15 @@ const ChallengePostImageUploader = ({ setters, challenge }: ChallengePostImageUp
   };
   return (
     <section className="flex flex-col items-center justify-center gap-3">
-      <label
-        htmlFor="image-upload"
-        className="text-foreground hover:text-primary text-lg font-semibold transition-colors"
-      >
+      <label htmlFor="image-upload" className="text-foreground text-lg font-semibold">
         챌린지 이미지
       </label>
 
       {/* 이미지 업로드*/}
       <div
-        className={cn(
-          'group relative flex items-center justify-center rounded-lg border-2 border-dashed',
-          'border-border hover:border-secondary hover:bg-accent/10',
-          'cursor-pointer transition-colors duration-200',
-          'h-[150px] w-[250px]'
-        )}
+        className={
+          'group border-border hover:border-secondary hover:bg-accent/10 relative flex h-[150px] w-[250px] cursor-pointer items-center justify-center rounded-lg border-2 border-dashed transition-colors duration-200'
+        }
         onClick={handleClick}
         role="button"
         aria-labelledby="image-upload-label"

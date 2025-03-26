@@ -9,19 +9,18 @@ type UseChallengePostMutationParams = {
   challengeId?: number;
 };
 
+type ChallengeMutationResponse = {
+  success: boolean;
+  message: string;
+};
+
 const useChallengePostMutation = ({
   isEditMode,
   challenge,
   challengeImageFile,
   challengeId
 }: UseChallengePostMutationParams) => {
-  return useMutation<
-    {
-      success: boolean;
-      message: string;
-    },
-    Error
-  >({
+  return useMutation<ChallengeMutationResponse, Error>({
     mutationFn: async () => {
       if (isEditMode) {
         if (challengeId === undefined) throw new Error('챌린지 ID가 없습니다.');

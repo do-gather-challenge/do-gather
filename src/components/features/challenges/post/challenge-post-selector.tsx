@@ -98,8 +98,8 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
       </section>
 
       {/* 시작/종료 날짜 */}
-      <section>
-        <h2 className="flex flex-col gap-2">시작/종료 날짜</h2>
+      <section className="flex flex-col gap-2">
+        <h2 className="text-lg font-semibold">시작/종료 날짜</h2>
 
         <ChallengePostDatePicker
           startDate={challenge.startDate ? new Date(challenge.startDate) : undefined}
