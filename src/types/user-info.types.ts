@@ -5,3 +5,11 @@ export type UserInfo = {
   profile_image: string | null;
   email: string;
 };
+
+export type User = {
+  id: string;
+  createdAt: string;
+  email: string;
+  nickname: string;
+  profileImage: string | null;
+};
