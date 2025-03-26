@@ -1,7 +1,8 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { fetchCreateChallengeCompleted } from '@/lib/api/completed.api';
+import { fetchCreateChallengeCompleted } from '@/lib/api/challenge-completed.api';
+import { useTransition } from 'react';
 
 type ChallengeDetailCompleteButtonProps = {
   challengeId: number;
@@ -13,9 +14,13 @@ const ChallengeDetailCompleteButton = ({
   isParticipating,
   isCompleted
 }: ChallengeDetailCompleteButtonProps) => {
+  const [isPending, startTransition] = useTransition();
+
   const handleCompletedButtonClick = () => {
     if (!isParticipating) return;
-    fetchCreateChallengeCompleted(challengeId);
+    startTransition(() => {
+      fetchCreateChallengeCompleted(challengeId);
+    });
   };
 
   if (isCompleted)
@@ -30,9 +35,12 @@ const ChallengeDetailCompleteButton = ({
       onClick={handleCompletedButtonClick}
       variant="secondary"
       className={`w-full ${!isParticipating && 'group cursor-not-allowed'}`}
+      disabled={isPending}
     >
-      <span className={`block ${!isParticipating && 'group-hover:hidden'}`}>인증하기</span>
-      <span className={`hidden ${!isParticipating && 'group-hover:block'}`}>챌린지 참여가 필요합니다!</span>
+      <span className={`block ${!isParticipating && 'group-hover:hidden active:hidden'}`}>인증하기</span>
+      <span className={`hidden ${!isParticipating && 'group-hover:block active:block'}`}>
+        챌린지 참여가 필요합니다!
+      </span>
     </Button>
   );
 };
