@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import URL from '@/constants/app-url.constant';
 import { fetchCreateChallenge } from '@/lib/api/challenge-post.api';
 
 import { ChallengePost } from '@/types/challenge.type';
@@ -26,7 +27,7 @@ const ChallengePostButtonGroup = ({ challenge, challengeImageFile }: ChallengePo
     if (window.history.length > 1) {
       router.back();
     } else {
-      router.push('/home');
+      router.push(URL.HOME);
     }
   };
   return (
