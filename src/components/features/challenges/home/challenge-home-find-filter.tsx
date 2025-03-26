@@ -37,7 +37,7 @@ const ChallengeHomeFindFilter = () => {
 
   // console.log(data?.data);
   const pageCount = data?.pagination.pageCount ?? 0;
-  const cards = data?.data || [];
+  const challenges = data?.data || [];
 
   const handleFilterChange = (key: keyof typeof filters, value: string) => {
     setPage(1);
@@ -73,12 +73,7 @@ const ChallengeHomeFindFilter = () => {
           <HiOutlineMagnifyingGlass className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500" />
         </div>
       </div>
-      <div className="gird w-full grid-cols-4 bg-blue-100">
-        {cards.map((card) => (
-          <div key={card.id}>{card.title}</div>
-        ))}
-        {/* <ChallengeHomeFindFilteredList/> */}
-      </div>
+      <ChallengeHomeFindFilteredList challenges={challenges} isPending={isPending} />
     </>
   );
 };
