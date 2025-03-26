@@ -4,6 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Form } from '@/components/ui/form';
 import AuthInputField from './auth-input-field';
 import { useSignUpForm } from '@/lib/hooks/use-sign-up-form';
+import Link from 'next/link';
+import URL from '@/constants/app-url.constant';
 
 const AuthSignUpForm = () => {
   const { form, onSubmit } = useSignUpForm();
@@ -26,6 +28,12 @@ const AuthSignUpForm = () => {
         <Button type="submit" variant="secondary" className="w-full">
           회원가입 완료
         </Button>
+        <div className="flex justify-center gap-4">
+          <span>이미 계정이 있으신가요?</span>
+          <Link href={URL.SIGN_IN} className="text-blue hover:scale-105 hover:underline">
+            로그인하기
+          </Link>
+        </div>
       </form>
     </Form>
   );
