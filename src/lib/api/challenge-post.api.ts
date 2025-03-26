@@ -5,6 +5,7 @@ import { validateChallengePost, validateFile } from '../utils/validate.util';
 import { fetchUploadImage } from './storage.api';
 import { getUserInfo } from './user-Info.api';
 import { buildChallengePayload } from '../utils/post.util';
+import { fetchGetChallengeById } from './challenge.api';
 
 /**
  * 챌린지 생성
@@ -29,7 +30,7 @@ export const fetchCreateChallenge = async (
   if (uploadError) return { success: false, message: uploadError };
 
   // DB에 저장할 payload
-  const payload = buildChallengePayload(challengeData, imageUrl, userId);
+  const payload = buildChallengePayload(challengeData, imageUrl, userId, false);
 
   // DB에 챌린지 생성 요청
   try {
@@ -55,6 +56,12 @@ export const fetchUpdateChallenge = async (
   updatedChallenge: ChallengePost,
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
+  // 챌린지 데이터 조회
+  const existingChallenge = await fetchGetChallengeById(challengeId);
+  if (!existingChallenge) {
+    return { success: false, message: '해당 챌린지를 찾을 수 없습니다.' };
+  }
+
   // 입력 검증
   const { success, error } = validateChallengePost.safeParse(updatedChallenge);
   if (!success) return { success: false, message: error.errors[0].message };
@@ -63,12 +70,17 @@ export const fetchUpdateChallenge = async (
   const { userId } = await getUserInfo();
   if (!userId) return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
 
+  // `creator_id`가 일치하는지 확인
+  if (existingChallenge.creatorId !== userId) {
+    return { success: false, message: '이 챌린지의 수정 권한이 없습니다.' };
+  }
+
   // 이미지 업로드
   const { imageUrl, error: uploadError } = await fetchUploadChallengeImage(challengeImageFile);
   if (uploadError) return { success: false, message: uploadError };
 
-  // DB에 수정할 payload (created_at 제거)
-  const { created_at, ...updatedPayload } = buildChallengePayload(updatedChallenge, imageUrl, userId);
+  // DB에 수정할 payload (created_at 제외)
+  const updatedPayload = buildChallengePayload(updatedChallenge, imageUrl, userId, true);
 
   // DB에 챌린지 수정 요청
   try {
