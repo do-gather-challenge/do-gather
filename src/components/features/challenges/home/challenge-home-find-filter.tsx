@@ -22,7 +22,7 @@ const ChallengeHomeFindFilter = () => {
     searchTerm: ''
   });
   
-  const debouncedSearchTerm = useDebounce(searchInput, 1000);
+  const debouncedSearchTerm = useDebounce(searchInput, 500);
   
   useEffect(() => {
     setPage(1);
