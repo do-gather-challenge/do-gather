@@ -23,11 +23,17 @@ export const fetchCreateChallengeCompleted = async (challengeId: number) => {
 export const fetchCompletedChallengeIds = async (challengeIds: number[]): Promise<number[]> => {
   if (challengeIds.length === 0) return [];
 
+  const now = new Date();
+  const startOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate()).toISOString();
+  const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1).toISOString();
+
   const supabase = createClient();
   const { data, error } = await supabase
     .from('challenge_completions')
     .select('challenge_id')
-    .in('challenge_id', challengeIds);
+    .in('challenge_id', challengeIds)
+    .gte('created_at', startOfDay)
+    .lt('created_at', endOfDay);
 
   if (error) {
     console.error('Error fetching completed challenge IDs:', error);

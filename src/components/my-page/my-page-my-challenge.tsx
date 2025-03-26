@@ -55,7 +55,7 @@ const MyPageMyChallenge = () => {
   if (isLoading) return;
 
   return (
-    <section className="mt-5 flex w-full flex-col items-center gap-3 sm:flex-row">
+    <section className="mt-5 ml-5 flex w-full flex-col items-center gap-15 sm:flex-row">
       {/* 프로필 & 버튼 */}
       <aside className="flex w-full flex-col items-center sm:w-[30%]">
         <div className="hidden w-60 flex-col gap-5 rounded-2xl border-1 border-black p-10 text-center sm:block">
@@ -84,7 +84,7 @@ const MyPageMyChallenge = () => {
         </nav>
       </aside>
       {/* 마이 챌린지 */}
-      <section className="flex w-full justify-center self-start">
+      <section className="flex w-full justify-start self-start">
         <div className="flex flex-col gap-5">
           <p className="text-2xl font-bold">{title}</p>
           <Component />
