@@ -15,7 +15,7 @@ const initialChallenge: ChallengePost = {
 };
 
 // 챌린지 폼 상태 관리 훅
-export const useChallengeForm = (initialValues: ChallengePost) => {
+export const useChallengeForm = (initialValues?: Partial<ChallengePost>) => {
   const [challenge, setChallenge] = useState<ChallengePost>({
     ...initialChallenge,
     ...initialValues

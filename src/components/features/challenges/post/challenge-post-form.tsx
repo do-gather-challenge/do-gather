@@ -9,7 +9,7 @@ import ChallengePostButtonGroup from './challenge-post-button-group';
 
 type ChallengeFormProps = {
   mode: 'create' | 'edit';
-  initialData: Challenge;
+  initialData?: Challenge;
 };
 
 const ChallengePostForm = ({ mode, initialData }: ChallengeFormProps) => {
