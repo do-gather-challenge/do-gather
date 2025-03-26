@@ -2,24 +2,29 @@ import { useState } from 'react';
 import { ChallengeCategoryType } from '@/types/challenge-category.type';
 import { ChallengePost } from '@/types/challenge.type';
 
+// 초기 챌린지 데이터
+const initialChallenge: ChallengePost = {
+  createdAt: '',
+  startDate: '',
+  finishDate: '',
+  title: '',
+  description: '',
+  category: '',
+  challengeImage: '',
+  executeDays: []
+};
+
 // 챌린지 폼 상태 관리 훅
 export const useChallengeForm = (initialValues?: Partial<ChallengePost>) => {
   const [challenge, setChallenge] = useState<ChallengePost>({
-    createdAt: '',
-    startDate: '',
-    finishDate: '',
-    title: '',
-    description: '',
-    category: '',
-    challengeImage: '',
-    executeDays: [],
+    ...initialChallenge,
     ...initialValues
   });
   const [challengeImageFile, setChallengeImageFile] = useState<File | null>(null);
 
   // 입력 값 변경 핸들러 (제목, 소개)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { id, value, type, checked } = e.target as HTMLInputElement;
+    const { id, value } = e.target as HTMLInputElement;
     if (!(id in challenge)) {
       console.error(`Invalid id: ${id}`);
       return;
