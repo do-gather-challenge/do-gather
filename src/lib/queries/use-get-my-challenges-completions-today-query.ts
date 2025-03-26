@@ -27,7 +27,7 @@ export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number = 1, c
 
   const {
     data: completedData,
-    isPending,
+    isPending: isLoadingCompletionsToday,
     isError,
     error
   } = useQuery({
@@ -36,7 +36,7 @@ export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number = 1, c
     enabled: challengesInProgressArray.length > 0 // 진행 중인 챌린지가 있을 때만 실행
   });
 
-  const isLoading = isLoadingInProgress || isPending;
+  const isPending = isLoadingInProgress || isLoadingCompletionsToday;
 
   const challenges = useMemo(() => {
     if (isPending || !completedData?.completedIds) return [];
@@ -50,5 +50,5 @@ export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number = 1, c
     return total ? Math.ceil(completedData.totalCount / cardsPerPage) : 0;
   }, [completedData, cardsPerPage]);
 
-  return { challenges, pageCount, total, isLoading, isError, error };
+  return { challenges, pageCount, total, isPending, isError, error };
 };

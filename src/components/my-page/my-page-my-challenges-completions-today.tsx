@@ -7,9 +7,9 @@ import { Button } from '../ui/button';
 
 const MyPageMyTodaysCompletedChallenges = () => {
   const [pageIndex, setPageIndex] = useState(1);
-  const { challenges, pageCount, isLoading, isError, error } = useGetMyChallengesCompletionsTodayQuery(pageIndex, 6);
+  const { challenges, pageCount, isPending, isError, error } = useGetMyChallengesCompletionsTodayQuery(pageIndex, 6);
 
-  if (isLoading) return <>Loading...</>;
+  if (isPending) return <>Loading...</>;
   if (isError) return <>Error occurred... {error?.message}</>;
   if (!pageCount) return <>인증한 챌린지가 없습니다.</>;
 
