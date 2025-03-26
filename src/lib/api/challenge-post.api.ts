@@ -12,7 +12,7 @@ import { validateChallengePost, validateFile } from '../utils/validate.util';
  * @param {number | null} challengeId - 수정 시에만 필요한 챌린지 ID
  * @returns {Promise<{ success: boolean; message: string }>} - 성공 여부와 메시지
  */
-const handleChallenge = async (
+const fetchCreateOrUpdateChallenge = async (
   challengeData: ChallengePost,
   challengeImageFile: File | null,
   isUpdate: boolean,
@@ -57,7 +57,7 @@ const handleChallenge = async (
 
     if (isUpdate) {
       // 수정일 경우
-      const updatePayload: Record<string, any> = {
+      const updatePayload: Record<string, string | string[]> = {
         title: challengeData.title,
         description: challengeData.description,
         start_date: challengeData.startDate,
@@ -115,7 +115,7 @@ const handleChallenge = async (
   }
 };
 
-export { handleChallenge };
+export { fetchCreateOrUpdateChallenge };
 
 /**
  * 챌린지 게시물을 생성하는 API 함수
@@ -127,7 +127,7 @@ export const fetchCreateChallenge = async (
   challenge: ChallengePost,
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
-  return handleChallenge(challenge, challengeImageFile, false, null);
+  return fetchCreateOrUpdateChallenge(challenge, challengeImageFile, false, null);
 };
 
 /**
@@ -142,5 +142,5 @@ export const fetchUpdateChallenge = async (
   updatedChallenge: ChallengePost,
   challengeImageFile: File | null
 ): Promise<{ success: boolean; message: string }> => {
-  return handleChallenge(updatedChallenge, challengeImageFile, true, challengeId);
+  return fetchCreateOrUpdateChallenge(updatedChallenge, challengeImageFile, true, challengeId);
 };

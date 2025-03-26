@@ -12,7 +12,7 @@ type ChallengeFormProps = {
   initialData?: Challenge;
 };
 
-const ChallengeForm = ({ mode, initialData }: ChallengeFormProps) => {
+const ChallengePostForm = ({ mode, initialData }: ChallengeFormProps) => {
   const { challenge, challengeImageFile, setters, handleChange } = useChallengeForm(initialData);
 
   return (
@@ -38,4 +38,4 @@ const ChallengeForm = ({ mode, initialData }: ChallengeFormProps) => {
   );
 };
 
-export default ChallengeForm;
+export default ChallengePostForm;

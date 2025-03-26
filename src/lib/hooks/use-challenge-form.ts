@@ -26,7 +26,7 @@ export const useChallengeForm = (initialValues?: Partial<ChallengePost>) => {
     }
     setChallenge((prev) => ({
       ...prev,
-      [id]: type === 'checkbox' || type === 'radio' ? checked : value
+      [id]: value
     }));
   };
 

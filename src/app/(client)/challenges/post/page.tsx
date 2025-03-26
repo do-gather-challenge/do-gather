@@ -1,4 +1,4 @@
-import ChallengeForm from '@/components/features/challenges/post/challenge-form';
+import ChallengePostForm from '@/components/features/challenges/post/challenge-post-form';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 const ChallengePostPage = () => {
-  return <ChallengeForm mode="create" />;
+  return <ChallengePostForm mode="create" />;
 };
 
 export default ChallengePostPage;

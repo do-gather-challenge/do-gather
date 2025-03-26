@@ -1,4 +1,4 @@
-import ChallengeForm from '@/components/features/challenges/post/challenge-form';
+import ChallengePostForm from '@/components/features/challenges/post/challenge-post-form';
 import { fetchGetChallengeById } from '@/lib/api/challenge.api';
 import { Metadata } from 'next';
 
@@ -22,7 +22,7 @@ export async function generateMetadata({ params }: { params: { id: number } }): 
 
 const ChallengeEditPage = async ({ params }: { params: { id: string } }) => {
   const challenge = await fetchGetChallengeById(Number(params.id));
-  return challenge ? <ChallengeForm mode="edit" initialData={challenge} /> : <div>챌린지를 찾을 수 없습니다</div>;
+  return challenge ? <ChallengePostForm mode="edit" initialData={challenge} /> : <div>챌린지를 찾을 수 없습니다</div>;
 };
 
 export default ChallengeEditPage;

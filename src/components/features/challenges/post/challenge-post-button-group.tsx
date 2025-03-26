@@ -54,8 +54,6 @@ const ChallengePostButtonGroup = ({
     }
   });
 
-  const isPending = createPending || updatePending;
-
   const handleSubmitChallenge = () => {
     if (isEditMode) {
       updateChallenge();
@@ -73,10 +71,10 @@ const ChallengePostButtonGroup = ({
 
   return (
     <div className="flex justify-center gap-6">
-      <Button variant="secondary" onClick={handleGoBack} disabled={isPending}>
+      <Button variant="secondary" onClick={handleGoBack}>
         뒤로가기
       </Button>
-      <Button variant="secondary" onClick={handleSubmitChallenge} disabled={isPending}>
+      <Button variant="secondary" onClick={handleSubmitChallenge} disabled={createPending || updatePending}>
         {isEditMode ? '챌린지 수정' : '챌린지 생성'}
       </Button>
     </div>
