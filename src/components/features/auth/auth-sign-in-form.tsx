@@ -23,7 +23,7 @@ const AuthSignInForm = () => {
     await browserClient.auth.signInWithOAuth({
       provider: 'github',
       options: {
-        redirectTo: window.origin + 'api/auth/callback'
+        redirectTo: `${window.origin}/api/auth/callback`
       }
     });
   };
@@ -32,7 +32,7 @@ const AuthSignInForm = () => {
     await browserClient.auth.signInWithOAuth({
       provider: 'google',
       options: {
-        redirectTo: window.origin + 'api/auth/callback'
+        redirectTo: `${window.origin}/api/auth/callback`
       }
     });
   };
