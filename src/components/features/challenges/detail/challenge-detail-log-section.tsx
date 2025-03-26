@@ -19,7 +19,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
 
   useEffect(() => {
     fetchChallengeLogsPerPage(challengeId).then((logData) => {
-      setLogs((prev) => [...logData, ...prev]);
+      setLogs(logData);
       setIsPending(false);
     });
 
