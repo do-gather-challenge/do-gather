@@ -4,12 +4,11 @@ import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-m
 import ChallengeCard from '../features/challenges/challenge-card';
 
 const MyPageMyTodaysCompletedChallenges = () => {
-  const { challenges, isLoading, isError, error } = useGetMyChallengesCompletionsTodayQuery(1, 6);
+  const { challenges, pageCount, isLoading, isError, error } = useGetMyChallengesCompletionsTodayQuery(1, 6);
 
   if (isLoading) return <>Loading...</>;
   if (isError) return <>Error occurred... {error?.message}</>;
-
-  if (!challenges.length) return <>인증한 챌린지가 없습니다.</>;
+  if (!pageCount) return <>인증한 챌린지가 없습니다.</>;
 
   return (
     <section>

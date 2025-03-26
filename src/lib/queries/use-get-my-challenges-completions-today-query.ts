@@ -25,7 +25,7 @@ export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number, cards
   const challengesInProgressArray = dataInProgress?.map((challenge) => challenge.id) ?? []; // 참여 중인 챌린지 리스트
 
   const {
-    data: completedChallengeIds,
+    data: completedData,
     isPending,
     isError,
     error
@@ -38,11 +38,14 @@ export const useGetMyChallengesCompletionsTodayQuery = (pageIndex: number, cards
   const isLoading = isLoadingInProgress || isPending;
 
   const challenges = useMemo(() => {
-    // completedChallengeIds가 로딩 중이거나 undefined일 때는 빈 배열 반환
-    if (isPending || !completedChallengeIds) return [];
+    if (isPending || !completedData?.completedIds) return [];
+    return dataInProgress?.filter((challenge) => completedData.completedIds.includes(challenge.id)) ?? [];
+  }, [dataInProgress, completedData, isPending]);
 
-    return dataInProgress?.filter((challenge) => completedChallengeIds.includes(challenge.id)) ?? [];
-  }, [dataInProgress, completedChallengeIds, isPending]);
+  // 페이지 수 계산
+  const pageCount = useMemo(() => {
+    return completedData?.totalCount ? Math.ceil(completedData.totalCount / cardsPerPage) : 0;
+  }, [completedData, cardsPerPage]);
 
-  return { challenges, isLoading, isError, error };
+  return { challenges, pageCount, isLoading, isError, error };
 };
