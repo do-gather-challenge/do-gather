@@ -1,7 +1,7 @@
 import { MyPageMyChallenges } from '@/types/my-page-type';
-import MyPageMyTodaysCompletedChallenges from '@/components/my-page/my-page-my-challenges-completions-today';
-import MyPageMyCompletedChallenges from '@/components/my-page/my-page-my-completed-challenges';
-import MyPageMyInProgressChallenges from '@/components/my-page/my-page-my-in-progress-challenges';
+import MyPageMyTodaysCompletedChallenges from '@/components/features/my-page/my-page-my-challenges-completions-today';
+import MyPageMyCompletedChallenges from '@/components/features/my-page/my-page-my-completed-challenges';
+import MyPageMyInProgressChallenges from '@/components/features/my-page/my-page-my-in-progress-challenges';
 
 /** 마이챌린지 */
 export const MY_PAGE_MY_CHALLENGES_CATEGORY: MyPageMyChallenges[] = [

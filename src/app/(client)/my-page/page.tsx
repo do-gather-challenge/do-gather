@@ -2,8 +2,8 @@
 
 import React, { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import MyPageEditProfile from '../../../components/my-page/my-page-edit-profile';
-import MyPageMyChallenge from '../../../components/my-page/my-page-my-challenge';
+import MyPageEditProfile from '../../../components/features/my-page/my-page-edit-profile';
+import MyPageMyChallenge from '../../../components/features/my-page/my-page-my-challenge';
 
 import type { TabType } from '@/types/my-page-type';
 

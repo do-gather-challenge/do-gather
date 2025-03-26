@@ -1,20 +1,20 @@
 'use client';
 
-import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-my-challenges-completions-today-query';
-import ChallengeCard from '../features/challenges/challenge-card';
 import { useState } from 'react';
-import { Button } from '../ui/button';
+import ChallengeCard from '../challenges/challenge-card';
+import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
+import { Button } from '../../ui/button';
 
-const MyPageMyTodaysCompletedChallenges = () => {
-  const [pageIndex, setPageIndex] = useState(1);
-  const { challenges, pageCount, isPending, isError, error } = useGetMyChallengesCompletionsTodayQuery(pageIndex, 6);
+const MyPageMyInProgressChallenges = () => {
+  const [pageIndex, setPageIndex] = useState(0);
+  const { pageCount, challenges, isPending, isError, error } = useGetMyInProgressChallengesQuery(pageIndex, 6);
 
   if (isPending) return <>Loading...</>;
   if (isError) return <>Error occurred... {error?.message}</>;
-  if (!pageCount) return <>인증한 챌린지가 없습니다.</>;
+  if (!pageCount) return <>참여 중인 챌린지가 없습니다.</>;
 
-  const isNextPageEnabled = pageCount > pageIndex;
-  const isPreviousPageEnabled = pageIndex > 1;
+  const isNextPageEnabled = pageCount - 1 > pageIndex;
+  const isPreviousPageEnabled = pageIndex > 0;
 
   const handleNextPage = () => {
     if (isNextPageEnabled) {
@@ -56,4 +56,4 @@ const MyPageMyTodaysCompletedChallenges = () => {
   );
 };
 
-export default MyPageMyTodaysCompletedChallenges;
+export default MyPageMyInProgressChallenges;

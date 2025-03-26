@@ -1,9 +1,9 @@
 'use client';
 
 import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
-import ChallengeCard from '../features/challenges/challenge-card';
+import ChallengeCard from '../challenges/challenge-card';
 import { useState } from 'react';
-import { Button } from '../ui/button';
+import { Button } from '../../ui/button';
 
 const MyPageMyCompletedChallenges = () => {
   const [pageIndex, setPageIndex] = useState(1);
