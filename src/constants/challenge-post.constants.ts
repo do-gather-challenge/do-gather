@@ -8,7 +8,7 @@ export const DATABASE = {
     PARTICIPANTS: 'participants'
   }
 };
-export const STORAGE_MESSAGES = {
+export const FETCH_MESSAGES = {
   IMAGE_UPLOAD_FAILED: '이미지 업로드에 실패했습니다.',
   IMAGE_TYPE_INVALID: '허용되지 않는 파일 형식입니다. PNG 또는 JPG 파일만 업로드 가능합니다.',
   IMAGE_SIZE_TOO_LARGE: '이미지 크기는 3MB 이하로 업로드 가능합니다.'
@@ -40,4 +40,3 @@ export const ChallengePostSchema = {
   CATEGORY_SCHEMA: z.string({ required_error: '카테고리를 선택해 주세요.' }),
   EXECUTE_DAYS_SCHEMA: z.array(z.string()).min(1, '실행 요일을 선택해 주세요.')
 };
-
