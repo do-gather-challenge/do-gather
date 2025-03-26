@@ -1,29 +1,29 @@
 'use client';
-/**
- * 마이페이지 프로필 수정 컴포넌트
- * @param {Object} props - 컴포넌트 프로퍼티
- * @param {Function} props.setSelectedTab - 탭 선택 핸들러
- */
+
 import React, { useEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
 import Link from 'next/link';
 import Image from 'next/image';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
+import { Label } from '@radix-ui/react-label';
 import { generateFileName } from '@/lib/utils/post.util';
-import { ErrorMessage } from '@/constants/error-message.constant';
 import { FILES } from '@/constants/files.constant';
+import { ErrorMessage } from '@/constants/error-message.constant';
 import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
-import { getUserInfo } from '@/lib/api/user-Info.api';
 import { TOAST_MESSAGES } from '@/constants/my-page-constant';
+import { getUserInfo } from '@/lib/api/user-Info.api';
+import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-my-challenges-completions-today-query';
+import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
+import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
 
 import type { MyPageEditProfileProps } from '@/types/my-page-type';
-import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
-import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
-import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-my-challenges-completions-today-query';
-
+/**
+ * 마이페이지 프로필 수정 컴포넌트
+ * @param {Object} props - 컴포넌트 프로퍼티
+ * @param {Function} props.setSelectedTab - 탭 선택 핸들러
+ */
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string>(DEFAULT_IMAGE.src);
@@ -44,13 +44,10 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   }, []);
 
   /** 마이 챌린지 현황 count 불러오기  */
-  const { total: countToday } = useGetMyChallengesCompletionsTodayQuery();
-  const { countInProgress } = useGetMyInProgressChallengesQuery();
-  const { countCompleted } = useGetMyCompletedChallengesQuery();
   const challenges = [
-    { label: '오늘의 챌린지', count: countToday },
-    { label: '참여 중인 챌린지', count: countInProgress },
-    { label: '완료한 챌린지', count: countCompleted }
+    { label: '오늘의 챌린지', count: useGetMyChallengesCompletionsTodayQuery().total },
+    { label: '참여 중인 챌린지', count: useGetMyInProgressChallengesQuery().countInProgress },
+    { label: '완료한 챌린지', count: useGetMyCompletedChallengesQuery().countCompleted }
   ];
 
   /** 이미지 파일 선택 핸들러 */

@@ -5,7 +5,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import MyPageEditProfile from '../../../components/my-page/my-page-edit-profile';
 import MyPageMyChallenge from '../../../components/my-page/my-page-my-challenge';
 
-type TabType = 'profile' | 'challenge';
+import type { TabType } from '@/types/my-page-type';
 
 const MyPage = () => {
   const [selectedTab, setSelectedTab] = useState<TabType>('profile');
