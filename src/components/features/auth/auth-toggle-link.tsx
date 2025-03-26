@@ -20,7 +20,7 @@ const AuthToggleLink = ({ mode }: { mode: AuthToggleLinkProps }) => {
   return (
     <div className="flex justify-center gap-4">
       <span>{authMode[mode].description}</span>
-      <Link href={authMode[mode].url} className="text-blue hover:scale-105 hover:underline">
+      <Link href={authMode[mode].url} className="text-blue hover:scale-105 hover:underline" replace={true}>
         {authMode[mode].title}
       </Link>
     </div>
