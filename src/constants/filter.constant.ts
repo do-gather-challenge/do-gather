@@ -1,5 +1,5 @@
 export const CATEGORY_OPTIONS = [
-  { label: '전체', value: '' }, 
+  { label: '전체', value: '' },
   { label: '운동', value: 'EXERCISE' },
   { label: '학습', value: 'STUDY' },
   { label: '예술', value: 'ART' },
@@ -17,3 +17,5 @@ export const SORT_OPTIONS = [
   { label: '시작 빠른 순', value: 'RECENT' },
   { label: '참여인원 순', value: 'POPULAR' }
 ];
+
+export const CARDS_PER_PAGE = 12;

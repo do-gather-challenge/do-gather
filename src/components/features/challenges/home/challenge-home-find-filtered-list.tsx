@@ -1,6 +1,7 @@
 import { Challenge } from '@/types/challenge.type';
 import ChallengeCard from '../challenge-card';
 import ChallengeCardSkeleton from '../challenge-card-skeleton';
+import { CARDS_PER_PAGE } from '@/constants/filter.constant';
 
 type FilteredListProps = {
   challenges: Challenge[];
@@ -9,9 +10,9 @@ type FilteredListProps = {
 
 const ChallengeHomeFindFilteredList = ({ challenges, isPending }: FilteredListProps) => {
   return (
-    <div className="relative w-full grid grid-cols-4 place-items-center overflow-hidden">
+    <div className="relative grid w-full grid-cols-1 place-items-center gap-6 overflow-hidden sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
       {isPending
-        ? Array.from({ length: 12 }).map((_, i) => <ChallengeCardSkeleton key={i} />)
+        ? Array.from({ length: CARDS_PER_PAGE }).map((_, i) => <ChallengeCardSkeleton key={i} />)
         : challenges.map((challenge) => (
             <ChallengeCard
               key={challenge.id}

@@ -24,7 +24,7 @@ export const ChallengeHomeDropdown = ({ options, value, onChange }: ChallengeHom
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="h-10 w-48 text-lg" asChild>
+      <DropdownMenuTrigger className="h-10 w-80 sm:w-48 text-lg" asChild>
         <Button className="relative rounded-full focus-visible:ring-0" variant="outline">
           {selectedLabel}
           <IoIosArrowDown className="absolute left-4" />
