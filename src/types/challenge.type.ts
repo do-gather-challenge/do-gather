@@ -26,7 +26,7 @@ export type ChallengePost = Omit<Challenge, 'id' | 'creatorId' | 'participantCou
 };
 
 export type ChallengeFilterOptions = {
-  category: ChallengeCategoryType;
+  category: ChallengeCategoryType | '';
   searchTerm: string;
   status: ChallengeStatusType;
   sortBy: ChallengeSortType;

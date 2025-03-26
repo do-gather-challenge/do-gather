@@ -23,18 +23,15 @@ export const fetchGetChallengesByPage = async (
   limit: number = 10,
   { category, searchTerm, status, sortBy }: Partial<ChallengeFilterOptions> = {}
 ): Promise<Pagination<Challenge[]>> => {
-  const supabase = await createClient();
-
+  const supabase = createClient();
   const from = (page - 1) * limit;
   const to = from + limit - 1;
 
   let query = supabase.from('challenges').select('*', { count: 'exact' });
-
   const currentDate = new Date().toISOString();
 
   if (category) query = query.eq('category', category);
   if (searchTerm) query = query.ilike('title', `%${searchTerm}%`);
-
   if (status) {
     if (status === ChallengeStatus.UPCOMING) query = query.gt('start_date', currentDate);
     else if (status === ChallengeStatus.IN_PROGRESS)
@@ -42,8 +39,7 @@ export const fetchGetChallengesByPage = async (
     else if (status === ChallengeStatus.COMPLETED) query = query.lte('finish_date', currentDate);
   }
 
-  if (sortBy === ChallengeSort.RECENT)
-    query = query.gt('start_date', currentDate).order('start_date', { ascending: true });
+  if (sortBy === ChallengeSort.RECENT) query = query.order('start_date', { ascending: true });
   else query = query.order('participant_count', { ascending: false });
   query = query.range(from, to);
 
