@@ -12,6 +12,7 @@ import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import Autoplay from 'embla-carousel-autoplay';
 import { Challenge } from '@/types/challenge.type';
 import URL from '@/constants/app-url.constant';
+import ImageVideoSize from '@/constants/image.constant';
 
 type ChallengeCarouselCardProps = {
   data: Challenge[];
@@ -40,8 +41,8 @@ const ChallengeCarouselCard = ({ data }: ChallengeCarouselCardProps) => {
                           <Image
                             src={challenge.challengeImage || DEFAULT_CHALLENGE_IMAGE}
                             alt={challenge.title}
-                            height={300}
-                            width={600}
+                            height={ImageVideoSize.HEIGHT}
+                            width={ImageVideoSize.WIDTH}
                             className="h-full object-cover"
                           />
                         </figure>
