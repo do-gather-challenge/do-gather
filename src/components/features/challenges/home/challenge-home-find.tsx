@@ -3,7 +3,7 @@ import ChallengeHomeFindFilter from './challenge-home-find-filter';
 const ChallengeHomeFind = () => {
   return (
     <section>
-      <h2 className="text-2xl">💡전체 챌린지 목록</h2>
+      <h1 className="text-2xl mb-4">✊모든 챌린지</h1>
       <ChallengeHomeFindFilter />
     </section>
   );

@@ -6,11 +6,11 @@ import { getUserInfo } from '@/lib/api/user-Info.api';
 const HomePage = async () => {
   const { isLogin } = await getUserInfo();
   return (
-    <>
+    <div className='py-8 space-y-16'>
       <ChallengePopular />
       {isLogin && <ChallengeHomeParticipation />}
       <ChallengeHomeFind />
-    </>
+    </div>
   );
 };
 
