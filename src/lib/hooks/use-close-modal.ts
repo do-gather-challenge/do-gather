@@ -19,7 +19,7 @@ const useCloseModal = () => {
     return () => {
       document.removeEventListener('keydown', handleKeyDown);
     };
-  }, [router]);
+  }, []);
 
   // 백드롭 영역 외부 클릭 시 모달 닫기
   useEffect(() => {
@@ -33,7 +33,7 @@ const useCloseModal = () => {
     return () => {
       document.removeEventListener('click', handleClickOutside);
     };
-  }, [router]);
+  }, []);
 
   return { backdropRef, handleCloseModal };
 };

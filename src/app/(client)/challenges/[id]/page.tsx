@@ -13,6 +13,8 @@ import ImageVideoSize from '@/constants/image.constant';
 import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import ChallengeDetailLogSection from '@/components/features/challenges/detail/challenge-detail-log-section';
 import { getUserInfo } from '@/lib/api/user-Info.api';
+import URL from '@/constants/app-url.constant';
+
 
 type ChallengeDetailPageProps = {
   params: { id: string };
@@ -89,7 +91,7 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
         <ChallengeDetailBackButton />
         {user.userId === challenge.creatorId && (
           <Link
-            href={`/challenges/post/${challenge.id}`}
+            href={URL.CHALLENGES_POST_ID(challenge.id)}
             className="flex items-center justify-center rounded border border-black px-3 hover:bg-black/20"
           >
             챌린지 수정

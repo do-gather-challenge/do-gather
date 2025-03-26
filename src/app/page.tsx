@@ -5,6 +5,7 @@ import EXERCISE from '../../public/images/about-exercise.jpg';
 import ETC from '../../public/images/about-etc.webp';
 import LOGO from '../../public/images/logo.png';
 import Image from 'next/image';
+import URL from '@/constants/app-url.constant';
 
 const RootPage = () => {
   return (
@@ -16,7 +17,7 @@ const RootPage = () => {
       <h1 className="text-secondary mt-10 text-3xl font-bold">챌린지 함께하기</h1>
       <p className="text-secondary mb-10">혼자하면 어려운 도전, 함께해요!</p>
 
-      <Link href="/home">
+      <Link href={URL.HOME}>
         <Button variant="black">더 많은 챌린지 보기 ➡</Button>
       </Link>
 
