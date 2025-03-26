@@ -44,7 +44,7 @@ const ChallengePostButtonGroup = ({
   };
 
   return (
-    <div className="flex justify-center gap-6">
+    <div className="mb-6 flex justify-center gap-6">
       <Button variant="secondary" onClick={handleGoBack}>
         뒤로가기
       </Button>

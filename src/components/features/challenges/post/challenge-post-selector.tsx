@@ -41,11 +41,11 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-6">
       {/* 반복 일정 */}
-      <section className="mb-6">
-        <div className="mb-2 flex items-center justify-between">
-          <label className="mb-2 text-lg font-semibold">반복 일정</label>
+      <section className="flex flex-col gap-2">
+        <div className="flex items-center justify-between">
+          <label className="text-lg font-semibold">반복 일정</label>
           <div>
             <input
               type="checkbox"
@@ -54,16 +54,14 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
               checked={isEveryDayChecked}
               onChange={handleEveryDayChange}
             />
-            <label htmlFor="every-day" className="mr-6">
-              매일
-            </label>
+            <label htmlFor="every-day">매일</label>
           </div>
         </div>
-        <div className="flex gap-2">
+        <div className="flex gap-1">
           {DAYS.map((day) => (
             <label
               key={day}
-              className={`${getDayCheckboxClass(day, challenge.executeDays)} flex items-center justify-center`}
+              className={`${getDayCheckboxClass(day, challenge.executeDays)} flex items-center justify-center font-semibold`}
             >
               <input
                 type="checkbox"
@@ -80,9 +78,9 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
       </section>
 
       {/* 챌린지 유형 */}
-      <section className="mb-6">
-        <h2 className="mb-2 text-lg font-semibold">챌린지 유형</h2>
-        <div className="flex gap-2">
+      <section className="flex flex-col gap-2">
+        <h2 className="text-lg font-semibold">챌린지 유형</h2>
+        <div className="flex gap-1">
           {categories.map((category) => (
             <label key={category} className={getCategoryRadioClass(category, challenge.category)}>
               <input
@@ -101,7 +99,7 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
 
       {/* 시작/종료 날짜 */}
       <section>
-        <h2 className="mb-2 text-lg font-semibold">시작/종료 날짜</h2>
+        <h2 className="flex flex-col gap-2">시작/종료 날짜</h2>
 
         <ChallengePostDatePicker
           startDate={challenge.startDate ? new Date(challenge.startDate) : undefined}

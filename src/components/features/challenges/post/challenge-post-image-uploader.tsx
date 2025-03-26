@@ -1,5 +1,7 @@
+import { cn } from '@/lib/utils';
 import { ChallengePostSetters } from '@/types/challenge-post.type';
 import { ChallengePost } from '@/types/challenge.type';
+import { UploadIcon } from 'lucide-react';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -33,13 +35,25 @@ const ChallengePostImageUploader = ({ setters, challenge }: ChallengePostImageUp
     }
   };
   return (
-    <section className="flex flex-col items-center justify-center gap-2">
-      <label className="text-lg font-semibold" htmlFor="image-upload">
+    <section className="flex flex-col items-center justify-center gap-3">
+      <label
+        htmlFor="image-upload"
+        className="text-foreground hover:text-primary text-lg font-semibold transition-colors"
+      >
         챌린지 이미지
       </label>
+
+      {/* 이미지 업로드*/}
       <div
-        className="border-border flex items-center justify-center rounded-lg border-1 border-dashed p-1 hover:cursor-pointer"
+        className={cn(
+          'group relative flex items-center justify-center rounded-lg border-2 border-dashed',
+          'border-border hover:border-secondary hover:bg-accent/10',
+          'cursor-pointer transition-colors duration-200',
+          'h-[150px] w-[250px]'
+        )}
         onClick={handleClick}
+        role="button"
+        aria-labelledby="image-upload-label"
       >
         <input
           type="file"
@@ -49,17 +63,21 @@ const ChallengePostImageUploader = ({ setters, challenge }: ChallengePostImageUp
           onChange={handleFileChange}
           ref={inputRef}
         />
-        <div className="bg-muted relative h-[140px] w-[240px] overflow-hidden rounded-lg">
+
+        {/* 미리보기 */}
+        <div className="absolute inset-0 flex items-center justify-center overflow-hidden rounded-[calc(0.5rem-2px)]">
           {previewImage ? (
             <Image
               src={previewImage}
-              alt="미리보기 이미지"
+              alt="업로드된 챌린지 이미지"
               fill
-              className="aspect-video w-full object-cover object-center"
+              className="object-cover object-center"
+              priority
             />
           ) : (
-            <div className="bg-muted flex h-[140px] w-[240px] items-center justify-center">
-              <p className="text-muted-foreground">이미지를 업로드하세요</p>
+            <div className="flex flex-col items-center gap-2 p-4 text-center">
+              <UploadIcon className="text-muted-foreground group-hover:text-secondary h-8 w-8" />
+              <p className="text-muted-foreground group-hover:text-secondary">이미지를 업로드하세요</p>
             </div>
           )}
         </div>
