@@ -3,38 +3,20 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
-import MyPageMyCompletedChallenges from './my-page-my-completed-challenges';
-import MyPageMyInProgressChallenges from './my-page-my-in-progress-challenges';
-import MyPageMyTodaysCompletedChallenges from './my-page-my-challenges-completions-today';
 import { Button } from '@/components/ui/button';
 import { getUserInfo } from '@/lib/api/user-Info.api';
+import { MY_PAGE_MY_CHALLENGES_CATEGORY, MY_PAGE_MY_CHALLENGES_COMPONENTS } from '@/constants/my-page-constant';
 
-import type { MyChallengeAlias, MyPageMyChallenges } from '@/types/my-page-type';
+import type { MyChallengeAlias } from '@/types/my-page-type';
 
 const MyPageMyChallenge = () => {
   const [selectedChallenge, setSelectedChallenge] = useState<MyChallengeAlias>('Today');
   const [isLoading, setIsLoading] = useState(false);
   const [nickname, setNickname] = useState('');
   const [profileImg, setProfileImg] = useState('');
-  const challenges: MyPageMyChallenges[] = [
-    { label: '오늘 인증한 챌린지', alias: 'Today' },
-    { label: '참여 중인 챌린지', alias: '참여중' },
-    { label: '완료한 챌린지', alias: '완료' }
-  ];
-  const challengeComponents = {
-    Today: {
-      title: '오늘 인증한 챌린지',
-      Component: MyPageMyTodaysCompletedChallenges
-    },
-    참여중: {
-      title: '참여 중인 챌린지',
-      Component: MyPageMyInProgressChallenges
-    },
-    완료: {
-      title: '완료한 챌린지',
-      Component: MyPageMyCompletedChallenges
-    }
-  };
+
+  const challenges = MY_PAGE_MY_CHALLENGES_CATEGORY;
+  const challengeComponents = MY_PAGE_MY_CHALLENGES_COMPONENTS;
   const { title, Component } = challengeComponents[selectedChallenge];
 
   useEffect(() => {
