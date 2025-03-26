@@ -8,6 +8,8 @@ import { Avatar, AvatarImage } from '@/components/ui/avatar';
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import { fetchUserInfoById } from '@/lib/api/user-Info.api';
 import { transformChallengeLogData } from '@/lib/utils/transform.util';
+import LOADING_SPINNER from '@/../public/images/loading-spinner.svg';
+import Image from 'next/image';
 
 type ChallengeDetailLogSectionProps = {
   challengeId: number;
@@ -49,28 +51,32 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
         behavior: 'smooth'
       });
     }
-  }, [logs]);
+  }, [logListRef.current]);
 
   return (
     <section className="border-secondary aspect-video flex-1 overflow-hidden rounded border">
-      {/* TODO: 지은님의 Loading으로 변경은 뒷 색상이 있어 힘들겠군... SVG만 넣기 */}
-      {isPending && <p>loading...!</p>}
-      <ol ref={logListRef} className="h-full space-y-3 overflow-scroll p-3">
-        {logs.map((log) => (
-          <li key={log.id}>
-            <p className="flex items-center gap-2">
-              <Avatar className="border-gray flex items-center justify-center border-2 text-sm">
-                <AvatarImage src={log.user.profileImage || ''} alt={`${log.user.nickname} 프로필 이미지`} />
-                <AvatarFallback>{log.user.nickname.slice(0, 2)}</AvatarFallback>
-              </Avatar>
-              <span className="font-semibold">{log.user.nickname}</span>
-            </p>
-            <p className="ml-2 break-keep text-gray-600">
-              {log.user.nickname}님이 {StatusMessage[log.status]}
-            </p>
-          </li>
-        ))}
-      </ol>
+      {isPending ? (
+        <p className="flex h-full items-center justify-center">
+          <Image src={LOADING_SPINNER} alt="로딩 스피너 이미지" height={100} width={100} />
+        </p>
+      ) : (
+        <ol ref={logListRef} className="h-full space-y-3 overflow-scroll p-3">
+          {logs.map((log) => (
+            <li key={log.id}>
+              <p className="flex items-center gap-2">
+                <Avatar className="border-gray flex items-center justify-center border-2 text-sm">
+                  <AvatarImage src={log.user.profileImage || ''} alt={`${log.user.nickname} 프로필 이미지`} />
+                  <AvatarFallback>{log.user.nickname.slice(0, 2)}</AvatarFallback>
+                </Avatar>
+                <span className="font-semibold">{log.user.nickname}</span>
+              </p>
+              <p className="ml-2 break-keep text-gray-600">
+                {log.user.nickname}님이 {StatusMessage[log.status]}
+              </p>
+            </li>
+          ))}
+        </ol>
+      )}
     </section>
   );
 };
