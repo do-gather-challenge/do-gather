@@ -3,7 +3,7 @@ import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { fetchUploadImage } from './storage.api';
 import { validateChallengePost, validateFile } from '../utils/validate.util';
-import { getSession, getUserInfo } from './user-Info.api';
+import { getSession } from './user-Info.api';
 
 /**
  * 챌린지 게시물을 생성하거나 수정하는 함수
@@ -46,7 +46,7 @@ const fetchCreateOrUpdateChallenge = async (
     }
 
     // 로그인 세션 확인
-    // const { userId } = await getUserInfo(); 
+    // const { userId } = await getUserInfo();
     const sessionResult = await getSession();
     if (sessionResult.error || !sessionResult.user) {
       return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
@@ -91,7 +91,7 @@ const fetchCreateOrUpdateChallenge = async (
       return { success: true, message: '챌린지 수정 성공' };
     } else {
       // 생성일 경우
-      let newChallenge = {
+      const newChallenge = {
         title: challengeData.title,
         description: challengeData.description,
         start_date: challengeData.startDate,

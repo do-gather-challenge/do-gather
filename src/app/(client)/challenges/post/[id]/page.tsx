@@ -1,20 +1,27 @@
 import ChallengePostForm from '@/components/features/challenges/post/challenge-post-form';
 import { fetchGetChallengeById } from '@/lib/api/challenge.api';
 import { Metadata } from 'next';
+import { notFound } from 'next/navigation';
 
 export async function generateMetadata({ params }: { params: { id: number } }): Promise<Metadata> {
   const challenge = await fetchGetChallengeById(Number(params.id));
-
+  if (!challenge) {
+    return {
+      title: '챌린지 수정 | DOGATHER',
+      description: '챌린지 정보를 수정하는 페이지입니다.',
+      openGraph: {
+        title: '챌린지 수정 | DOGATHER',
+        description: '챌린지 정보를 수정하는 페이지입니다.',
+        images: '/images/logo.png'
+      }
+    };
+  }
   return {
-    title: challenge ? `${challenge.title} - 챌린지 수정 |DOGATHER` : '챌린지 수정 | DOGATHER',
-    description: challenge
-      ? `${challenge.title} 챌린지 정보를 수정하는 페이지입니다.`
-      : '챌린지 정보를 수정하는 페이지입니다.',
+    title: `${challenge.title} - 챌린지 수정 | DOGATHER`,
+    description: `${challenge.title} 챌린지 정보를 수정하는 페이지입니다.`,
     openGraph: {
-      title: challenge ? `${challenge.title} - 챌린지 수정 | DOGATHER` : '챌린지 수정 | DOGATHER',
-      description: challenge
-        ? `${challenge.title} 챌린지 정보를 수정하는 페이지입니다.`
-        : '챌린지 정보를 수정하는 페이지입니다.',
+      title: `${challenge.title} - 챌린지 수정 | DOGATHER`,
+      description: `${challenge.title} 챌린지 정보를 수정하는 페이지입니다.`,
       images: challenge?.challengeImage || '/images/logo.png'
     }
   };
@@ -22,6 +29,7 @@ export async function generateMetadata({ params }: { params: { id: number } }): 
 
 const ChallengeEditPage = async ({ params }: { params: { id: string } }) => {
   const challenge = await fetchGetChallengeById(Number(params.id));
+  if (!challenge) return notFound();
   return challenge ? <ChallengePostForm mode="edit" initialData={challenge} /> : <div>챌린지를 찾을 수 없습니다</div>;
 };
 
