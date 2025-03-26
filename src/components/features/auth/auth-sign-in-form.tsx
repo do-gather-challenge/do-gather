@@ -11,7 +11,7 @@ import ICON_GOOGLE from '@/../public/images/icon-google.png';
 import AuthToggleLink from './auth-toggle-link';
 
 /**
- * @function useSignInForm : 로그인 제출 Form 관리 훅
+ * @function useSignInForm : 로그인 Form 제출 관리 훅
  * @returns {form, onSubmit} : form {email, password} , onSubmit 일반 로그인 제출 함수
  */
 
