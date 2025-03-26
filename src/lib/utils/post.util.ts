@@ -1,3 +1,5 @@
+import { ChallengePost } from '@/types/challenge.type';
+
 /**
  * 요일 체크박스의 클래스 이름을 반환하는 유틸리티 함수
  * @param day - 요일
@@ -57,3 +59,26 @@ export const toLocalDateString = (date: Date): string => {
   const day = String(date.getDate()).padStart(2, '0');
   return `${year}-${month}-${day}`;
 };
+
+/**
+ * 챌린지 데이터 payload 생성 함수
+ * @param {ChallengePost} challengeData - 챌린지 데이터
+ * @param {string | null} imageUrl - 업로드된 이미지 URL
+ * @param {string} userId - 유저 ID
+ * @returns {Record<string, any>} - DB에 저장할 payload 객체
+ */
+export const buildChallengePayload = (
+  challengeData: ChallengePost,
+  imageUrl: string | null,
+  userId: string
+): Record<string, any> => ({
+  title: challengeData.title,
+  description: challengeData.description,
+  start_date: challengeData.startDate,
+  finish_date: challengeData.finishDate,
+  category: challengeData.category,
+  execute_days: challengeData.executeDays,
+  creator_id: userId,
+  created_at: new Date().toISOString(),
+  ...(imageUrl ? { challenge_image: imageUrl } : {}) // 이미지가 있을 때만 추가
+});
