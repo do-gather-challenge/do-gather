@@ -1,6 +1,4 @@
-'use server';
-
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from '@/lib/supabase/client';
 import { transformChallengeDataArray } from '@/lib/utils/transform.util';
 import { ErrorMessage } from '@/constants/error-message.constant';
 import { Challenge, ChallengeSnakeCase } from '@/types/challenge.type';

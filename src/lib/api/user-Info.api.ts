@@ -2,6 +2,7 @@
 import { User, UserInfo } from '@/types/user-info.types';
 import { createClient } from '../supabase/server';
 import { transformUserData } from '@/lib/utils/transform.util';
+import { redirect } from 'next/navigation';
 
 const initialUserInfo = {
   id: '',
@@ -96,4 +97,11 @@ export const fetchUserInfoById = async (userId: string): Promise<User | null> =>
     return null;
   }
   return transformUserData(data);
+};
+
+// 로그아웃 함수
+export const signOut = async () => {
+  const supabase = createClient();
+  await supabase.auth.signOut();
+  redirect('/home');
 };
