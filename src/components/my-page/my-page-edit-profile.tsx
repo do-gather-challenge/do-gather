@@ -1,49 +1,156 @@
-import Image from 'next/image';
-import React from 'react';
-import DEFAULT_IMAGE from '/public/images/default_profile.png';
+'use client';
+/**
+ * 마이페이지 프로필 수정 컴포넌트
+ * @param {Object} props - 컴포넌트 프로퍼티
+ * @param {Function} props.setSelectedTab - 탭 선택 핸들러
+ */
+import React, { useEffect, useRef, useState } from 'react';
+import browserClient from '@/lib/supabase/client';
+import Link from 'next/link';
 import { Input } from '@/components/ui/input';
 import { Label } from '@radix-ui/react-label';
 import { Button } from '@/components/ui/button';
+import { generateFileName } from '@/lib/utils/post.util';
+import { ErrorMessage } from '@/constants/error-message.constant';
+import { FILES } from '@/constants/files.constant';
+import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
+import { getUserInfo } from '@/lib/api/user-Info.api';
+import RoundedImage from '../ui/rounded-image';
+import DEFAULT_IMAGE from '/public/images/default_profile.png';
 
-const MyPageEditProfile = () => {
+import type { MyPageEditProfileProps } from '@/types/my-page-type';
+
+const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [previewImage, setPreviewImage] = useState<string>(DEFAULT_IMAGE.src);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [nickname, setNickname] = useState<string>('nickname');
+
+  /** 기존 닉네임 및 프로필 이미지 불러오기 */
+  useEffect(() => {
+    setIsLoading(true);
+    getUserInfo()
+      .then((data) => {
+        const { nickname, profile_image } = data.userInfo;
+        setNickname(nickname);
+        setPreviewImage(profile_image || '');
+      })
+      .finally(() => setIsLoading(false));
+  }, []);
+
+  if (isLoading) return;
+
+  /** 이미지 파일 선택 핸들러 */
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      // 파일 검증
+      if (!FILES.ALLOWED_TYPES.includes(file.type)) return alert(FETCH_MESSAGES.IMAGE_TYPE_INVALID);
+      if (file.size > FILES.MAX_SIZE) return alert(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
+
+      setSelectedFile(file);
+      setPreviewImage(URL.createObjectURL(file)); // 미리보기 업데이트
+    }
+  };
+
+  /** 닉네임 입력 핸들러 */
+  const handleNicknameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNickname(e.target.value);
+  };
+
+  /** 프로필 업데이트 핸들러 */
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    const { data, error } = await browserClient.auth.getUser();
+    if (error || !data.user) return alert(ErrorMessage.NOT_AUTHENTICATED);
+
+    let profileImageUrl = previewImage;
+
+    // 새 이미지가 선택되었으면 업로드 처리
+    if (selectedFile) {
+      const filePath = generateFileName(selectedFile);
+      const { error: uploadError } = await browserClient.storage
+        .from('profile-images')
+        .upload(filePath, selectedFile, { upsert: true });
+
+      if (uploadError) {
+        console.error('이미지 업로드 실패:', uploadError);
+        return alert('이미지 업로드에 실패했습니다.');
+      }
+
+      // 업로드된 이미지 URL 가져오기
+      profileImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-images/${filePath}`;
+    }
+
+    // 닉네임 및 프로필 이미지 업데이트
+    const { error: updateError } = await browserClient
+      .from('users')
+      .update({ nickname: nickname, profile_image: profileImageUrl })
+      .eq('id', data.user.id);
+
+    if (updateError) {
+      console.error('프로필 업데이트 실패:', updateError);
+      alert('프로필 업데이트에 실패했습니다.');
+    } else {
+      alert('프로필이 성공적으로 업데이트되었습니다.');
+      setNickname(nickname);
+    }
+  };
+
   return (
     <section className="mt-5 flex w-full flex-col items-center sm:gap-10">
-      <form className="flex flex-col items-center gap-3 sm:gap-5">
-        <Image
-          src={DEFAULT_IMAGE}
-          alt="profile"
-          width={200}
-          height={200}
-          className="mt-3 rounded-full sm:mt-5"
-          priority
-        />
+      <form className="flex flex-col items-center gap-3 sm:gap-5" onSubmit={handleSubmit}>
+        {/* 프로필 이미지 */}
+        <div onClick={() => inputRef.current?.click()} className="cursor-pointer">
+          <RoundedImage
+            src={previewImage}
+            fallback="Profile"
+            alt="Profile Image"
+            className="mt-3 h-52 w-52 rounded-full sm:mt-5"
+          />
+        </div>
+        <input type="file" accept="image/*" ref={inputRef} onChange={handleFileChange} className="hidden" />
+
+        {/* 닉네임 입력 */}
         <div className="mt-3 flex w-60 flex-col gap-1 sm:mt-5 sm:w-80">
           <Label>Nickname</Label>
-          <Input placeholder={`현재 닉네임: ${DEFAULT_NICKNAME}`} />
+          <Input value={nickname} onChange={handleNicknameChange} />
         </div>
-        <Button variant="secondary" className="w-60">
+
+        {/* 제출 버튼 */}
+        <Button variant="secondary" className="w-60" type="submit">
           프로필 수정하기
         </Button>
       </form>
-      <div className="mt-5 flex flex-col gap-2 sm:flex-row sm:gap-15">
-        <Button variant="primary" className="flex w-60 justify-between p-5 sm:h-12">
-          <p>오늘의 챌린지</p>
-          <p className="font-bold">{COUNT_TODAYS_CHALLENGE}</p>
-        </Button>
-        <Button variant="primary" className="flex w-60 justify-between p-5 sm:h-12">
-          <p>참여 중인 챌린지</p>
-          <p className="font-bold">{COUNT_TODAYS_CHALLENGE}</p>
-        </Button>
-        <Button variant="primary" className="flex w-60 justify-between p-5 sm:h-12">
-          <p>완료한 챌린지</p>
-          <p className="font-bold">{COUNT_TODAYS_CHALLENGE}</p>
-        </Button>
-      </div>
+
+      {/* 챌린지 네비게이션 */}
+      <nav className="mt-5 flex flex-col gap-2 sm:flex-row sm:gap-15">
+        {challenges.map((challenge, index) => (
+          <Link
+            key={index}
+            href="#"
+            onClick={() => setSelectedTab('challenge')}
+            className="bg-primary hover:bg-primary-foreground flex w-60 items-center justify-between rounded-md p-5 text-sm transition-all hover:text-black/50 sm:h-12"
+          >
+            <p>{challenge.label}</p>
+            <p className="font-bold">{challenge.count}</p>
+          </Link>
+        ))}
+      </nav>
     </section>
   );
 };
 
 export default MyPageEditProfile;
 
-const DEFAULT_NICKNAME = '초기값';
+/** 챌린지 카운트 상수 (임시) */
 const COUNT_TODAYS_CHALLENGE = 0;
+
+/** 챌린지 데이터 */
+const challenges = [
+  { label: '오늘의 챌린지', count: COUNT_TODAYS_CHALLENGE },
+  { label: '참여 중인 챌린지', count: COUNT_TODAYS_CHALLENGE },
+  { label: '완료한 챌린지', count: COUNT_TODAYS_CHALLENGE }
+];

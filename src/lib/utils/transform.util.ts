@@ -34,5 +34,5 @@ export const transformChallengeDataArray = (challenges: ChallengeSnakeCase[] | n
  * @returns {string} 바뀐 문자열 ex)25.03.01
  */
 export const transformDate = (date: string) => {
-  return date.slice(2).replaceAll('-', '.');
+  return date?.slice(2).replaceAll('-', '.');
 };

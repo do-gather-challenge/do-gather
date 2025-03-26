@@ -2,39 +2,40 @@ import { useState } from 'react';
 import { ChallengeCategoryType } from '@/types/challenge-category.type';
 import { ChallengePost } from '@/types/challenge.type';
 
+// 초기 챌린지 데이터
+const initialChallenge: ChallengePost = {
+  createdAt: '',
+  startDate: '',
+  finishDate: '',
+  title: '',
+  description: '',
+  category: '',
+  challengeImage: '',
+  executeDays: []
+};
+
 // 챌린지 폼 상태 관리 훅
-export const useChallengeForm = () => {
+export const useChallengeForm = (initialValues?: Partial<ChallengePost>) => {
   const [challenge, setChallenge] = useState<ChallengePost>({
-    createdAt: '',
-    startDate: '',
-    finishDate: '',
-    title: '',
-    description: '',
-    category: '',
-    challengeImage: '',
-    executeDays: []
+    ...initialChallenge,
+    ...initialValues
   });
   const [challengeImageFile, setChallengeImageFile] = useState<File | null>(null);
 
+  // 입력 값 변경 핸들러 (제목, 소개)
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const target = e.target;
-    const id = target.id as keyof ChallengePost;
-
-    // 타입 안전성 검증
+    const { id, value } = e.target as HTMLInputElement;
     if (!(id in challenge)) {
       console.error(`Invalid id: ${id}`);
       return;
     }
-
-    if (target instanceof HTMLInputElement && (target.type === 'checkbox' || target.type === 'radio')) {
-      setChallenge((prev) => ({ ...prev, [id]: target.checked }));
-    } else {
-      setChallenge((prev) => ({ ...prev, [id]: target.value }));
-    }
+    setChallenge((prev) => ({
+      ...prev,
+      [id]: value
+    }));
   };
 
-  const setTitle = (value: string) => setChallenge((prev) => ({ ...prev, title: value }));
-  const setDescription = (value: string) => setChallenge((prev) => ({ ...prev, description: value }));
+  // 날짜, 카테고리, 요일, 이미지 업데이트용 함수들
   const setStartDate = (date: string) => setChallenge((prev) => ({ ...prev, startDate: date }));
   const setFinishDate = (date: string) => setChallenge((prev) => ({ ...prev, finishDate: date }));
   const setCategory = (category: ChallengeCategoryType) => setChallenge((prev) => ({ ...prev, category }));
@@ -47,10 +48,9 @@ export const useChallengeForm = () => {
 
   return {
     challenge,
+    setChallenge,
     challengeImageFile,
     setters: {
-      setTitle,
-      setDescription,
       setStartDate,
       setFinishDate,
       setCategory,

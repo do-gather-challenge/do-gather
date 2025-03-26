@@ -7,7 +7,7 @@ import Image from 'next/image';
 import { transformDate } from '@/lib/utils/transform.util';
 
 type ChallengeCardProps = {
-  thumbnail: string;
+  thumbnail: string | null;
   category: ChallengeCategoryType;
   participants: number;
   title: string;
