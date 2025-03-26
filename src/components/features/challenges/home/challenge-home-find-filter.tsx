@@ -1,26 +1,15 @@
 'use client';
 
-import { Button } from '@/components/ui/button';
-import {
-  DropdownMenu,
-  DropdownMenuRadioGroup,
-  DropdownMenuRadioItem,
-  DropdownMenuTrigger
-} from '@/components/ui/dropdown-menu';
-import { CARDS_PER_PAGE, CATEGORY_OPTIONS, SORT_OPTIONS, STATUS_OPTIONS } from '@/constants/filter.constant';
-import { queryKeys } from '@/constants/query-keys.constant';
-import { fetchGetChallengesByPage } from '@/lib/api/challenge.api';
-import { ChallengeCategory, ChallengeCategoryType } from '@/types/challenge-category.type';
-import { ChallengeStatus } from '@/types/challenge-status.type';
-import { ChallengeFilterOptions } from '@/types/challenge.type';
-import { DropdownMenuContent } from '@radix-ui/react-dropdown-menu';
-import { useQuery } from '@tanstack/react-query';
 import { useState } from 'react';
-import { ChallengeHomeDropdown } from './challenge-home-dropdown';
-import { Divide } from 'lucide-react';
+import { useQuery } from '@tanstack/react-query';
+import ChallengeHomeFindFilteredList from './challenge-home-find-filtered-list';
+import { CARDS_PER_PAGE, CATEGORY_OPTIONS, SORT_OPTIONS, STATUS_OPTIONS } from '@/constants/filter.constant';
 import { Input } from '@/components/ui/input';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
-import ChallengeHomeFindFilteredList from './challenge-home-find-filtered-list';
+import { queryKeys } from '@/constants/query-keys.constant';
+import { fetchGetChallengesByPage } from '@/lib/api/challenge.api';
+import { ChallengeFilterOptions } from '@/types/challenge.type';
+import { ChallengeHomeDropdown } from './challenge-home-dropdown';
 
 const ChallengeHomeFindFilter = () => {
   const [filters, setFilters] = useState<ChallengeFilterOptions>({
@@ -46,8 +35,8 @@ const ChallengeHomeFindFilter = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center space-y-2 lg:space-y-0 lg:flex-row lg:justify-between">
-        <div className="flex flex-col space-y-2 sm:space-y-0 sm:space-x-4 sm:flex-row">
+      <div className="flex flex-col items-center space-y-2 lg:flex-row lg:justify-between lg:space-y-0">
+        <div className="flex flex-col space-y-2 sm:flex-row sm:space-y-0 sm:space-x-4">
           <ChallengeHomeDropdown
             options={CATEGORY_OPTIONS}
             value={filters.category}
@@ -64,7 +53,7 @@ const ChallengeHomeFindFilter = () => {
             onChange={(value) => handleFilterChange('sortBy', value)}
           />
         </div>
-        <div className="relative inline-block text-2xl w-80 sm:w-[38rem] lg:w-96">
+        <div className="relative inline-block w-80 text-2xl sm:w-[38rem] lg:w-96">
           <Input
             placeholder="검색어 입력"
             className="h-12 w-full rounded-full bg-white pr-10 pl-4 !text-lg focus-visible:ring-0"
