@@ -1,6 +1,7 @@
 'use server';
 import { UserInfo } from '@/types/user-info.types';
 import { createClient } from '../supabase/server';
+import { redirect } from 'next/navigation';
 
 const initialUserInfo = {
   id: '',
@@ -78,4 +79,11 @@ export const getUserInfo = async () => {
   }
 
   return { isLogin, userId, userInfo };
+};
+
+// 로그아웃 함수
+export const signOut = async () => {
+  const supabase = createClient();
+  await supabase.auth.signOut();
+  redirect('/home');
 };

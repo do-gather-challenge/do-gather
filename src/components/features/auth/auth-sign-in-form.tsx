@@ -16,7 +16,7 @@ import AuthToggleLink from './auth-toggle-link';
  */
 
 const AuthSignInForm = () => {
-  const { form, onSubmit } = useSignInForm();
+  const { form } = useSignInForm();
 
   // Github 로그인
   const signInWithGithub = async () => {
@@ -37,9 +37,15 @@ const AuthSignInForm = () => {
     });
   };
 
+  const onSubmit = async () => {
+    const values = form.getValues();
+    await browserClient.auth.signInWithPassword(values);
+    window.location.href = '/home';
+  };
+
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-4">
+      <form action={onSubmit} className="w-full space-y-4">
         {SignInInputField.map((input) => {
           return (
             <AuthInputField

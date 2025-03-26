@@ -24,10 +24,3 @@ export function createClient() {
   });
 }
 
-export const getIsLogin = async () => {
-  const serverClient = createClient();
-  const {
-    data: { session }
-  } = await serverClient.auth.getSession();
-  return !!session;
-};
