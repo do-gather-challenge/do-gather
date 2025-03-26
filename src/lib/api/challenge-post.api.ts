@@ -3,6 +3,7 @@ import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { fetchUploadImage } from './storage.api';
 import { validateChallengePost, validateFile } from '../utils/validate.util';
+import { getSession, getUserInfo } from './user-Info.api';
 
 /**
  * 챌린지 게시물을 생성하거나 수정하는 함수
@@ -45,13 +46,12 @@ const fetchCreateOrUpdateChallenge = async (
     }
 
     // 로그인 세션 확인
-    const {
-      data: { session }
-    } = await browserClient.auth.getSession();
-    if (!session) {
+    // const { userId } = await getUserInfo(); 
+    const sessionResult = await getSession();
+    if (sessionResult.error || !sessionResult.user) {
       return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
     }
-    const userId = session.user.id;
+    const userId = sessionResult.user.id;
 
     let result;
 
@@ -80,6 +80,10 @@ const fetchCreateOrUpdateChallenge = async (
       if (result.error) {
         throw result.error;
       }
+
+      console.log('User ID:', userId);
+      console.log('Challenge ID:', challengeId);
+      console.log('Result:', result);
 
       if (!result.data || result.data.length === 0) {
         return { success: false, message: '챌린지 수정 반영 안됨' };
