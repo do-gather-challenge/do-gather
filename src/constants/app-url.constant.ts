@@ -1,4 +1,4 @@
-const URL = {
+const APP_URL = {
   HOME: '/home',
   SIGN_IN: '/sign-in',
   SIGN_UP: '/sign-up',
@@ -9,4 +9,4 @@ const URL = {
   MY_PAGE: '/my-page'
 };
 
-export default URL;
+export default APP_URL;
