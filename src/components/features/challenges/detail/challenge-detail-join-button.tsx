@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useTransition } from 'react';
 import { Button } from '@/components/ui/button';
-import { fetchCreateParticipant, fetchDeleteParticipant } from '@/lib/api/participant.api';
+import { fetchCreateParticipant, fetchDeleteParticipant } from '@/lib/api/challenge-participant.api';
 import browserClient from '@/lib/supabase/client';
 
 type ChallengeDetailJoinButtonProps = {
@@ -11,20 +11,24 @@ type ChallengeDetailJoinButtonProps = {
 };
 const ChallengeDetailJoinButton = ({ challengeId, isParticipating }: ChallengeDetailJoinButtonProps) => {
   const [userId, setUserId] = useState<string>('');
+  const [isPending, startTransition] = useTransition();
 
   useEffect(() => {
-    browserClient.auth.signInWithPassword({ email: 'test@example.com', password: 'test12345678' });
     browserClient.auth.getUser().then(({ data }) => setUserId(data.user?.id || ''));
   }, []);
 
   const handleJoinButtonClick = () => {
     if (!userId) return;
-    fetchCreateParticipant(challengeId);
+    startTransition(() => {
+      fetchCreateParticipant(challengeId);
+    });
   };
 
   const handleQuitButtonClick = () => {
     if (!userId) return;
-    fetchDeleteParticipant(challengeId);
+    startTransition(() => {
+      fetchDeleteParticipant(challengeId);
+    });
   };
 
   if (!isParticipating)
@@ -32,15 +36,16 @@ const ChallengeDetailJoinButton = ({ challengeId, isParticipating }: ChallengeDe
       <Button
         onClick={handleJoinButtonClick}
         variant="secondary"
-        className={`w-full ${!userId && 'group cursor-not-allowed'}`}
+        className={`active:bg-secondary-foreground w-full ${!userId && 'group cursor-not-allowed'}`}
+        disabled={isPending}
       >
-        <span className={`block ${!userId && 'group-hover:hidden'}`}>참여하기</span>
-        <span className={`hidden ${!userId && 'group-hover:block'}`}>로그인이 필요합니다!</span>
+        <span className={`block ${!userId && 'group-hover:hidden group-active:hidden'}`}>참여하기</span>
+        <span className={`hidden ${!userId && 'group-hover:block group-active:block'}`}>로그인이 필요합니다!</span>
       </Button>
     );
 
   return (
-    <Button onClick={handleQuitButtonClick} variant="destructive" className="w-full">
+    <Button onClick={handleQuitButtonClick} variant="destructive" className="w-full" disabled={isPending}>
       포기하기
     </Button>
   );
