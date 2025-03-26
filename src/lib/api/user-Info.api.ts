@@ -1,6 +1,7 @@
 'use server';
-import { UserInfo } from '@/types/user-info.types';
+import { User, UserInfo } from '@/types/user-info.types';
 import { createClient } from '../supabase/server';
+import { transformUserData } from '@/lib/utils/transform.util';
 
 const initialUserInfo = {
   id: '',
@@ -78,4 +79,21 @@ export const getUserInfo = async () => {
   }
 
   return { isLogin, userId, userInfo };
+};
+
+/**
+ * userId를 기반으로 user의 정보를 가져오는 함수
+ *
+ * @param {string} userId : 조회할 user의 id
+ * @returns {Promise<User | null>} 조회한 user의 정보, 에러시 null 반환
+ */
+export const fetchUserInfoById = async (userId: string): Promise<User | null> => {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.from('users').select().eq('id', userId).single();
+  if (error) {
+    console.error('Error fetching user data:', error.message);
+    return null;
+  }
+  return transformUserData(data);
 };
