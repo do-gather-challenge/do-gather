@@ -105,7 +105,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   if (isLoading) return;
 
   return (
-    <section className="mt-5 flex w-full flex-col items-center sm:gap-10">
+    <section className="mt-3 flex w-full flex-col items-center sm:gap-10">
       <form className="flex flex-col items-center gap-3 sm:gap-5" onSubmit={handleSubmit}>
         {/* 프로필 이미지 */}
         <div onClick={() => inputRef.current?.click()} className="cursor-pointer">

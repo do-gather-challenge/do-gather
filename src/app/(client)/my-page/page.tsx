@@ -15,7 +15,7 @@ const MyPage = () => {
       <Tabs
         value={selectedTab}
         onValueChange={(value) => setSelectedTab(value as 'profile' | 'challenge')}
-        className="mt-10 flex w-full flex-col items-center"
+        className="mt-7 flex w-full flex-col items-center"
       >
         <TabsList className="mx-auto">
           <TabsTrigger value="profile" className="cursor-pointer">

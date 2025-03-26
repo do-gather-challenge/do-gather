@@ -33,7 +33,7 @@ const MyPageMyChallenge = () => {
   if (isLoading) return;
 
   return (
-    <section className="mt-5 ml-5 flex w-full flex-col items-center gap-15 sm:flex-row">
+    <section className="mt-3 ml-5 flex w-full flex-col items-center gap-15 sm:flex-row">
       {/* 프로필 & 버튼 */}
       <aside className="flex w-full flex-col items-center sm:w-[30%]">
         <div className="hidden w-60 flex-col gap-5 rounded-2xl border-1 border-black p-10 text-center sm:block">
