@@ -4,7 +4,7 @@ export const ChallengeCategory = {
   STUDY: '학습',
   ART: '예술',
   ETC: '기타'
-};
+} as const;
 
 export type ChallengeCategoryType = keyof typeof ChallengeCategory;
 
