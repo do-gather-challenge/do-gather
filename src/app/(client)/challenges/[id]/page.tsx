@@ -11,7 +11,10 @@ import { isValidNumber } from '@/lib/utils/validate.util';
 import { fetchGetChallengeWithParticipation } from '@/lib/api/challenge.api';
 import ImageVideoSize from '@/constants/image.constant';
 import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
+import ChallengeDetailLogSection from '@/components/features/challenges/detail/challenge-detail-log-section';
+import { getUserInfo } from '@/lib/api/user-Info.api';
 import URL from '@/constants/app-url.constant';
+
 
 type ChallengeDetailPageProps = {
   params: { id: string };
@@ -30,6 +33,7 @@ export const generateMetadata = async ({ params: { id } }: ChallengeDetailPagePr
 const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps) => {
   if (!isValidNumber(id)) return notFound();
   const challenge = await fetchGetChallengeWithParticipation(Number(id));
+  const user = await getUserInfo();
 
   if (!challenge) return notFound();
 
@@ -59,8 +63,8 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
             </figure>
             <ChallengeDetailJoinButton challengeId={challenge.id} isParticipating={challenge.isParticipating} />
           </section>
-          <section className="flex flex-col gap-2">
-            <div className="min-h-[200px] flex-1 border border-red-500 md:min-h-0">챌린지 참여 로그 세션</div>
+          <section className="flex h-full flex-col gap-2 overflow-hidden">
+            <ChallengeDetailLogSection challengeId={challenge.id} />
             <ChallengeDetailCompleteButton
               challengeId={challenge.id}
               isParticipating={challenge.isParticipating}
@@ -85,12 +89,14 @@ const ChallengeDetailPage = async ({ params: { id } }: ChallengeDetailPageProps)
       </div>
       <div className="flex justify-center gap-4">
         <ChallengeDetailBackButton />
-        <Link
-          href={URL.CHALLENGES_POST_ID(challenge.id)}
-          className="flex items-center justify-center rounded border border-black px-3 hover:bg-black/20"
-        >
-          챌린지 수정
-        </Link>
+        {user.userId === challenge.creatorId && (
+          <Link
+            href={URL.CHALLENGES_POST_ID(challenge.id)}
+            className="flex items-center justify-center rounded border border-black px-3 hover:bg-black/20"
+          >
+            챌린지 수정
+          </Link>
+        )}
       </div>
     </section>
   );

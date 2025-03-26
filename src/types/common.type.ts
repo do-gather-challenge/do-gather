@@ -49,7 +49,7 @@ export type KakaoType = {
       buttonTitle?: string;
       buttons: { title: string; link: LinkObject }[];
       installTalk?: boolean;
-      serverCallbackArgs?: Object | string;
+      serverCallbackArgs?: object | string;
     }) => void;
   };
 };
