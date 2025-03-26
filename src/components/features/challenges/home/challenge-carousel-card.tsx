@@ -11,6 +11,7 @@ import ChallengeDetailInfoField from '../detail/challenge-detail-info-field';
 import DEFAULT_CHALLENGE_IMAGE from '@/../public/images/default-challenge.jpg';
 import Autoplay from 'embla-carousel-autoplay';
 import { Challenge } from '@/types/challenge.type';
+import URL from '@/constants/app-url.constant';
 
 type ChallengeCarouselCardProps = {
   data: Challenge[];
@@ -25,7 +26,7 @@ const ChallengeCarouselCard = ({ data }: ChallengeCarouselCardProps) => {
 
           return (
             <CarouselItem key={challenge.id}>
-              <Link className="block" href={`/challenges/${challenge.id}`}>
+              <Link className="block" href={URL.CHALLENGES_ID(challenge.id)}>
                 <article className="p-1">
                   <Card className="h-full w-full">
                     <CardContent className="h-full max-h-[25rem] w-full flex-grow overflow-hidden md:max-h-[18rem] md:min-h-[18rem]">

@@ -11,7 +11,9 @@ const Layout = ({
     <>
       <Header />
       {auth}
-      <main className="mx-auto mt-15 min-h-screen w-full max-w-7xl md:mt-20">{children}</main>
+      <main className="mx-auto mt-15 min-h-[calc(100vh-3.75rem)] w-full max-w-7xl md:mt-20 md:min-h-[calc(100vh-5rem)]">
+        {children}
+      </main>
     </>
   );
 };
