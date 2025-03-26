@@ -1,11 +1,13 @@
 import { fetchGetChallengesByPage } from '@/lib/api/challenge.api';
-import { ChallengeStatus } from '@/types/challenge-status.type';
 import ChallengeCarouselCard from './challenge-carousel-card';
+import { ChallengeSort } from '@/types/challenge-sort.type';
+import { ChallengeStatus } from '@/types/challenge-status.type';
 
 const ChallengePopular = async () => {
-  // 인기 챌린지 가져오기 [4개]
+  // 인기 챌린지 가져오기 [4개] _ (참여자 많으면서 UPCOMING 인 챌린지)
   const { data: popularChallenges } = await fetchGetChallengesByPage(1, 4, {
-    status: ChallengeStatus.UPCOMING
+    status: ChallengeStatus.UPCOMING,
+    sortBy: ChallengeSort.POPULAR
   });
 
   return (
