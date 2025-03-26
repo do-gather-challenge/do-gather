@@ -15,10 +15,11 @@ import { ErrorMessage } from '@/constants/error-message.constant';
 import { FILES } from '@/constants/files.constant';
 import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
 import { getUserInfo } from '@/lib/api/user-Info.api';
-import RoundedImage from '../ui/rounded-image';
+import { TOAST_MESSAGES } from '@/constants/my-page-constant';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
 
 import type { MyPageEditProfileProps } from '@/types/my-page-type';
+import Image from 'next/image';
 
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -75,12 +76,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
         .from('profile-images')
         .upload(filePath, selectedFile, { upsert: true });
 
-      if (uploadError) {
-        console.error('이미지 업로드 실패:', uploadError);
-        return alert('이미지 업로드에 실패했습니다.');
-      }
-
-      // 업로드된 이미지 URL 가져오기
+      if (uploadError) return alert(ErrorMessage.NOT_UPDATED_PROFILE_IMAGE);
       profileImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-images/${filePath}`;
     }
 
@@ -90,13 +86,9 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       .update({ nickname: nickname, profile_image: profileImageUrl })
       .eq('id', data.user.id);
 
-    if (updateError) {
-      console.error('프로필 업데이트 실패:', updateError);
-      alert('프로필 업데이트에 실패했습니다.');
-    } else {
-      alert('프로필이 성공적으로 업데이트되었습니다.');
-      setNickname(nickname);
-    }
+    if (updateError) return alert(ErrorMessage.NOT_UPDATED_PROFILE);
+    alert(TOAST_MESSAGES.SUCCESS_PROFILE_UPDATE);
+    setNickname(nickname);
   };
 
   return (
@@ -104,11 +96,13 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       <form className="flex flex-col items-center gap-3 sm:gap-5" onSubmit={handleSubmit}>
         {/* 프로필 이미지 */}
         <div onClick={() => inputRef.current?.click()} className="cursor-pointer">
-          <RoundedImage
-            src={previewImage}
-            fallback="Profile"
-            alt="Profile Image"
-            className="mt-3 h-52 w-52 rounded-full sm:mt-5"
+          <Image
+            src={previewImage || DEFAULT_IMAGE}
+            alt="profile Image"
+            width={200}
+            height={200}
+            className="mt-3 rounded-full sm:mt-5"
+            priority
           />
         </div>
         <input type="file" accept="image/*" ref={inputRef} onChange={handleFileChange} className="hidden" />

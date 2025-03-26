@@ -8,7 +8,7 @@ export const MY_PAGE_MY_CHALLENGES_CATEGORY: MyPageMyChallenges[] = [
   { label: '오늘 인증한 챌린지', alias: 'Today' },
   { label: '참여 중인 챌린지', alias: '참여중' },
   { label: '완료한 챌린지', alias: '완료' }
-];
+] as const;
 
 export const MY_PAGE_MY_CHALLENGES_COMPONENTS = {
   Today: {
@@ -23,4 +23,8 @@ export const MY_PAGE_MY_CHALLENGES_COMPONENTS = {
     title: '완료한 챌린지',
     Component: MyPageMyCompletedChallenges
   }
+} as const;
+
+export const TOAST_MESSAGES = {
+  SUCCESS_PROFILE_UPDATE: '프로필이 성공적으로 업데이트되었습니다.'
 };
