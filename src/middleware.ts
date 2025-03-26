@@ -8,8 +8,7 @@ const publicPaths = [APP_URL.SIGN_IN, APP_URL.SIGN_UP];
 export const middleware = async (request: NextRequest) => {
   const { isLogin } = await getUserInfo();
 
-
-  // 로그인 상태인 경우 
+  // 로그인 상태인 경우
   if (isLogin && publicPaths.some((path) => request.nextUrl.pathname.includes(path))) {
     return NextResponse.redirect(new URL(APP_URL.HOME, request.url));
   }
@@ -22,11 +21,7 @@ export const middleware = async (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: [
-    APP_URL.CHALLENGES_POST,
-    `${APP_URL.CHALLENGES_POST}/:path*`,
-    APP_URL.MY_PAGE,
-    APP_URL.SIGN_IN,
-    APP_URL.SIGN_UP
-  ]
+  matcher: ['/challenges/post', '/challenges/post/:path*', '/my-page', '/sign-in', '/sign-up']
 };
+
+//
