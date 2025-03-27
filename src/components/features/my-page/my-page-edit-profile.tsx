@@ -1,10 +1,5 @@
 'use client';
 
-/**
- * 마이페이지 프로필 수정 컴포넌트
- * @param {Object} props - 컴포넌트 프로퍼티
- * @param {Function} props.setSelectedTab - 탭 선택 핸들러
- */
 import React, { useEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
 import Link from 'next/link';
@@ -24,6 +19,12 @@ import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-m
 import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
 import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
 import { TOAST_MESSAGES } from '@/constants/my-page-constant';
+
+/**
+ * 마이페이지 프로필 수정 컴포넌트
+ * @param {Object} props - 컴포넌트 프로퍼티
+ * @param {Function} props.setSelectedTab - 탭 선택 핸들러
+ */
 
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const [isLoading, setIsLoading] = useState(false);
