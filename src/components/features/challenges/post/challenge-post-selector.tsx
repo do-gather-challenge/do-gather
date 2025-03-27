@@ -2,7 +2,7 @@ import Tag from '@/components/ui/tag';
 import { DAYS } from '@/constants/challenge-post.constants';
 import { getCategoryRadioClass, getDayCheckboxClass } from '@/lib/utils/post.util';
 import { categories, ChallengeCategoryType } from '@/types/challenge-category.type';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import ChallengePostDatePicker from './challenge-post-date-picker';
 import { ChallengePost } from '@/types/challenge.type';
 import { ChallengePostSetters } from '@/types/challenge-post.type';
@@ -15,15 +15,22 @@ type ChallengePostSelectorProps = {
 const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProps) => {
   const [isEveryDayChecked, setIsEveryDayChecked] = useState(false);
 
-  // 요일 선택 핸들러
+  useEffect(() => {
+    setIsEveryDayChecked(challenge.executeDays.length === DAYS.length);
+  }, [challenge.executeDays]);
+
+  // 요일 선택
   const handleDaySelection = (day: string) => {
     const newExecuteDays = challenge.executeDays.includes(day)
       ? challenge.executeDays.filter((d) => d !== day)
       : [...challenge.executeDays, day];
-    setters.setExecuteDays(newExecuteDays);
+
+    if (newExecuteDays.length !== challenge.executeDays.length) {
+      setters.setExecuteDays(newExecuteDays);
+    }
   };
 
-  // 반복일정 체크박스 변경 핸들러
+  // 반복일정 체크박스 변경
   const handleEveryDayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const isChecked = e.target.checked;
     setIsEveryDayChecked(isChecked);
@@ -35,7 +42,7 @@ const ChallengePostSelector = ({ challenge, setters }: ChallengePostSelectorProp
     }
   };
 
-  // 챌린지 선택 핸들러
+  // 챌린지 선택
   const handleCategorySelection = (category: ChallengeCategoryType) => {
     setters.setCategory(category);
   };

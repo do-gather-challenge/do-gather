@@ -1,6 +1,6 @@
 import ChallengePostForm from '@/components/features/challenges/post/challenge-post-form';
+import { fetchRequiredData } from '@/lib/api/challenge-post.api';
 import { fetchGetChallengeById } from '@/lib/api/challenge.api';
-import { getUserInfo } from '@/lib/api/user-Info.api';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
@@ -29,11 +29,10 @@ export async function generateMetadata({ params }: { params: { id: number } }): 
 }
 
 const ChallengeEditPage = async ({ params }: { params: { id: string } }) => {
-  const challenge = await fetchGetChallengeById(Number(params.id));
-  if (!challenge) return notFound();
+  const { challenge, userId } = await fetchRequiredData(Number(params.id));
 
-  const { userId } = await getUserInfo();
-  if (challenge.creatorId !== userId) {
+  if (!challenge) return notFound();
+  if (challenge?.creatorId !== userId) {
     redirect('/home?error=no_permission');
   }
 
