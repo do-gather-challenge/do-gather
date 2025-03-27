@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
 import { fetchGetAllChallengeLogs } from '@/lib/api/challenge-logs.api';
 import { ChallengeLogSnakeCase, ChallengeLogWithUser } from '@/types/challenge-log.type';
