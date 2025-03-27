@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
 import { fetchGetAllChallengeLogs } from '@/lib/api/challenge-logs.api';
 import { ChallengeLogSnakeCase, ChallengeLogWithUser } from '@/types/challenge-log.type';
@@ -57,7 +57,7 @@ const ChallengeDetailLogSection = ({ challengeId }: ChallengeDetailLogSectionPro
 
   useEffect(() => {
     if (logListRef.current) logListRef.current.scrollTop = logListRef.current.scrollHeight;
-  }, [logListRef.current]);
+  }, [isPending]);
 
   return (
     <section className="border-secondary relative aspect-video flex-1 overflow-hidden rounded border">
