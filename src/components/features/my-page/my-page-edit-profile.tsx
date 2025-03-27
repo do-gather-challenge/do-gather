@@ -1,31 +1,35 @@
 'use client';
+
+import React, { useEffect, useRef, useState } from 'react';
+import browserClient from '@/lib/supabase/client';
+import Link from 'next/link';
+import Image from 'next/image';
+import DEFAULT_IMAGE from '/public/images/default_profile.png';
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { Label } from '@radix-ui/react-label';
+import { generateFileName } from '@/lib/utils/post.util';
+import { FILES } from '@/constants/files.constant';
+import { ErrorMessage } from '@/constants/error-message.constant';
+import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
+import { TOAST_MESSAGES } from '@/constants/my-page-constant';
+import { getUserInfo } from '@/lib/api/user-Info.api';
+import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-my-challenges-completions-today-query';
+import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
+import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
+
+import type { MyPageEditProfileProps } from '@/types/my-page-type';
 /**
  * 마이페이지 프로필 수정 컴포넌트
  * @param {Object} props - 컴포넌트 프로퍼티
  * @param {Function} props.setSelectedTab - 탭 선택 핸들러
  */
-import React, { useEffect, useRef, useState } from 'react';
-import browserClient from '@/lib/supabase/client';
-import Link from 'next/link';
-import { Input } from '@/components/ui/input';
-import { Label } from '@radix-ui/react-label';
-import { Button } from '@/components/ui/button';
-import { generateFileName } from '@/lib/utils/post.util';
-import { ErrorMessage } from '@/constants/error-message.constant';
-import { FILES } from '@/constants/files.constant';
-import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
-import { getUserInfo } from '@/lib/api/user-Info.api';
-import RoundedImage from '../ui/rounded-image';
-import DEFAULT_IMAGE from '/public/images/default_profile.png';
-
-import type { MyPageEditProfileProps } from '@/types/my-page-type';
-
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
-  const inputRef = useRef<HTMLInputElement>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string>(DEFAULT_IMAGE.src);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [nickname, setNickname] = useState<string>('nickname');
+  const inputRef = useRef<HTMLInputElement>(null);
 
   /** 기존 닉네임 및 프로필 이미지 불러오기 */
   useEffect(() => {
@@ -39,7 +43,12 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       .finally(() => setIsLoading(false));
   }, []);
 
-  if (isLoading) return;
+  /** 마이 챌린지 현황 count 불러오기  */
+  const challenges = [
+    { label: '오늘의 챌린지', count: useGetMyChallengesCompletionsTodayQuery().total },
+    { label: '참여 중인 챌린지', count: useGetMyInProgressChallengesQuery().countInProgress },
+    { label: '완료한 챌린지', count: useGetMyCompletedChallengesQuery().countCompleted }
+  ];
 
   /** 이미지 파일 선택 핸들러 */
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -75,12 +84,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
         .from('profile-images')
         .upload(filePath, selectedFile, { upsert: true });
 
-      if (uploadError) {
-        console.error('이미지 업로드 실패:', uploadError);
-        return alert('이미지 업로드에 실패했습니다.');
-      }
-
-      // 업로드된 이미지 URL 가져오기
+      if (uploadError) return alert(ErrorMessage.NOT_UPDATED_PROFILE_IMAGE);
       profileImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-images/${filePath}`;
     }
 
@@ -90,25 +94,25 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       .update({ nickname: nickname, profile_image: profileImageUrl })
       .eq('id', data.user.id);
 
-    if (updateError) {
-      console.error('프로필 업데이트 실패:', updateError);
-      alert('프로필 업데이트에 실패했습니다.');
-    } else {
-      alert('프로필이 성공적으로 업데이트되었습니다.');
-      setNickname(nickname);
-    }
+    if (updateError) return alert(ErrorMessage.NOT_UPDATED_PROFILE);
+    alert(TOAST_MESSAGES.SUCCESS_PROFILE_UPDATE);
+    setNickname(nickname);
   };
 
+  if (isLoading) return;
+
   return (
-    <section className="mt-5 flex w-full flex-col items-center sm:gap-10">
+    <section className="mt-3 flex w-full flex-col items-center sm:gap-10">
       <form className="flex flex-col items-center gap-3 sm:gap-5" onSubmit={handleSubmit}>
         {/* 프로필 이미지 */}
         <div onClick={() => inputRef.current?.click()} className="cursor-pointer">
-          <RoundedImage
-            src={previewImage}
-            fallback="Profile"
-            alt="Profile Image"
-            className="mt-3 h-52 w-52 rounded-full sm:mt-5"
+          <Image
+            src={previewImage || DEFAULT_IMAGE}
+            alt="profile Image"
+            width={200}
+            height={200}
+            className="mt-3 rounded-full sm:mt-5"
+            priority
           />
         </div>
         <input type="file" accept="image/*" ref={inputRef} onChange={handleFileChange} className="hidden" />
@@ -144,13 +148,3 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
 };
 
 export default MyPageEditProfile;
-
-/** 챌린지 카운트 상수 (임시) */
-const COUNT_TODAYS_CHALLENGE = 0;
-
-/** 챌린지 데이터 */
-const challenges = [
-  { label: '오늘의 챌린지', count: COUNT_TODAYS_CHALLENGE },
-  { label: '참여 중인 챌린지', count: COUNT_TODAYS_CHALLENGE },
-  { label: '완료한 챌린지', count: COUNT_TODAYS_CHALLENGE }
-];

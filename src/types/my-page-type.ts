@@ -1,3 +1,5 @@
+export type TabType = 'profile' | 'challenge';
+
 /** 프로필 수정 */
 export type MyPageEditProfileProps = {
   setSelectedTab: (tab: 'profile' | 'challenge') => void;
