@@ -2,11 +2,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 const ChallengeCardSkeleton = () => {
   return (
-    <div className="flex flex-col space-y-6">
-      <Skeleton className="h-[135px] w-[240px] rounded-lg" />
+    <div className="flex flex-col h-64 space-y-6">
+      <Skeleton className="h-32 w-60 rounded-lg" />
       <div className="space-y-4">
-        <Skeleton className="h-4 w-[220px]" />
-        <Skeleton className="h-4 w-[200px]" />
+        <Skeleton className="h-4 w-60" />
+        <Skeleton className="h-4 w-52" />
       </div>
     </div>
   );

@@ -1,35 +1,41 @@
 'use client';
 
-import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
 import ChallengeHomeFindFilteredList from './challenge-home-find-filtered-list';
-import { CARDS_PER_PAGE, CATEGORY_OPTIONS, SORT_OPTIONS, STATUS_OPTIONS } from '@/constants/filter.constant';
+import { CATEGORY_OPTIONS, SORT_OPTIONS, STATUS_OPTIONS } from '@/constants/filter.constant';
 import { Input } from '@/components/ui/input';
 import { HiOutlineMagnifyingGlass } from 'react-icons/hi2';
-import { queryKeys } from '@/constants/query-keys.constant';
-import { fetchGetChallengesByPage } from '@/lib/api/challenge.api';
 import { ChallengeFilterOptions } from '@/types/challenge.type';
 import { ChallengeHomeDropdown } from './challenge-home-dropdown';
 import { ChallengeHomePagination } from './challenge-home-pagination';
+import { useGetChallengesByPageQuery } from '@/lib/queries/use-get-challenges-by-page-query';
+import { challengeFilter } from '@/types/challenge-filter.type';
+import { useDebounce } from '@/lib/hooks/use-debounce';
 
 const ChallengeHomeFindFilter = () => {
+  const [page, setPage] = useState(1);
+  const [searchInput, setSearchInput] = useState('');
   const [filters, setFilters] = useState<ChallengeFilterOptions>({
     category: '',
     status: 'IN_PROGRESS',
     sortBy: 'RECENT',
     searchTerm: ''
   });
-  const [page, setPage] = useState(1);
-  const { data, isPending, isError } = useQuery({
-    queryKey: [queryKeys.FILTERED_CHALLENGE, page, filters],
-    queryFn: () => fetchGetChallengesByPage(page, CARDS_PER_PAGE, filters)
-  });
+  
+  const debouncedSearchTerm = useDebounce(searchInput, 500);
+  
+  useEffect(() => {
+    setPage(1);
+    setFilters((prev) => ({
+      ...prev,
+      searchTerm: debouncedSearchTerm
+    }));
+  }, [debouncedSearchTerm]);
 
+  const { pageCount, challenges, isPending, isError } = useGetChallengesByPageQuery(page, filters);
   if (isError) return <div>잠시 후 다시 시도해주세요</div>;
-  const pageCount = data?.pagination.pageCount ?? 0;
-  const challenges = data?.data || [];
 
-  const handleFilterChange = (key: keyof typeof filters, value: string) => {
+  const handleFilterChange = (key: challengeFilter, value: string) => {
     setPage(1);
     setFilters((prev) => ({ ...prev, [key]: value }));
   };
@@ -58,7 +64,7 @@ const ChallengeHomeFindFilter = () => {
           <Input
             placeholder="검색어 입력"
             className="h-12 w-full rounded-full bg-white pr-10 pl-4 !text-lg focus-visible:ring-0"
-            onChange={(e) => handleFilterChange('searchTerm', e.target.value)}
+            onChange={(e) => setSearchInput(e.target.value)}
           />
           <HiOutlineMagnifyingGlass className="absolute top-1/2 right-3 -translate-y-1/2 text-gray-500" />
         </div>
