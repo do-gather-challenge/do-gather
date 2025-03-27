@@ -47,8 +47,8 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       // 파일 검증
-      if (!FILES.ALLOWED_TYPES.includes(file.type)) return alert(FETCH_MESSAGES.IMAGE_TYPE_INVALID);
-      if (file.size > FILES.MAX_SIZE) return alert(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
+      if (!FILES.ALLOWED_TYPES.includes(file.type)) return toast.warning(FETCH_MESSAGES.IMAGE_TYPE_INVALID);
+      if (file.size > FILES.MAX_SIZE) return toast.warning(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
 
       setSelectedFile(file);
       setPreviewImage(URL.createObjectURL(file)); // 미리보기 업데이트
@@ -65,7 +65,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
     e.preventDefault();
 
     const { data, error } = await browserClient.auth.getUser();
-    if (error || !data.user) return alert(ErrorMessage.NOT_AUTHENTICATED);
+    if (error || !data.user) return toast.warning(ErrorMessage.NOT_AUTHENTICATED);
 
     let profileImageUrl = previewImage;
 
@@ -78,7 +78,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
 
       if (uploadError) {
         console.error('이미지 업로드 실패:', uploadError);
-        return alert('이미지 업로드에 실패했습니다.');
+        return toast.warning('이미지 업로드에 실패했습니다.');
       }
 
       // 업로드된 이미지 URL 가져오기
