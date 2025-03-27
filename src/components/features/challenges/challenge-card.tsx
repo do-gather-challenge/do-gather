@@ -22,7 +22,7 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, fi
         <Image
           src={thumbnail || DEFAULT_CHALLENGE_IMAGE}
           alt="thumbnail"
-          className="h-full w-full rounded-t-md object-cover object-center"
+          className="h-full w-full rounded-t-xl object-cover object-center"
           fill
           sizes="15rem"
         />
