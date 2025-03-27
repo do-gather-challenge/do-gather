@@ -1,5 +1,5 @@
 import { ChallengePost } from '@/types/challenge.type';
-import { DATABASE, FETCH_MESSAGES } from '@/constants/challenge-post.constants';
+import { CHALLENGE_API_MESSAGES, DATABASE } from '@/constants/challenge-post.constants';
 import browserClient from '../supabase/client';
 import { validateChallengePost, validateFile } from '../utils/validate.util';
 import { fetchUploadImage } from './storage.api';
@@ -23,7 +23,7 @@ export const fetchCreateChallenge = async (
 
   // 사용자 정보 확인
   const { userId } = await getUserInfo();
-  if (!userId) return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
+  if (!userId) return { success: false, message: CHALLENGE_API_MESSAGES.AUTH.LOGIN_REQUIRED };
 
   // 이미지 업로드
   const { imageUrl, error: uploadError } = await fetchUploadChallengeImage(challengeImageFile);
@@ -37,10 +37,10 @@ export const fetchCreateChallenge = async (
     const result = await browserClient.from(DATABASE.TABLES.CHALLENGES).insert(payload).select().single();
 
     if (result.error) throw result.error;
-    return { success: true, message: '챌린지 생성 성공' };
+    return { success: true, message: CHALLENGE_API_MESSAGES.CREATION.SUCCESS };
   } catch (error) {
     console.error('챌린지 생성 오류:', error);
-    return { success: false, message: '챌린지 생성에 실패했습니다.' };
+    return { success: false, message: CHALLENGE_API_MESSAGES.CREATION.FAILED };
   }
 };
 
@@ -59,7 +59,7 @@ export const fetchUpdateChallenge = async (
   // 챌린지 데이터 조회
   const existingChallenge = await fetchGetChallengeById(challengeId);
   if (!existingChallenge) {
-    return { success: false, message: '해당 챌린지를 찾을 수 없습니다.' };
+    return { success: false, message: CHALLENGE_API_MESSAGES.UPDATE.NOT_FOUND };
   }
 
   // 입력 검증
@@ -68,11 +68,11 @@ export const fetchUpdateChallenge = async (
 
   // 사용자 정보 확인
   const { userId } = await getUserInfo();
-  if (!userId) return { success: false, message: FETCH_MESSAGES.LOGIN_REQUIRED };
+  if (!userId) return { success: false, message: CHALLENGE_API_MESSAGES.AUTH.LOGIN_REQUIRED };
 
   // `creator_id`가 일치하는지 확인
   if (existingChallenge.creatorId !== userId) {
-    return { success: false, message: '이 챌린지의 수정 권한이 없습니다.' };
+    return { success: false, message: CHALLENGE_API_MESSAGES.UPDATE.UNAUTHORIZED };
   }
 
   // 이미지 업로드
@@ -93,13 +93,13 @@ export const fetchUpdateChallenge = async (
 
     if (result.error) throw result.error;
     if (!result.data || result.data.length === 0) {
-      return { success: false, message: '챌린지 수정 반영 안됨' };
+      return { success: false, message: CHALLENGE_API_MESSAGES.UPDATE.NO_CHANGES };
     }
 
-    return { success: true, message: '챌린지 수정 성공' };
+    return { success: true, message: CHALLENGE_API_MESSAGES.UPDATE.SUCCESS };
   } catch (error) {
     console.error('챌린지 수정 오류:', error);
-    return { success: false, message: '챌린지 수정에 실패했습니다.' };
+    return { success: false, message: CHALLENGE_API_MESSAGES.UPDATE.FAILED };
   }
 };
 
@@ -119,6 +119,6 @@ const fetchUploadChallengeImage = async (
 
   const { url, error: uploadError } = await fetchUploadImage(imageFile);
   return uploadError || !url
-    ? { imageUrl: null, error: uploadError || '이미지 업로드 실패' }
+    ? { imageUrl: null, error: uploadError || CHALLENGE_API_MESSAGES.IMAGE.UPLOAD_FAILED }
     : { imageUrl: url, error: null };
 };
