@@ -7,12 +7,12 @@ import { ChallengePost } from '@/types/challenge.type';
  * @returns {string} - 조건에 맞는 클래스 이름
  */
 export const getDayCheckboxClass = (day: string, executeDays: string[]): string => {
-  let buttonClass = 'h-8 w-8 rounded-full border cursor-pointer';
+  let buttonClass = ' h-9 w-9 rounded-full border-2 cursor-pointer transition-all duration-200 ease-in-out';
 
   if (executeDays.includes(day)) {
-    buttonClass += ' bg-primary border-red-700';
+    buttonClass += 'shadow-sm scale-105 bg-primary border-secondary';
   } else {
-    buttonClass += ' border-border hover:bg-primary hover:border-red-700 ';
+    buttonClass += 'border-border hover:bg-accent hover:border-secondary-foreground bg-primary-foreground';
   }
 
   return buttonClass;
@@ -25,12 +25,12 @@ export const getDayCheckboxClass = (day: string, executeDays: string[]): string 
  * @returns {string} - 조건에 맞는 클래스 이름
  */
 export const getCategoryRadioClass = (category: string, selectedCategory: string): string => {
-  let buttonClass = 'cursor-pointer rounded-full border';
+  let buttonClass = 'cursor-pointer rounded-full border-2 transition-all duration-300';
 
   if (selectedCategory === category) {
-    buttonClass += ' opacity-100 border-red-700';
+    buttonClass += ' bg-primary text-primary-foreground shadow-md border-secondary';
   } else {
-    buttonClass += ' opacity-40 hover:opacity-100';
+    buttonClass += 'border-muted bg-muted/30 hover:bg-accent hover:border-secondary-foreground';
   }
 
   return buttonClass;

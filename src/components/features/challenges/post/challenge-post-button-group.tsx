@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button';
+import APP_URL from '@/constants/app-url.constant';
 import URL from '@/constants/app-url.constant';
 import useChallengePostMutation from '@/lib/hooks/use-challenge-post-mutation';
-import browserClient from '@/lib/supabase/client';
 import { ChallengePost } from '@/types/challenge.type';
 import { useRouter } from 'next/navigation';
 
@@ -19,8 +19,7 @@ const ChallengePostButtonGroup = ({
   challengeId
 }: ChallengePostButtonGroupProps) => {
   const router = useRouter();
-
-  const { mutate: handleChallengeMutation, isPending } = useChallengePostMutation({
+  const { mutateAsync, isPending } = useChallengePostMutation({
     isEditMode,
     challenge,
     challengeImageFile,
@@ -29,12 +28,19 @@ const ChallengePostButtonGroup = ({
 
   const handleSubmitChallenge = async () => {
     try {
-      await browserClient.auth.refreshSession();
-      handleChallengeMutation();
+      const result = await mutateAsync();
+      if (result.success) {
+        alert(isEditMode ? '챌린지 수정 완료!' : '챌린지 생성 완료!');
+        router.push(isEditMode ? APP_URL.CHALLENGES_ID(challengeId!) : APP_URL.HOME);
+      } else {
+        alert(`오류: ${result.message}`);
+      }
     } catch (error) {
-      console.error(error);
+      const message = error instanceof Error ? error.message : '알 수 없는 오류';
+      alert(`오류 발생: ${message}`);
     }
   };
+
   const handleGoBack = () => {
     if (window.history.length > 1) {
       router.back();
@@ -44,7 +50,7 @@ const ChallengePostButtonGroup = ({
   };
 
   return (
-    <div className="flex justify-center gap-6">
+    <div className="mb-6 flex justify-center gap-6">
       <Button variant="secondary" onClick={handleGoBack}>
         뒤로가기
       </Button>

@@ -21,6 +21,7 @@ const ChallengePostInput = ({ challenge, handleChange }: ChallengePostInputProps
           placeholder="챌린지 제목을 입력해 주세요(30자 이내)"
           value={challenge.title}
           onChange={handleChange}
+          className="text-[14px]"
         />
       </section>
 
@@ -35,6 +36,7 @@ const ChallengePostInput = ({ challenge, handleChange }: ChallengePostInputProps
           rows={4}
           value={challenge.description}
           onChange={handleChange}
+          className="text-[14px]"
         />
       </section>
     </>
