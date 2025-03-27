@@ -23,8 +23,8 @@
       </td>
       <td align="center">
         로그인 회원가입 페이지 구현 <br>
-        병렬 라우팅 및 인터셉팅 라우팅 <br>
-        을 통한 로그인/회원가입 구현
+        병렬 라우팅 및 인터셉팅 라우팅을 통한 로그인/회원가입 구현 <br>
+        구글 및 깃헙을 통한 소셜로그인 구현
       </td>
     </tr>
     <tr>
@@ -39,7 +39,7 @@
       <td align="center">
         챌린지 목록 페이지 구현 <br>
         조건 및 검색 필터링 및 정렬을 적용한 챌린지 목록 구현 <br>
-        Dropdown, ChallengeCard 등 공통컴포넌트 구현
+        Dropdown, ChallengeCard, SkelletonUI 등 공통컴포넌트 구현
       </td>
     </tr>
     <tr>
