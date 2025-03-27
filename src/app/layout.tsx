@@ -4,6 +4,7 @@ import './globals.css';
 import TQProvider from '@/lib/providers/TQProvider';
 import Script from 'next/script';
 import { KakaoType } from '@/types/common.type';
+import { ToastContainer } from 'react-toastify';
 
 const pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2'
@@ -29,6 +30,7 @@ export default function RootLayout({
     <html lang="ko">
       <body className={`text-black ${pretendard.className} antialiased`}>
         <TQProvider>{children}</TQProvider>
+        <ToastContainer />
       </body>
       <Script src="https://developers.kakao.com/sdk/js/kakao.js" strategy="afterInteractive" />
     </html>

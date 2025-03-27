@@ -4,6 +4,7 @@ import Image from 'next/image';
 import KAKAO_TALK_IMAGE from '@/../public/images/icon-kakao-talk.png';
 import { IoIosLink } from 'react-icons/io';
 import { KAKAO_API_KEY } from '@/constants/env.constant';
+import { toast } from 'react-toastify';
 
 type ChallengeDetailShareButtonProps = {
   title: string;
@@ -41,11 +42,9 @@ const ChallengeDetailShareButton = ({ title, description, challengeImage }: Chal
   const handleCopyLinkClick = async () => {
     try {
       await navigator.clipboard.writeText(shareUrl);
-      // TODO: toastify로 변경하기
-      alert('링크 복사 완료!');
+      toast.info('링크를 복사 완료했습니다!');
     } catch {
-      // TODO: toastify로 변경하기
-      alert('링크 복사 실패..');
+      toast.error('링크를 복사에 실패했습니다..!');
     }
   };
 
