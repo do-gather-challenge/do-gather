@@ -130,13 +130,12 @@
 <br/>
 
 ## 🚀 트러블 슈팅
-- ### 홈페이지 담당
-  - [반응형 구현 시 주의할 점](https://nbcamp2024.slack.com/archives/C08G671UE6A/p1743047684353529?thread_ts=1743046788.890859&cid=C08G671UE6A)
-- ### 로그인/회원가입 페이지 담당
-  - [[shadcn] shadn forwardRef error - input 해결하기](https://forevero3o.tistory.com/58)
-  - [[Next.js] shadcn/Form use-hook-form 에러](https://forevero3o.tistory.com/57)
-- ### 챌린지 생성/수정 페이지 담당
-  - [GitHub빌드 실패: 환경 변수 오류 해결](https://velog.io/@verdantgreeny/GitHub%EB%B9%8C%EB%93%9C-%EC%8B%A4%ED%8C%A8-%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0)
+- #### [반응형 구현 시 주의할 점](https://nbcamp2024.slack.com/archives/C08G671UE6A/p1743047684353529?thread_ts=1743046788.890859&cid=C08G671UE6A)
+- #### [[shadcn] shadn forwardRef error - input 해결하기](https://forevero3o.tistory.com/58)
+- #### [[Next.js] shadcn/Form use-hook-form 에러](https://forevero3o.tistory.com/57)
+- #### [GitHub빌드 실패: 환경 변수 오류 해결](https://velog.io/@verdantgreeny/GitHub%EB%B9%8C%EB%93%9C-%EC%8B%A4%ED%8C%A8-%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0)
+- #### [[트러블 슈팅] Supabase 트리거 디버깅: participant_count가 업데이트되지 않는 미스터리](https://llddang-blog.tistory.com/86)
+  
 <br />
 
 ## 📑 페이지 구성
