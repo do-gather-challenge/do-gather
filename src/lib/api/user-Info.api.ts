@@ -3,6 +3,7 @@ import { User, UserInfo } from '@/types/user-info.types';
 import { createClient } from '../supabase/server';
 import { transformUserData } from '@/lib/utils/transform.util';
 import { redirect } from 'next/navigation';
+import APP_URL from '@/constants/app-url.constant';
 
 const initialUserInfo = {
   id: '',
@@ -103,5 +104,5 @@ export const fetchUserInfoById = async (userId: string): Promise<User | null> =>
 export const signOut = async () => {
   const supabase = createClient();
   await supabase.auth.signOut();
-  redirect('/home');
+  redirect(APP_URL.HOME);
 };

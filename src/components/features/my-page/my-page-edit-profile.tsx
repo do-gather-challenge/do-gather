@@ -3,27 +3,29 @@
 import React, { useEffect, useRef, useState } from 'react';
 import browserClient from '@/lib/supabase/client';
 import Link from 'next/link';
-import Image from 'next/image';
-import DEFAULT_IMAGE from '/public/images/default_profile.png';
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { Label } from '@radix-ui/react-label';
+import { Button } from '@/components/ui/button';
 import { generateFileName } from '@/lib/utils/post.util';
-import { FILES } from '@/constants/files.constant';
 import { ErrorMessage } from '@/constants/error-message.constant';
+import { FILES } from '@/constants/files.constant';
 import { FETCH_MESSAGES } from '@/constants/challenge-post.constants';
-import { TOAST_MESSAGES } from '@/constants/my-page-constant';
 import { getUserInfo } from '@/lib/api/user-Info.api';
+import DEFAULT_IMAGE from '/public/images/default_profile.png';
+import type { MyPageEditProfileProps } from '@/types/my-page-type';
+import { toast } from 'react-toastify';
+import Image from 'next/image';
 import { useGetMyChallengesCompletionsTodayQuery } from '@/lib/queries/use-get-my-challenges-completions-today-query';
 import { useGetMyInProgressChallengesQuery } from '@/lib/queries/use-get-my-in-progress-challenges-query';
 import { useGetMyCompletedChallengesQuery } from '@/lib/queries/use-get-my-completed-challenges-query';
+import { TOAST_MESSAGES } from '@/constants/my-page-constant';
 
-import type { MyPageEditProfileProps } from '@/types/my-page-type';
 /**
  * 마이페이지 프로필 수정 컴포넌트
  * @param {Object} props - 컴포넌트 프로퍼티
  * @param {Function} props.setSelectedTab - 탭 선택 핸들러
  */
+
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [previewImage, setPreviewImage] = useState<string>(DEFAULT_IMAGE.src);
@@ -55,8 +57,8 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       // 파일 검증
-      if (!FILES.ALLOWED_TYPES.includes(file.type)) return alert(FETCH_MESSAGES.IMAGE_TYPE_INVALID);
-      if (file.size > FILES.MAX_SIZE) return alert(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
+      if (!FILES.ALLOWED_TYPES.includes(file.type)) return toast.warning(FETCH_MESSAGES.IMAGE_TYPE_INVALID);
+      if (file.size > FILES.MAX_SIZE) return toast.warning(FETCH_MESSAGES.IMAGE_SIZE_TOO_LARGE);
 
       setSelectedFile(file);
       setPreviewImage(URL.createObjectURL(file)); // 미리보기 업데이트
@@ -73,7 +75,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
     e.preventDefault();
 
     const { data, error } = await browserClient.auth.getUser();
-    if (error || !data.user) return alert(ErrorMessage.NOT_AUTHENTICATED);
+    if (error || !data.user) return toast.warning(ErrorMessage.NOT_AUTHENTICATED);
 
     let profileImageUrl = previewImage;
 
@@ -84,7 +86,9 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
         .from('profile-images')
         .upload(filePath, selectedFile, { upsert: true });
 
-      if (uploadError) return alert(ErrorMessage.NOT_UPDATED_PROFILE_IMAGE);
+      if (uploadError) return toast.warning(ErrorMessage.NOT_UPDATED_PROFILE_IMAGE);
+
+      // 업로드된 이미지 URL 가져오기
       profileImageUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/profile-images/${filePath}`;
     }
 
@@ -94,8 +98,8 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       .update({ nickname: nickname, profile_image: profileImageUrl })
       .eq('id', data.user.id);
 
-    if (updateError) return alert(ErrorMessage.NOT_UPDATED_PROFILE);
-    alert(TOAST_MESSAGES.SUCCESS_PROFILE_UPDATE);
+    if (updateError) return toast.error(ErrorMessage.NOT_UPDATED_PROFILE);
+    toast.success(TOAST_MESSAGES.SUCCESS_PROFILE_UPDATE);
     setNickname(nickname);
   };
 

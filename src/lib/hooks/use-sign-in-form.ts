@@ -4,6 +4,7 @@ import { z } from 'zod';
 import browserClient from '../supabase/client';
 import { useRouter } from 'next/navigation';
 import AuthSchema from '@/constants/auth-schema.constant';
+import { toast } from 'react-toastify';
 
 const signInDefaultValues = {
   email: '',
@@ -27,8 +28,7 @@ export const useSignInForm = () => {
     });
 
     if (error) {
-      console.error(error.message);
-      alert('로그인 실패');
+      toast.error(`로그인 에러 발생 : ${error.message}`);
     }
     if (!!data.user) {
       return router.back();

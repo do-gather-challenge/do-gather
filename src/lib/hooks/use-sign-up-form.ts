@@ -2,8 +2,9 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import browserClient from '../supabase/client';
-import { useRouter } from 'next/navigation';
 import AuthSchema from '@/constants/auth-schema.constant';
+import { toast } from 'react-toastify';
+import APP_URL from '@/constants/app-url.constant';
 
 const signUpDefaultValues = {
   email: '',
@@ -13,8 +14,6 @@ const signUpDefaultValues = {
 };
 
 export const useSignUpForm = () => {
-  const router = useRouter();
-
   const form = useForm({
     mode: 'onBlur',
     resolver: zodResolver(signFormSchema),
@@ -33,12 +32,14 @@ export const useSignUpForm = () => {
     });
 
     if (error) {
-      console.error(error.message);
-      return alert('회원가입 실패');
+      toast.error(`회원가입에 오류가 발생 하였습니다. ${error.message}`);
+      return;
     }
 
     if (!!data.user) {
-      return router.back();
+      toast.success('회원가입이 완료되었습니다.');
+      window.location.href = APP_URL.HOME;
+      return;
     }
   };
 

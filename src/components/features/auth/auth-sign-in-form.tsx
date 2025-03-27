@@ -10,6 +10,7 @@ import ICON_GITHUB from '@/../public/images/icon-github.png';
 import ICON_GOOGLE from '@/../public/images/icon-google.png';
 import AuthToggleLink from './auth-toggle-link';
 import { PROJECT_URL } from '@/constants/env.constant';
+import APP_URL from '@/constants/app-url.constant';
 
 /**
  * @function useSignInForm : 로그인 Form 제출 관리 훅
@@ -42,7 +43,7 @@ const AuthSignInForm = () => {
   const onSubmit = async () => {
     const values = form.getValues();
     await browserClient.auth.signInWithPassword(values);
-    window.location.href = '/home';
+    window.location.href = APP_URL.HOME;
   };
 
   return (
