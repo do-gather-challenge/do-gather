@@ -13,7 +13,7 @@
 <table>
   <tbody>
     <tr>
-      <td align="center">
+      <td>
         <a href="https://github.com/woohyuckk">
         <img src="https://github.com/woohyuckk.png" width="80" alt="woohyuckk"/>
         <br />
@@ -22,6 +22,13 @@
         <br />
       </td>
       <td align="center">
+        로그인 회원가입 페이지 구현 <br>
+        병렬 라우팅 및 인터셉팅 라우팅 <br>
+        을 통한 로그인/회원가입 구현
+      </td>
+    </tr>
+    <tr>
+      <td>
         <a href="https://github.com/arendt9797">
         <img src="https://github.com/arendt9797.png" width="80"  alt="arendt9797"/>
         <br />
@@ -30,6 +37,13 @@
         <br />
       </td>
       <td align="center">
+        챌린지 목록 페이지 구현 <br>
+        조건 및 검색 필터링 및 정렬을 적용한 챌린지 목록 구현 <br>
+        Dropdown, ChallengeCard 등 공통컴포넌트 구현
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
         <a href="https://github.com/ye21iin">
         <img src="https://github.com/ye21iin.png" width="80" alt="ye21iin"/>
         <br />
@@ -37,19 +51,7 @@
         </a>
         <br />
       </td>
-    </tr>
-    <tr>
-      <td width="300px" align="center">
-        로그인 회원가입 페이지 구현 <br>
-        병렬 라우팅 및 인터셉팅 라우팅 <br>
-        을 통한 로그인/회원가입 구현
-      </td>
-      <td width="300px" align="center">
-        챌린지 목록 페이지 구현 <br>
-        조건 및 검색 필터링 및 정렬을 적용한 챌린지 목록 구현 <br>
-        Dropdown, ChallengeCard 등 공통컴포넌트 구현
-      </td>
-      <td width="300px" align="center">
+      <td align="center">
         마이페이지 구현 <br>
         프로필과 닉네임 수정 페이지 구현 <br>
         자신의 챌린지를 페이지네이션으로 구현
@@ -65,6 +67,13 @@
         <br />
       </td>
       <td align="center">
+        챌린지 상세 페이지 구현 <br>
+        Supabase Realtime으로 챌린지 로그 실시간 표시<br> 
+        카카오 SDK를 통한 카카오톡 공유 구현<br> 
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
         <a href="https://github.com/izzienote">
         <img src="https://github.com/izzienote.png" width="80" alt="izzienote"/>
         <br />
@@ -73,26 +82,21 @@
         <br />
       </td>   
       <td align="center">
+        챌린지 목록 페이지 구현 <br>
+        Carousel 을 통한 인기 챌린지 목록 표시 <br>
+        Loading 컴포넌트 및 페이지 구현
+      </td> 
+    </tr>
+    <tr>
+      <td align="center">
         <a href="https://github.com/verdantgreeny">
         <img src="https://github.com/verdantgreeny.png" width="80" alt="verdantgreeny"/>
         <br />
         <sub><b>verdantgreeny</b></sub>
         </a>
         <br />
-      </td>        
-    </tr>    
-    <tr>
-      <td width="300px" align="center">
-        챌린지 상세 페이지 구현 <br>
-        Supabase Realtime으로 챌린지 로그 실시간 표시<br> 
-        카카오 SDK를 통한 카카오톡 공유 구현<br> 
       </td>
-      <td width="300px" align="center">
-        챌린지 목록 페이지 구현 <br>
-        Carousel 을 통한 인기 챌린지 목록 표시 <br>
-        Loading 컴포넌트 및 페이지 구현
-      </td> 
-      <td width="300px" align="center">
+      <td align="center">
         챌린지 생성/수정 페이지 구현 <br>
         다양한 input태그를 활용하여 form 구성 <br>
         radio, checkbox, file, text, textarea
