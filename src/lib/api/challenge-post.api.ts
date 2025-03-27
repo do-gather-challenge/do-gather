@@ -123,7 +123,6 @@ const fetchUploadChallengeImage = async (
     : { imageUrl: url, error: null };
 };
 
-
 export async function fetchRequiredData(challengeId: number) {
   const [challenge, userInfo] = await Promise.all([fetchGetChallengeById(challengeId), getUserInfo()]);
   return { challenge, userId: userInfo.userId };
