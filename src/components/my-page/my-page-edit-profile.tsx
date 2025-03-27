@@ -19,6 +19,7 @@ import RoundedImage from '../ui/rounded-image';
 import DEFAULT_IMAGE from '/public/images/default_profile.png';
 
 import type { MyPageEditProfileProps } from '@/types/my-page-type';
+import { toast } from 'react-toastify';
 
 const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -92,9 +93,9 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
 
     if (updateError) {
       console.error('프로필 업데이트 실패:', updateError);
-      alert('프로필 업데이트에 실패했습니다.');
+      toast.error('프로필 업데이트에 실패했습니다.');
     } else {
-      alert('프로필이 성공적으로 업데이트되었습니다.');
+      toast.error('프로필이 성공적으로 업데이트되었습니다.');
       setNickname(nickname);
     }
   };
