@@ -122,3 +122,9 @@ const fetchUploadChallengeImage = async (
     ? { imageUrl: null, error: uploadError || CHALLENGE_API_MESSAGES.IMAGE.UPLOAD_FAILED }
     : { imageUrl: url, error: null };
 };
+
+
+export async function fetchRequiredData(challengeId: number) {
+  const [challenge, userInfo] = await Promise.all([fetchGetChallengeById(challengeId), getUserInfo()]);
+  return { challenge, userId: userInfo.userId };
+}
