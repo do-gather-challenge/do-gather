@@ -27,6 +27,7 @@ const ChallengeCard = ({ thumbnail, category, participants, title, startDate, fi
           sizes="15rem"
         />
       </figure>
+      // 카드
       <CardContent className="flex flex-1 flex-col gap-2">
         <div className="flex justify-between">
           <Tag category={category} />
