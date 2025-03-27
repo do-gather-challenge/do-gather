@@ -15,7 +15,6 @@ import ChallengeDetailLogSection from '@/components/features/challenges/detail/c
 import { getUserInfo } from '@/lib/api/user-Info.api';
 import URL from '@/constants/app-url.constant';
 
-
 type ChallengeDetailPageProps = {
   params: { id: string };
 };
