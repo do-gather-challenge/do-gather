@@ -130,7 +130,8 @@
 <br/>
 
 ## 🚀 트러블 슈팅
-
+- ### 챌린지 생성/수정 페이지
+  - [GitHub빌드 실패: 환경 변수 오류 해결](https://velog.io/@verdantgreeny/GitHub%EB%B9%8C%EB%93%9C-%EC%8B%A4%ED%8C%A8-%ED%99%98%EA%B2%BD-%EB%B3%80%EC%88%98-%EC%98%A4%EB%A5%98-%ED%95%B4%EA%B2%B0)
 <br />
 
 ## 📑 페이지 구성
@@ -144,7 +145,7 @@
     </tr>
     <tr>
       <td align="center" colspan="2">
-        <img src="" alt="메인 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/94afd1da-196e-46b0-b923-7b8657557998" alt="메인 페이지 이미지" />
       </td>
     </tr>
     <tr>
@@ -154,7 +155,7 @@
     </tr>
     <tr>
       <td align="center" colspan="2">
-        <img src="" alt="챌린지 목록 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/edccb0d2-d4e3-40f0-b11f-d0e82e9ea463" alt="챌린지 목록 페이지 이미지" />
       </td>
     </tr>
     <tr>
@@ -164,7 +165,7 @@
     </tr>
     <tr>
       <td align="center" colspan="2">
-        <img src="" alt="챌린지 생성/수정 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/db0b0816-c48e-44dc-ae1b-6e238bfc0be7" alt="챌린지 생성/수정 페이지 이미지" />
       </td>
     </tr>
     <tr>
@@ -174,7 +175,7 @@
     </tr>
     <tr>
       <td align="center" colspan="2">
-        <img src="" alt="챌린지 상세 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/d8b415b8-5032-476d-afd3-74f40a19a30d" alt="챌린지 상세 페이지 이미지" />
       </td>
     </tr>
     <tr>
@@ -184,10 +185,10 @@
     </tr>
     <tr>
       <td align="center">
-        <img src="" alt="로그인 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/55113012-d3f2-442f-86be-e19b4766c7a6" alt="로그인 페이지 이미지" />
       </td>
       <td align="center">
-        <img src="" alt="회원가입 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/154561b4-c538-405b-93d4-e827db31a1c7" alt="회원가입 페이지 이미지" />
       </td>
     </tr>
     <tr>
@@ -197,10 +198,10 @@
     </tr>
     <tr>
       <td align="center">
-        <img src="" alt="로그인 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/c3ef2472-2d14-42dd-b48d-5e75c361a721" alt="로그인 페이지 이미지" />
       </td>
       <td align="center">
-        <img src="" alt="회원가입 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/2d23acbd-2058-4670-979b-f7b318220276" alt="회원가입 페이지 이미지" />
       </td>
     </tr>
     <tr>
@@ -210,10 +211,10 @@
     </tr>
     <tr>
       <td align="center">
-        <img src="" alt="마이 프로필 수정 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/bd8f6ac6-bcc7-4d3e-b435-69feaaa2b148" alt="마이 프로필 수정 페이지 이미지" />
       </td>
       <td align="center">
-        <img src="" alt="마이 챌린지 목록 페이지 이미지" />
+        <img src="https://github.com/user-attachments/assets/8c95a38f-fcc7-4e0b-b48b-053df696dc64" alt="마이 챌린지 목록 페이지 이미지" />
       </td>
     </tr>
   </tbody>
