@@ -97,7 +97,7 @@ const MyPageEditProfile = ({ setSelectedTab }: MyPageEditProfileProps) => {
       .update({ nickname: nickname, profile_image: profileImageUrl })
       .eq('id', data.user.id);
 
-    if (updateError) return alert(ErrorMessage.NOT_UPDATED_PROFILE);
+    if (updateError) return toast.error(ErrorMessage.NOT_UPDATED_PROFILE);
     toast.success(TOAST_MESSAGES.SUCCESS_PROFILE_UPDATE);
     setNickname(nickname);
   };
